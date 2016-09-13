@@ -1,0 +1,57 @@
+ClipboardMunger
+(c) 2009-2010, John J. Schultz, all rights reserved.
+
+** LEGAL STUFF **
+
+This software is covered under the terms of GPL 3.0
+details here: http://www.opensource.org/licenses/gpl-3.0.html
+
+You additionally agree that, by installing or using this software, you
+hold the author harmless for any damage, real or perceived.  
+
+** OVERVIEW **
+
+This is a windows form managing a collection of scripts designed to mutate (munge)
+clipboard content.  It has a built-in development tab, test tab, and admin tab (store / update).
+The scripts implement an interface, and are compiled on the fly.  The form also has a tray icon
+allowing quick launching of a script.  Several fully-functional, example scripts are
+contained within the project.
+
+** SYSTEM REQUIREMENTS **
+
+- Windows XP or later
+- .NET Framework 4
+
+** INSTALLATION **
+
+Use the installation package provided.
+
+On first run, change the default script folder to the location
+where you wish to store/use scripts.
+
+That's it.
+
+Things I am still trying like to add:
+- Incorporate the CSharp highlighter and Intellisense from AIMS.Scripting if possible.
+  (This is in progress, but is quite the beast).
+
+Version History:
+03/04/2010 -- Mutiple enhancements
+  - Adjusted anchoring for proper redraw when resizing.
+  - Added split panes to various tabs to enhance resizing, and cleaned up anchoring.
+  - In the dev tab, double-clicking on an error would move the caret to the specific line,
+    but would not scroll the text to the caret if it was out of view.  The text is now
+    auto-scrolled to show the highlighted line.
+  - Added usersettings.xml to the user's app data folder to persist the user's script 
+    directory selection between executions.
+  - Added change detection to a script, and user confirmation dialog when attempting to switch
+    script selection when current script is not saved to/current with the disk file.
+  - Added an extra tab to the develop tab, to allow external assembly references, as
+    well as the existing GAC references.
+  - Added a tray icon to allow the main window to be hidden upon minimize, and the scripts to 
+    be launched from a context-menu (right click) from the tray icon.
+  - Added code to ensure only one instance of Clipboard Munger can be exected.
+  - Implements protection against orphaning the tray icon.  See this post for details:
+    http://www.bitsofgenius.com/?p=79
+    
+02/10/2009 -- Initial version
