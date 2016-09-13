@@ -1,6 +1,6 @@
 ﻿namespace BOG.ClipboardMunger
 {
-	partial class Form1
+	public partial class MainForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -17,6 +17,7 @@
 			{
 				components.Dispose();
 			}
+
 			base.Dispose(disposing);
 		}
 
@@ -36,4 +37,3 @@
 		#endregion
 	}
 }
-
