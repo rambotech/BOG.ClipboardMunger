@@ -1,0 +1,14 @@
+' template (VB.net)
+
+Imports System
+
+public class Script
+	Implements Interfaces.IClipboard
+	
+	public function Munge (clipboardSource As String) As String Implements Interfaces.IClipboard.Munge
+	
+		return clipboardSource
+
+	end function
+	
+end class	

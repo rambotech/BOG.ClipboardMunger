@@ -1,0 +1,8 @@
+<SyntaxModes version="1.0">
+	<Mode file       = "CSharp.xshd"
+	      name       = "CSharp"
+	      extensions = ".cs"/>
+	<Mode file       = "VB.xshd"
+	      name       = "VB"
+	      extensions = ".vb"/>
+</SyntaxModes>

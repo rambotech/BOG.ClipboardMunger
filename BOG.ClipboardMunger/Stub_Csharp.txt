@@ -1,0 +1,11 @@
+// template (CSharp)
+
+using System;
+
+public class Script : Interfaces.IClipboard
+{	
+	public string Munge (string clipboardSource)
+	{
+		return clipboardSource;
+	}
+}	
