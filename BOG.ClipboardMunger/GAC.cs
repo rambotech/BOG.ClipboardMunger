@@ -37,7 +37,6 @@ using System.Globalization;
 
 namespace System.GAC
 {
-
     #region Flags
 
     /// <summary>

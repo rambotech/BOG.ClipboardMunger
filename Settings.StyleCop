@@ -276,8 +276,8 @@
         </Rule>
       </Rules>
       <AnalyzerSettings>
-        <StringProperty Name="CompanyName"></StringProperty>
-        <StringProperty Name="Copyright"></StringProperty>
+        <StringProperty Name="CompanyName">ScriptPro LLC</StringProperty>
+        <StringProperty Name="Copyright">Copyright (c) ScriptPro, LLC. All rights reserved.</StringProperty>
       </AnalyzerSettings>
     </Analyzer>
     <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">

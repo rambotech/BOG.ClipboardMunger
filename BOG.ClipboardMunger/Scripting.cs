@@ -7,7 +7,6 @@ namespace BOG.ClipboardMunger
 {
     public class Scripting
     {
-
         public enum Languages
         {
             VB,
@@ -52,6 +51,7 @@ namespace BOG.ClipboardMunger
                 if (t.GetInterface(InterfaceName, true) != null)
                     return DLL.CreateInstance(t.FullName);
             }
+
             return null;
         }
     }

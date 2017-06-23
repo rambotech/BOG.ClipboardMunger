@@ -74,6 +74,7 @@ namespace BOG.ClipboardMunger
 			catch
 			{
 			}
+
 			_AppSettings = new SettingsDictionary(_ConfigurationFile);
 			_AppSettings.LoadSettings();
 			ContentsChanged = false;
@@ -92,6 +93,7 @@ namespace BOG.ClipboardMunger
 						GacReferenceChange(false, lvi);
 					}
 				}
+
 				foreach (ListViewItem lvi in lvwGacList.Items)
 				{
 					if (_csmc.References.Contains((string) lvi.Tag))
@@ -125,6 +127,7 @@ namespace BOG.ClipboardMunger
 					}
 				}
 			}
+
 			AssemblyListRebuilding = false;
 		}
 
@@ -138,6 +141,7 @@ namespace BOG.ClipboardMunger
 					break;
 				}
 			}
+
 			return ResultIndex == v.Items.Count ? -1 : ResultIndex;
 		}
 
@@ -151,6 +155,7 @@ namespace BOG.ClipboardMunger
 				{
 					_csmc.References.Add(lvi.Name);
 				}
+
 				lvwGacReference.Items.Add((ListViewItem) lvi.Clone());
 				//lvwGacReference.SelectedIndices = new ListView.SelectedIndexCollection(lvwGacReference).Add(GetIndexForTag(ref lvwGacReference, lvi.Tag));
 				int ListIndex = GetIndexForTag(ref lvwGacList, lvi.Tag);
@@ -163,6 +168,7 @@ namespace BOG.ClipboardMunger
 				{
 					_csmc.References.Remove(lvi.Name);
 				}
+
 				lvwGacList.Items.Add((ListViewItem) lvi.Clone());
 				//lvwGacList.SelectedIndices = new ListView.SelectedIndexCollection(lvwGacList).Add(GetIndexForTag(ref lvwGacList, lvi.Tag));
 				int ListIndex = GetIndexForTag(ref lvwGacReference, lvi.Tag);
@@ -185,6 +191,7 @@ namespace BOG.ClipboardMunger
 			{
 				return false;
 			}
+
 			lblScriptsSourceFolder.Text = ScriptPath;
 			this.lstMungeScripts.Items.Clear();
 			this.trayContextMenu.Items.Clear();
@@ -220,10 +227,13 @@ namespace BOG.ClipboardMunger
 						item.Text = scriptName;
 						submenu.DropDownItems.Add(item);
 					}
+
 					this.trayContextMenu.Items.Add(submenu);
 				}
+
 				this.trayContextMenu.Items.Add("-");
 			}
+
 			this.trayContextMenu.Items.Add("E&xit");
 			this.lstMungeScripts.Sorted = true;
 			this.txtMungeScriptDescription.Text = "(select a script from the list)";
@@ -245,6 +255,7 @@ namespace BOG.ClipboardMunger
 				MessageBox.Show(DetailedException.WithUserContent(ref e1, string.Format("The following error occurred attempting to load from file {0}", fullfilename), string.Empty), "Load error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
+
 			this.txtScript.Text = _csmc.Script.Replace("\n", "\r\n");
 			LoadGacList();
 
@@ -253,6 +264,7 @@ namespace BOG.ClipboardMunger
 				SetHighlighting("C#");
 				this.rbCSharp.Checked = true;
 			}
+
 			if (_csmc.Language == (int) Scripting.Languages.VB)
 			{
 				SetHighlighting("VBNET");
@@ -695,7 +707,6 @@ namespace BOG.ClipboardMunger
 				WindowState = FormWindowState.Normal;
 				return;
 			}
-
 			else if (e.ClickedItem.Text == "E&xit")
 			{
 				if (!ContentsChanged || MessageBox.Show("The current script has not been saved.  If you continue, you will lose any changes.\r\nContinue anyway?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
@@ -817,6 +828,7 @@ namespace BOG.ClipboardMunger
 							continue;
 						}
 					}
+
 					ListViewItem l = new ListViewItem();
 					l.Text = a.DisplayString();
 					l.Tag = (object) a.FullPath;

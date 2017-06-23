@@ -1,8 +1,9 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.CodeDom.Compiler;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Text;
@@ -10,7 +11,6 @@ using System.IO;
 using System.ServiceProcess;
 using System.Windows.Forms;
 using BOG.Framework;
-using System.Configuration;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 
