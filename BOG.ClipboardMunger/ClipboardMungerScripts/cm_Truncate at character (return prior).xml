@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Truncate at character (return prior)</Title>
+  <Description>At the first occurrence of a character on a line, return it and the previous characters.</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+        string Marker = "|";
+        if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Truncate after character", "Enter the character where truncation starts", ref Marker))
+        {
+                return clipboardSource;
+        }
+    	StringBuilder Result = new StringBuilder();
+    	string[] StopAt = new string[] { Marker };
+        foreach (string line in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.None))
+        {
+        	int ChopPoint = line.IndexOf (Marker);
+        	if (ChopPoint == -1)
+        	{
+				Result.AppendLine (line);
+			}
+			else
+			{
+				Result.AppendLine (line.Substring(0, ChopPoint));
+			}
+        }
+        return Result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>Tester.EventSelect.ZeroLengthFileSpared&gt;True&lt;/Tester.EventSelect.ZeroLengthFileSpared&gt;
+Tester.EventColor.Background.ZeroLengthFileSpared&gt;-8323200&lt;/Tester.EventColor.Background.ZeroLengthFileSpared&gt;
+Tester.EventColor.Foreground.ZeroLengthFileSpared&gt;-16777216&lt;/Tester.EventColor.Foreground.ZeroLengthFileSpared&gt;
+Tester.EventSelect.ReadOnlyFileSpared&gt;True&lt;/Tester.EventSelect.ReadOnlyFileSpared&gt;
+Tester.EventColor.Background.ReadOnlyFileSpared&gt;-8323200&lt;/Tester.EventColor.Background.ReadOnlyFileSpared&gt;
+Tester.EventColor.Foreground.ReadOnlyFileSpared&gt;-16777216&lt;/Tester.EventColor.Foreground.ReadOnlyFileSpared&gt;
+Tester.EventSelect.FreshFileSpared&gt;True&lt;/Tester.EventSelect.FreshFileSpared&gt;
+Tester.EventColor.Background.FreshFileSpared&gt;-8323200&lt;/Tester.EventColor.Background.FreshFileSpared&gt;
+Tester.EventColor.Foreground.FreshFileSpared&gt;-16777216&lt;/Tester.EventColor.Foreground.FreshFileSpared&gt;
+Tester.EventSelect.AgedFileRemoved&gt;True&lt;/Tester.EventSelect.AgedFileRemoved&gt;
+Tester.EventColor.Background.AgedFileRemoved&gt;-32640&lt;/Tester.EventColor.Background.AgedFileRemoved&gt;
+Tester.EventColor.Foreground.AgedFileRemoved&gt;-16777216&lt;/Tester.EventColor.Foreground.AgedFileRemoved&gt;
+Tester.EventSelect.MaxCountFileRemoved&gt;True&lt;/Tester.EventSelect.MaxCountFileRemoved&gt;
+Tester.EventColor.Background.MaxCountFileRemoved&gt;-32640&lt;/Tester.EventColor.Background.MaxCountFileRemoved&gt;
+Tester.EventColor.Foreground.MaxCountFileRemoved&gt;-16777216&lt;/Tester.EventColor.Foreground.MaxCountFileRemoved&gt;
+Tester.EventSelect.MinCountFileSpared&gt;True&lt;/Tester.EventSelect.MinCountFileSpared&gt;
+Tester.EventColor.Background.MinCountFileSpared&gt;-8323200&lt;/Tester.EventColor.Background.MinCountFileSpared&gt;
+Tester.EventColor.Foreground.MinCountFileSpared&gt;-16777216&lt;/Tester.EventColor.Foreground.MinCountFileSpared&gt;
+Tester.EventSelect.FileNoMatch&gt;True&lt;/Tester.EventSelect.FileNoMatch&gt;
+Tester.EventColor.Background.FileNoMatch&gt;-1&lt;/Tester.EventColor.Background.FileNoMatch&gt;
+Tester.EventColor.Foreground.FileNoMatch&gt;-16777216&lt;/Tester.EventColor.Foreground.FileNoMatch&gt;
+Tester.EventSelect.DirectoryNoMatch&gt;True&lt;/Tester.EventSelect.DirectoryNoMatch&gt;
+Tester.EventColor.Background.DirectoryNoMatch&gt;-1&lt;/Tester.EventColor.Background.DirectoryNoMatch&gt;
+Tester.EventColor.Foreground.DirectoryNoMatch&gt;-16777216&lt;/Tester.EventColor.Foreground.DirectoryNoMatch&gt;
+Tester.EventSelect.RootDirectoryExcluded&gt;True&lt;/Tester.EventSelect.RootDirectoryExcluded&gt;
+Tester.EventColor.Background.RootDirectoryExcluded&gt;-8323073&lt;/Tester.EventColor.Background.RootDirectoryExcluded&gt;
+Tester.EventColor.Foreground.RootDirectoryExcluded&gt;-16777216&lt;/Tester.EventColor.Foreground.RootDirectoryExcluded&gt;
+Tester.EventSelect.ReadOnlyDirectorySpared&gt;True&lt;/Tester.EventSelect.ReadOnlyDirectorySpared&gt;
+Tester.EventColor.Background.ReadOnlyDirectorySpared&gt;-8323200&lt;/Tester.EventColor.Background.ReadOnlyDirectorySpared&gt;
+Tester.EventColor.Foreground.ReadOnlyDirectorySpared&gt;-16777216&lt;/Tester.EventColor.Foreground.ReadOnlyDirectorySpared&gt;
+Tester.EventSelect.EmptyDirectoryRemoved&gt;True&lt;/Tester.EventSelect.EmptyDirectoryRemoved&gt;
+Tester.EventColor.Background.EmptyDirectoryRemoved&gt;-32640&lt;/Tester.EventColor.Background.EmptyDirectoryRemoved&gt;
+Tester.EventColor.Foreground.EmptyDirectoryRemoved&gt;-16777216&lt;/Tester.EventColor.Foreground.EmptyDirectoryRemoved&gt;
+Tester.EventSelect.AccessDenied&gt;True&lt;/Tester.EventSelect.AccessDenied&gt;
+Tester.EventColor.Background.AccessDenied&gt;-128&lt;/Tester.EventColor.Background.AccessDenied&gt;
+Tester.EventColor.Foreground.AccessDenied&gt;-16777216&lt;/Tester.EventColor.Foreground.AccessDenied&gt;
+Tester.EventSelect.UnhandledError&gt;True&lt;/Tester.EventSelect.UnhandledError&gt;
+Tester.EventColor.Background.UnhandledError&gt;-128&lt;/Tester.EventColor.Background.UnhandledError&gt;
+Tester.EventColor.Foreground.UnhandledError&gt;-16777216&lt;/Tester.EventColor.Foreground.UnhandledError&gt;
+Tester.EventSelect.Begin&gt;True&lt;/Tester.EventSelect.Begin&gt;
+Tester.EventColor.Background.Begin&gt;-32513&lt;/Tester.EventColor.Background.Begin&gt;
+Tester.EventColor.Foreground.Begin&gt;-16777216&lt;/Tester.EventColor.Foreground.Begin&gt;
+Tester.EventSelect.BeginServer&gt;True&lt;/Tester.EventSelect.BeginServer&gt;
+Tester.EventColor.Background.BeginServer&gt;-32576&lt;/Tester.EventColor.Background.BeginServer&gt;
+Tester.EventColor.Foreground.BeginServer&gt;-16777216&lt;/Tester.EventColor.Foreground.BeginServer&gt;
+Tester.EventSelect.EndServer&gt;True&lt;/Tester.EventSelect.EndServer&gt;
+Tester.EventColor.Background.EndServer&gt;-32513&lt;/Tester.EventColor.Background.EndServer&gt;
+Tester.EventColor.Foreground.EndServer&gt;-16777216&lt;/Tester.EventColor.Foreground.EndServer&gt;
+Tester.EventSelect.End&gt;True&lt;/Tester.EventSelect.End&gt;
+Tester.EventColor.Background.End&gt;-32513&lt;/Tester.EventColor.Background.End&gt;
+Tester.EventColor.Foreground.End&gt;-16777216&lt;/Tester.EventColor.Foreground.End&gt;
+Tester.EventColor.CustomColors.00&gt;16777215&lt;/Tester.EventColor.CustomColors.00&gt;
+Tester.EventColor.CustomColors.01&gt;16777215&lt;/Tester.EventColor.CustomColors.01&gt;
+Tester.EventColor.CustomColors.02&gt;16777215&lt;/Tester.EventColor.CustomColors.02&gt;
+Tester.EventColor.CustomColors.03&gt;16777215&lt;/Tester.EventColor.CustomColors.03&gt;
+Tester.EventColor.CustomColors.04&gt;16777215&lt;/Tester.EventColor.CustomColors.04&gt;
+Tester.EventColor.CustomColors.05&gt;16777215&lt;/Tester.EventColor.CustomColors.05&gt;
+Tester.EventColor.CustomColors.06&gt;16777215&lt;/Tester.EventColor.CustomColors.06&gt;
+Tester.EventColor.CustomColors.07&gt;16777215&lt;/Tester.EventColor.CustomColors.07&gt;
+Tester.EventColor.CustomColors.08&gt;16777215&lt;/Tester.EventColor.CustomColors.08&gt;
+Tester.EventColor.CustomColors.09&gt;16777215&lt;/Tester.EventColor.CustomColors.09&gt;
+Tester.EventColor.CustomColors.10&gt;16777215&lt;/Tester.EventColor.CustomColors.10&gt;
+Tester.EventColor.CustomColors.11&gt;16777215&lt;/Tester.EventColor.CustomColors.11&gt;
+Tester.EventColor.CustomColors.12&gt;16777215&lt;/Tester.EventColor.CustomColors.12&gt;
+Tester.EventColor.CustomColors.13&gt;16777215&lt;/Tester.EventColor.CustomColors.13&gt;
+Tester.EventColor.CustomColors.14&gt;16777215&lt;/Tester.EventColor.CustomColors.14&gt;
+Tester.EventColor.CustomColors.15&gt;16777215&lt;/Tester.EventColor.CustomColors.15&gt;
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Hexify</Title>
+  <Description>change a string like Hi to 4869</Description>
+  <Script>// Change the clipboard content to a Hex View
+
+using System;
+using System.Text;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+	{
+		StringBuilder s = new StringBuilder();
+		int Index = 0;
+		int Value = 0;
+		while (Index &lt; clipboardSource.Length)
+		{
+			s.Append (string.Format("{0:x2}", (int) clipboardSource[Index++]));
+		}
+		return s.ToString();
+	}
+}
+</Script>
+  <Language>1</Language>
+  <TestData>Your momma Don't dance!</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>JSON-readable</Title>
+  <Description>Assumes the clipboard contains JSON.  Adds line-breaks and tabs at the curly braces to make things more readable.  Makes data examination easier on the eyes.
+
+
+</Description>
+  <Script>// Beautify (make more readable) a JSON document
+// Adds line breaks after comma (,) right square bracket (]) and right squiggly bracket (})
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Windows.Forms;
+using BOG.Framework;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+	{
+        StringBuilder result = new StringBuilder();
+
+        if (clipboardSource.Length &gt; 0)
+        {
+            bool inQuote = false;
+            bool nextIsEscaped = false;
+            int escapeBypass = 0;
+            int indentLevel = 0;
+            char prevChar = '\x00';
+
+            for (int index = 0; index &lt; clipboardSource.Length; index++)
+            {
+                char thisChar = clipboardSource[index];
+                string prefix = string.Empty;
+                string suffix = string.Empty;
+
+                if (result.Length == 0 &amp;&amp; (thisChar == ' ' || thisChar == '\t'))
+                {
+                    continue;
+                }
+                else if (!inQuote &amp;&amp; (thisChar == ' ' || thisChar == '\t') &amp;&amp; prevChar != ':')
+                {
+                    continue;
+                }
+                else if (!inQuote &amp;&amp; (thisChar == '\r' || thisChar == '\n'))
+                {
+                    continue;
+                }
+
+                if (!inQuote &amp;&amp; thisChar == ':')
+                {
+                    suffix = " ";  // put a space after the colon separator, which makes readability a bit better.
+                }
+
+                if (inQuote &amp;&amp; escapeBypass &gt; 0)
+                {
+                    if ("0123456789ABCDEF".IndexOf(char.ToUpper(thisChar)) &lt; 0)
+                    {
+                        throw new ArgumentException("Invalid hex character in \\u##### escape sequence");
+                    }
+                    escapeBypass--;
+                }
+                else if (inQuote &amp;&amp; !nextIsEscaped &amp;&amp; thisChar == '\\')
+                {
+                    // JSON encoding character is either "\uHHHH" or "\c", where HHHH is 4-digits of hex and c is a single character other than 'u'
+                    // Ref: https://tools.ietf.org/html/rfc7159#section-7
+                    nextIsEscaped = true;
+                }
+                else if (inQuote &amp;&amp; nextIsEscaped)
+                {
+                    nextIsEscaped = false;
+                    if (thisChar == 'u')
+                    {
+                        escapeBypass = 4;
+                    }
+                    else
+                    {
+                        escapeBypass = 0;
+                        if ("\"\\/bfnrt".IndexOf(char.ToLower(thisChar)) &lt; 0)
+                        {
+                            throw new ArgumentException("Invalid character in single character escape (\\) sequence: must be one of { \" \\ / b f n r t }");
+                        }
+                    }
+                }
+                else if (thisChar == '"')
+                {
+                    inQuote = !inQuote;
+                    nextIsEscaped = false;
+                    escapeBypass = 0;
+                }
+                else if (!inQuote &amp;&amp; (thisChar == '[' || thisChar == '{'))
+                {
+                    prefix = (prevChar == ']' || prevChar == '}') ? "\r\n" : string.Empty;
+                    indentLevel++;
+                    suffix = "\r\n" + new string(' ', indentLevel * 2);
+                }
+                else if (!inQuote &amp;&amp; thisChar == ',')
+                {
+                    suffix = "\r\n" + new string(' ', indentLevel * 2);
+                }
+                else if (!inQuote &amp;&amp; (thisChar == ']' || thisChar == '}'))
+                {
+                    indentLevel--;
+                    prefix = (result.ToString().Length == 0 ? string.Empty : "\r\n") + new string(' ', indentLevel * 2);
+                }
+
+                prevChar = thisChar;
+                result.Append(prefix);
+                result.Append(thisChar);
+                result.Append(suffix);
+            }
+        }
+
+        return result.ToString();
+	}
+}</Script>
+  <Language>1</Language>
+  <TestData>{"1920-01-01T00:00:00":[{"Planet":0,"GeocentricLongitude":279.28145395329227,"GeocentricLatitude":7.0880433286353261E-05,"Distance":0.98325694446715717,"Speed":1.0191687118776827,"House":-3.8216596301998977E-05},{"Planet":1,"GeocentricLongitude":32.0814529005981,"GeocentricLatitude":1.9245172621921178,"Distance":0.0024676545614495393,"Speed":14.179210680325127,"House":-1.18936652107271},{"Planet":2,"GeocentricLongitude":259.71404119216533,"GeocentricLatitude":0.752260268415632,"Distance":1.2058698195056168,"Speed":1.3668402837652138,"House":-0.13615655255538872},{"Planet":3,"GeocentricLongitude":236.02568765604735,"GeocentricLatitude":2.5283431704910027,"Distance":0.96524712023274251,"Speed":1.1693195865802863,"House":-0.018745990348900676},{"Planet":4,"GeocentricLongitude":196.50735990067977,"GeocentricLatitude":1.9434696691863722,          "Distance":1.4728428185151266,"Speed":0.48842231294088378,"House":0.00714460414275031},{"Planet":5,"GeocentricLongitude":137.00257353802175,"GeocentricLatitude":0.793067268324301,"Distance":4.4951868141040325,"Speed":-0.08329531894446518,"House":0.0035678299376007416},{"Planet":6,"GeocentricLongitude":161.61099302943723,"GeocentricLatitude":1.8015724098149082,"Distance":8.8012456255093738,"Speed":-0.015988885166962064,"House":0.004231007891819516},{"Planet":7,"GeocentricLongitude":328.96726892807777,"GeocentricLatitude":-0.73131303492209732,"Distance":20.661814863049369,"Speed":0.041784572033520817,"House":0.0004354004806694789},{"Planet":8,"GeocentricLongitude":130.96087300850996,"GeocentricLatitude":-0.029661538187414946,"Distance":29.216089870156715,"Speed":-0.022940486559264173,"House":0.00018111179967209012},{"Planet":9,"GeocentricLongitude":96.6785632084374,"GeocentricLatitude":-3.9092013450466547,"Distance":42.556193934247965,"Speed":-0.020419112445324572,"House":0.00099836139799691637},{"Planet":10,"GeocentricLongitude":232.38527481881073,"GeocentricLatitude":0.0,"Distance":0.0025695552899545776,"Speed":-0.052947310820172788,"House":0.0},{"Planet":11,"GeocentricLongitude":233.88974032931131,"GeocentricLatitude":0.0,"Distance":0.0026597060474744046,"Speed":0.022000383569604764,"House":0.0},{"Planet":12,"GeocentricLongitude":248.02382885624482,"GeocentricLatitude":1.3905012504510086,"Distance":0.0027106251318856217,"Speed":0.11084222194313043,"House":0.014194303737946612},{"Planet":13,"GeocentricLongitude":272.8439793261395,"GeocentricLatitude":3.2546142709860644,"Distance":0.0026969485754797197,"Speed":-2.0455149446198106,"House":-0.14867081707708563},{"Planet":14,"GeocentricLongitude":0.0,"GeocentricLatitude":0.0,"Distance":0.0,"Speed":0.0,"House":0.0},{"Planet":15,"GeocentricLongitude":2.6090819413369828,"GeocentricLatitude":2.6921421718424097,"Distance":18.908528266199074,"Speed":0.015566653568388489,"House":-0.0035003399001531932}],"1920-01-01T01:00:00":[{"Planet":0,"GeocentricLongitude":279.3239193507041,"GeocentricLatitude":6.9285089120366209E-05,"Distance":0.98325620236152977,"Speed":1.0191668789616415,"House":-3.83599292720036E-05},{"Planet":1,"GeocentricLongitude":32.672560218761745,"GeocentricLatitude":1.8748332854605228,"Distance":0.0024663787247283069,"Speed":14.193861772398009,"House":-1.1954594339091962},{"Planet":2,"GeocentricLongitude":259.77100838656895,"GeocentricLatitude":0.74658799197656722,"Distance":1.2065038964925461,"Speed":1.3675827329961976,"House":-0.13611178856010042},{"Planet":3,"GeocentricLongitude":236.07441120404744,"GeocentricLatitude":2.5275606246237206,"Distance":0.96554320047567244,"Speed":1.1694064073708432,"House":-0.018816386040398925},{"Planet":4,"GeocentricLongitude":196.52770844418996,"GeocentricLatitude":1.943767357736613,"Distance":1.4724254290571508,"Speed":0.48830677926048338,"House":0.00714437283888536},{"Planet":5,"GeocentricLongitude":136.99910056775852,"GeocentricLatitude":0.79321590230293193,"Distance":4.4947901601039906,"Speed":-0.0834071070698883,"House":0.0035665894726477632},{"Planet":6,"GeocentricLongitude":161.61032526582471,"GeocentricLatitude":1.8017486882603975,"Distance":8.8006350851393869,"Speed":-0.016063870873495034,"House":0.004230345188593887},{"Planet":7,"GeocentricLongitude":328.96901047589068,"GeocentricLatitude":-0.73129489955714366,"Distance":20.66236631723763,"Speed":0.041809692845617974,"House":0.00043509397307239794},{"Planet":8,"GeocentricLongitude":130.95991688437542,"GeocentricLatitude":-0.02965399159955771,"Distance":29.215711506453044,"Speed":-0.022953439184902891,"House":0.00018112402114592308},{"Planet":9,"GeocentricLongitude":96.677712440436792,"GeocentricLatitude":-3.9091597221077845,"Distance":42.556204286340495,"Speed":-0.020417684609697062,"House":0.00099953793464280238},{"Planet":10,"GeocentricLongitude":232.38306862477973,"GeocentricLatitude":0.0,"Distance":0.0025695552899545784,"Speed":-0.052949326061479951,"House":0.0},{"Planet":11,"GeocentricLongitude":233.89066392280748,"GeocentricLatitude":0.0,"Distance":0.0026603407701985748,"Speed":0.021838043714694777,"House":0.0}]}</TestData>
+  <References>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

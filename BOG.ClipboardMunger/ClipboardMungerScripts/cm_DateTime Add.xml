@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>DateTime Add</Title>
+  <Description>Day count offset from Now or a specific date.</Description>
+  <Script>// DateTime offset from a specific date or Now
+
+using System;
+using BOG.Framework;
+using System.Windows.Forms;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+	{
+	    string DateTimeBase = string.Empty;
+	    DateTime dateTimeBase = DateTime.Now;
+	    if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("DateTime (leave empty for nnow/today)", "Enter the date", ref DateTimeBase))
+	    {
+	            return clipboardSource;
+	    }
+	    dateTimeBase = DateTimeBase.Trim().Length == 0 ? DateTime.Now : DateTime.Parse (DateTimeBase);
+	    string OffsetBase = string.Empty;
+	    int offsetBase = 30;
+	    if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Days to offset", "Use positive for foward, or negative for the past", ref OffsetBase))
+	    {
+	            return clipboardSource;
+	    }
+	    offsetBase = int.Parse (OffsetBase);
+	    
+	    return dateTimeBase.AddDays(offsetBase).ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData />
+  <References>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

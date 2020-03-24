@@ -1,0 +1,254 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>ICS Events filtered set to CANCEL</Title>
+  <Description>Clipboard contains a grid of data, using tabs between colums, and cr+lf between rows.  Usually, it is a block of cells (rows+columns) copied from Excel.
+
+- The first line must be headers which match the db table's column name.  The remaining lines are data.
+- The leftmost columns must be the primary key column(s), with the other columns following to the right.
+- The result is a long sequence of SQL INSERT statements, one per row.
+
+Two dialogs will prompt for A) Database Name, and B) Table Name.
+
+Notes:
+- Build the INSERT statements wrapped in a TRY/CATCH, and a transaction which is rolled back if an error occurs.
+- If NULL appears in a cell, it is written as NULL (a true null) instead of 'NULL' (a string)
+</Description>
+  <Script>// Create output for VEvent which contains the text given.  (Google Calendar Export)
+// Change the STATUS:* value to STATUS:CANCELLED
+// Write the output to the stream.
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+		StringBuilder result = new StringBuilder();
+		StringBuilder vevent = new StringBuilder();
+		string filter = string.Empty;
+		if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Filter", "Enter the string to filter on", ref filter))
+		{
+			throw new Exception ("No filter value entered");
+		}
+
+		bool InEvents = false;
+		bool EventOpen = false;
+		bool FilterFound = false;
+		string StatusLine = string.Empty;
+		foreach (string ThisLine in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+		{
+			if (ThisLine.IndexOf("BEGIN:VEVENT") == 0)
+			{
+				EventOpen = true;
+				InEvents = true;
+				FilterFound = false;
+				StatusLine = string.Empty;
+				vevent.AppendLine(ThisLine);
+				continue;
+			}
+			if (! InEvents)
+			{
+				result.AppendLine(ThisLine);
+				continue;
+			}
+			if (ThisLine.IndexOf("STATUS:") == 0)
+			{
+				StatusLine = ThisLine;
+				continue;
+			}
+			if (ThisLine.IndexOf("END:VEVENT") == 0)
+			{
+				EventOpen = false;
+				InEvents = true;
+				if (FilterFound)
+				{
+					StatusLine = "STATUS:CANCELLED";
+					vevent.AppendLine(StatusLine);
+					vevent.AppendLine(ThisLine);
+					result.Append(vevent.ToString());
+				}
+				vevent.Length = 0;
+				continue;
+			}
+			if (ThisLine.ToUpper().Contains(filter.ToUpper()))
+			{
+				FilterFound = true;
+			}
+			vevent.AppendLine(ThisLine);			
+		}
+		return result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:johnmikeralph@gmail.com
+X-WR-TIMEZONE:America/Chicago
+BEGIN:VTIMEZONE
+TZID:America/Chicago
+X-LIC-LOCATION:America/Chicago
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0600
+TZOFFSETTO:-0500
+TZNAME:CDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0600
+TZNAME:CST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VTIMEZONE
+TZID:America/New_York
+X-LIC-LOCATION:America/New_York
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+TZNAME:EDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+TZNAME:EST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART:20150228T223000Z
+DTEND:20150301T040000Z
+DTSTAMP:20181203T023326Z
+ORGANIZER;CN=johnmikeralph@gmail.com:mailto:johnmikeralph@gmail.com
+UID:mmufs6oaaat6abt3l3uabl3v6k@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=John J
+  Schultz;X-NUM-GUESTS=0:mailto:johnmikeralph@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=Juliet
+ te Ochieng;X-NUM-GUESTS=0:mailto:juliette.ochieng@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=Willia
+ m Banet;X-NUM-GUESTS=0:mailto:billbanet@gmail.com
+X-GOOGLE-HANGOUT:https://hangouts.google.com/hangouts/_/calendar/am9obm1pa2
+ VyYWxwaEBnbWFpbC5jb20.mmufs6oaaat6abt3l3uabl3v6k
+CLASS:PUBLIC
+CREATED:20150220T034807Z
+DESCRIPTION:Live video hangout for those who cannot make it in person to th
+ e event.\n\n\n\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section of the descri
+ ption.\n\nThis event has a Google Hangouts video call.\nJoin: https://hango
+ uts.google.com/hangouts/_/calendar/am9obm1pa2VyYWxwaEBnbWFpbC5jb20.mmufs6oa
+ aat6abt3l3uabl3v6k?hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20150301T032952Z
+LOCATION:Bavarian Brauhaus\, 7304 Parkway Drive South\, Hanover\, MD 21076\
+ , United States
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Berlin Reunion 2015
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20150312T223000Z
+DTEND:20150312T233000Z
+DTSTAMP:20181203T023326Z
+ORGANIZER;CN=johnmikeralph@gmail.com:mailto:johnmikeralph@gmail.com
+UID:j6c1u7cvsklkjfgrcpn0ekbt4g@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=John J
+  Schultz;X-NUM-GUESTS=0:mailto:johnmikeralph@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Ja
+ rah Schultz;X-NUM-GUESTS=0:mailto:jarahschultz@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Be
+ njamin Schultz;X-NUM-GUESTS=0:mailto:untamedphoenix@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Ro
+ bin Schultz;X-NUM-GUESTS=0:mailto:violinrobin@gmail.com
+X-GOOGLE-HANGOUT:https://hangouts.google.com/hangouts/_/calendar/am9obm1pa2
+ VyYWxwaEBnbWFpbC5jb20.j6c1u7cvsklkjfgrcpn0ekbt4g
+CREATED:20150311T230247Z
+DESCRIPTION:announcement\n\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this section o
+ f the description.\n\nThis event has a Google Hangouts video call.\nJoin: h
+ ttps://hangouts.google.com/hangouts/_/calendar/am9obm1pa2VyYWxwaEBnbWFpbC5j
+ b20.j6c1u7cvsklkjfgrcpn0ekbt4g?hs=121\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20150311T230247Z
+LOCATION:various
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Family conference
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20160229
+DTEND;VALUE=DATE:20160301
+DTSTAMP:20181203T023327Z
+UID:8sco8kcri2r4tc6mvod44fgk88@google.com
+CREATED:20160207T165256Z
+DESCRIPTION:
+LAST-MODIFIED:20160207T165304Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:John(Pay)
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20160331
+DTEND;VALUE=DATE:20160401
+DTSTAMP:20181203T023327Z
+UID:CSVConvert17d8e306877bc129b6af3ae996b44301
+CREATED:19000101T120000Z
+DESCRIPTION:John(Pay)
+LAST-MODIFIED:20160207T173759Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:John(Pay)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20160415
+DTEND;VALUE=DATE:20160416
+DTSTAMP:20181203T023327Z
+UID:CSVConvert7664e27a5a29306ca2304b25361b28a1
+CREATED:19000101T120000Z
+DESCRIPTION:John(Pay)
+LAST-MODIFIED:20160207T173759Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:John(Pay)
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20160215
+DTEND;VALUE=DATE:20160216
+DTSTAMP:20181203T023327Z
+UID:CSVConvert780a5fed9274c8e2fbfb09d113b4511a
+CREATED:19000101T120000Z
+DESCRIPTION:John(Pay)
+LAST-MODIFIED:20160207T173759Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:John(Pay)
+TRANSP:OPAQUE
+END:VEVENT
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

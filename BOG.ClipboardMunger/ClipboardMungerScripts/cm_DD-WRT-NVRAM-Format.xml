@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>DD-WRT-NVRAM-Format</Title>
+  <Description />
+  <Script>using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+        StringBuilder output = new StringBuilder();
+
+        Queue&lt;string&gt; lines = new Queue&lt;string&gt;(clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.None));
+        while (lines.Count &gt; 0)
+        {
+			string line = lines.Dequeue();
+            int eqOffset = line.IndexOf("=");
+            if (eqOffset &lt; 0) continue;
+            output.Append("nvram set ");
+            output.Append(line.Substring(0, eqOffset));
+            output.Append("=");
+            if (eqOffset + 1 &lt;= line.Length)
+            {
+	            output.Append("\"");
+	            output.Append(line.Substring(eqOffset + 1, line.Length - (eqOffset + 1)).Replace("\\","\\\\").Replace("\"","\\\""));
+	            output.Append("\"");
+            }
+            output.AppendLine();
+		}
+        output.AppendLine("nvram commit");
+        return output.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>ddns_cache=142.197.161.197
+ddns_change=
+ddns_conf_buf=
+ddns_conf=
+ddns_custom_5_buf=duckdns.org
+ddns_custom_5=duckdns.org
+ddns_dyndnstype_6=
+ddns_dyndnstype_buf=
+ddns_dyndnstype=
+ddns_enable_buf=5
+ddns_enable=5
+ddns_force=3
+ddns_hostname_11=
+ddns_hostname_2=
+ddns_hostname_3=
+ddns_hostname_4=
+ddns_hostname_5=b1941d8a-9716-4fca-a231-5f7b5a4b8e53
+ddns_hostname_6=
+ddns_hostname_7=
+ddns_hostname_8=
+ddns_hostname_9=
+ddns_hostname_buf=b1941d8a-9716-4fca-a231-5f7b5a4b8e53
+ddns_hostname=
+ddns_passwd_10=
+ddns_passwd_11=
+ddns_passwd_2=
+ddns_passwd_3=
+ddns_passwd_4=
+ddns_passwd_5=nothing
+ddns_passwd_6=
+ddns_passwd_7=
+ddns_passwd_8=
+ddns_passwd_9=
+ddns_passwd_buf=nothing
+ddns_passwd=
+ddns_time=1509857483
+ddns_url_buf=http://www.duckdns.org/update?domains=jhrbj-fl&amp;verbose=true&amp;token=
+ddns_url=http://www.duckdns.org/update?domains=jhrbj-fl&amp;verbose=true&amp;token=
+ddns_username_10=
+ddns_username_11=
+ddns_username_2=
+ddns_username_3=
+ddns_username_4=
+ddns_username_5=nobody
+ddns_username_6=
+ddns_username_7=
+ddns_username_8=
+ddns_username_9=
+ddns_username_buf=nobody
+ddns_username=
+ddns_wan_ip=0
+ddns_wildcard_6=
+ddns_wildcard_7=
+ddns_wildcard_buf=
+ddns_wildcard=
+forward_spec=P-QOTD:off:tcp:17&gt;.12:17 P-HTTPS:off:tcp:443&gt;172.24.175.12:443 F-RDP-W:on:both:4399&gt;172.24.175.12:3389 F-RDP-L:on:both:4398&gt;172.24.175.11:3389 L-RDP:on:tcp:3389&gt;172.24.175.12:3389&lt;172.24.175.0/24 L-HTTP:off:tcp:80&gt;172.24.175.12:80&lt;172.24.175.0/24 L-HTTPS:off:tcp:443&gt;172.24.175.12:443&lt;172.24.175.0/24 L-QOTD:off:tcp:17&gt;172.24.175.12:17&lt;172.24.175.0/24 P-GW:off:tcp:8109&gt;172.24.175.1:8109 L-SHIPYARD:on:tcp:8670&gt;172.24.175.12:10670&lt;172.24.175.0/24 F-SHIPYARD:off:tcp:8670&gt;172.24.175.12:10670
+forwardspec_entries=11
+http_client_ip=172.24.175.12
+http_enable=1
+http_lanport=80
+http_method=post
+info_passwd=1
+ip_conntrack_max=4096
+ip_conntrack_tcp_timeouts=3600
+ip_conntrack_udp_timeouts=120
+ipsec_pass=1
+ntp_done=1
+ntp_enable=1
+ntp_mode=auto
+ntp_server=time.windows.com
+rate_control=minstrel
+rc_custom=
+rc_firewall=iptables -t nat -A POSTROUTING  -o eth0 -j MASQUERADE 
+rc_opt_run=1
+rc_shutdown=
+rc_startup=nvram get clkfreq
+static_leasenum=16
+static_leases=68:1C:A2:00:E9:3B=SAMURAI=172.24.175.2=0 B0:E8:92:4D:F0:88=PRN-WF2540=172.24.175.19=0 F0:79:59:39:A2:98=EXCUDO=172.24.175.11=0 40:E2:30:B3:F9:17=EXCUDO-W=172.24.175.12=0 6C:AD:F8:7E:30:42=CHROMECAST-LR=172.24.175.20=0 3C:BD:D8:37:1B:FD=BLUERAY=172.24.175.21=0 30:3A:64:53:48:05=OCULUS=172.24.175.50=1440 B8:81:98:64:A3:2F=LAPTOP-D4UQJ1QO=172.24.175.51=1440 E4:A4:71:E5:E8:4F=LTP-00001619=172.24.175.52=1440 E4:A7:A0:56:0F:54=PITN00647769A=172.24.175.53=1440 C8:5B:76:6A:0A:AE=PITN00647769A-W=172.24.175.54=1440 58:E2:8F:4F:F8:CE=FRIGATE=172.24.175.60=0 08:60:6E:3F:D0:D1=ANDROID-71237064A7A4320B=172.24.175.61=0 68:D9:3C:33:2F:15=HEIDIS=172.24.175.62=0 88:DE:A9:3D:3C:91=ROKU=172.24.175.22=0 48:BA:4E:2B:BD:4E=PRN-HP6962=172.24.175.10=0 
+wan_default=eth0
+wan_dial=0
+wan_dns=8.8.8.8 8.8.4.4
+wan_domain=jhrbj-fl.duckdns.org
+wan_dualaccess=0
+wan_gateway_buf=0.0.0.0
+wan_gateway=142.197.160.1
+wan_get_dns=75.114.81.1 209.18.47.62 75.114.81.2
+wan_get_domain=cfl.rr.com
+wan_hostname=wealthybuoy-01
+wan_hwaddr=6C:FD:B9:5E:4C:52
+wan_hwname=
+wan_iface=eth0
+wan_ifname=eth0
+wan_ifname2=eth0
+wan_ifnames=eth0
+wan_ipaddr_buf=172.29.229.30
+wan_ipaddr=142.197.161.197
+wan_lease=86387
+wan_mtu=1500
+wan_netmask=255.255.224.0
+wan_primary=1
+wan_proto=dhcp
+wan_unit=0
+wan_vdsl=0
+wan_wins=0.0.0.0
+wanup=1
+warn_connlimit=500
+warn_domain=
+warn_enabled=0
+warn_from=
+warn_fromfull=
+warn_server=
+warn_to=
+warn_user=
+wol_cmd=
+wol_enable=0
+wol_hostname=
+wol_hosts=40:E2:30:B3:F9:17=EXCUDO-W=172.24.175.255 B0:E8:92:4D:F0:88=PRINTER=172.24.175.255
+wol_interval=86400
+wol_macs=
+wol_passwd=
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

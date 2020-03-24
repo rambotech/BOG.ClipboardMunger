@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Pivot from 2-column tab_crlf grid</Title>
+  <Description>Clipboard contains a grid of data, using tabs between colums, and cr+lf between rows.  Each  row contans only two columns, and is sorted properly.
+
+The first column becomes a group identifier.  For all rows with the same group identifier in the first column, all second columns are "Joined"
+together with a user specified delimeter.
+</Description>
+  <Script>// Take a tab+crlf delimited grid of data from clipboard.
+// Prompt user for a delimiter.
+// First column becomes a group identifier: second column a member.
+// Returns First Column, {tab}, Second Column Member1 {delimeter} Member2, etc.
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+		StringBuilder result = new StringBuilder();
+		int LineIndex = 0;
+		int ColumnIndex = 0;
+		int ColumnCount = 0;
+
+		string Delimiter = "|";
+		if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Delimiter", "Enter the sequence to delimit members within a group (pip, space, comma, etc)", ref Delimiter))
+		{
+			Delimiter = " ";
+		}
+		
+		bool HasCurrentGroupName = false;
+		string CurrentGroupName = string.Empty;
+		List&lt;string&gt; Members = new List&lt;string&gt;();
+
+		foreach (string ThisLine in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+		{
+			string[] Columns = ThisLine.Split(new char[] { '\t' });
+			if (HasCurrentGroupName == false || CurrentGroupName != Columns[0])
+			{
+				if (HasCurrentGroupName == true)
+				{
+					result.AppendLine(string.Format("{0}\t{1}", CurrentGroupName, string.Join(Delimiter, Members.ToArray())));
+				}
+				HasCurrentGroupName = true;
+				CurrentGroupName = Columns[0];
+				Members = new List&lt;string&gt;();
+			}
+			Members.Add(Columns[1]);
+		}
+		if (HasCurrentGroupName == true)
+		{
+			result.AppendLine(string.Format("{0}\t{1}", CurrentGroupName, string.Join(Delimiter, Members.ToArray())));
+		}
+		return result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>A	131
+A	the
+A	quick
+A	brown
+A	fox
+A	jumped
+B	over
+B	the
+C	dogw</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Formatted Date</Title>
+  <Description>Uses DateTime.Now as the source.
+
+You fill in the .ToString(...) formatter.
+</Description>
+  <Script>// Formatted Date
+
+using System;
+using System.Text;
+using BOG.Framework;
+using System.Windows.Forms;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+	{
+	    string Reformatted = string.Empty;
+	    if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Formatted DateTime", "Enter the format", ref Reformatted))
+	    {
+	            return clipboardSource;
+	    }
+	    return DateTime.Now.ToString(Reformatted);
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData />
+  <References>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

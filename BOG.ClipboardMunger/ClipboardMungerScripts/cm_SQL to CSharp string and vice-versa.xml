@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>SQL to CSharp string and vice-versa</Title>
+  <Description>Converts a SQL sequence between a literal query, or that query wrapped in CSharp string delimters.
+
+Code is assumed to be multi-line, and Carriage Return/Line Feed characters are injected.
+
+e.g.
+
+SELECT MyColumn1, MyColumn2, '\R\' AS Marker, '"' AS Delimeter
+FROM Table
+
+.. becomes .. 
+
+"SELECT MyColumn1, MyColumn2, '\\R\\' AS Marker, '\"' AS Delimeter" + " \r\n" +
+FROM Table" + " \r\n";
+</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+
+public class Script : Interfaces.IClipboard
+{
+	private string TrueTrim(string x)
+	{
+		string Result = x;
+		while (Result.Length &gt; 0 &amp;&amp; Result.IndexOfAny (new char[] {'\x20', '\x09'}) == 0) Result = Result.Length == 0 ? string.Empty : Result.Substring(1);
+		while (Result.Length &gt; 0 &amp;&amp; Result.LastIndexOfAny (new char[] {'\x20', '\x09'}) == Result.Length - 1) Result = Result.Length == 0 ? string.Empty : Result.Substring(0,Result.Length-1);
+		return Result;
+	}
+	
+    public string Munge(string clipboardSource)
+    {
+        const string CSharpPrefix = "\"";
+        const string CSharpAppend = " \" + \"\\r\\n\" +";
+        const string CSharpEndsWith = " \" + \"\\r\\n\"";
+        StringBuilder Result = new StringBuilder();
+        string clipboardCleaned = clipboardSource.Trim();
+
+        if (clipboardCleaned.IndexOf(CSharpEndsWith) &gt; -1)
+        {
+            foreach (string line in clipboardCleaned.Split(new string[] { "\r\n" }, StringSplitOptions.None))
+            {
+                string WorkLine = TrueTrim(line);
+                if (WorkLine.Length == 0)
+                {
+                    Result.AppendLine();
+                    continue;
+                }
+                if (WorkLine[0] != '\"')
+                {
+                    Result.AppendLine(WorkLine);
+                    continue;
+                }
+                if (WorkLine.LastIndexOf (CSharpEndsWith) &lt; 0)
+                {
+                	// not properly terminated.
+                    Result.AppendLine(WorkLine);
+                    continue;
+                }
+
+                WorkLine = WorkLine.Substring(1);  // removes leading quote
+                WorkLine = WorkLine.Replace("\\\"", "\"");
+                WorkLine = WorkLine.Replace("\\\\", "\\");
+                Result.AppendLine(WorkLine.Substring(0, WorkLine.LastIndexOf(CSharpEndsWith)));
+            }
+        }
+        else
+        {
+            foreach (string line in clipboardCleaned.Split(new string[] { "\r\n" }, StringSplitOptions.None))
+            {
+                if (line.Trim().Length == 0)
+                {
+                    Result.AppendLine("\"" + CSharpAppend);
+                    continue;
+                }
+                string WorkLine = line;
+                WorkLine = WorkLine.Replace("\\", "\\\\");
+                WorkLine = WorkLine.Replace("\"", "\\\"");
+                Result.AppendLine(CSharpPrefix + WorkLine + CSharpAppend);
+            }
+        }
+        return Result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>"/* Generic */ " + "\r\n" +
+" " + "\r\n" +
+"SET NOCOUNT ON;  " + "\r\n" +
+" " + "\r\n" +
+"/*-- Testing only --------------------- " + "\r\n" +
+"DECLARE @ps1 VARCHAR(100) " + "\r\n" +
+"DECLARE @ps2 VARCHAR(100) " + "\r\n" +
+"DECLARE @pn3 TINYINT " + "\r\n" +
+"DECLARE @pn4 INT " + "\r\n" +
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

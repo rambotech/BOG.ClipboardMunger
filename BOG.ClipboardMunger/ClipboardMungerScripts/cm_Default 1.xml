@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Default 1</Title>
+  <Description>Copy clipboard content vebatim back to Windows Clipboard (default script)</Description>
+  <Script>// template (CSharp)
+
+using System;
+
+public class Script : Interfaces.IClipboard
+{	
+	public string Munge (string clipboardSource)
+	{
+		return clipboardSource;
+	}
+}</Script>
+  <Language>1</Language>
+  <TestData>test test test</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+</ClipboardMungerScriptContainer>

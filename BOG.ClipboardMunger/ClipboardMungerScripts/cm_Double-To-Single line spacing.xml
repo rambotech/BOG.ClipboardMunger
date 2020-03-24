@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Double-To-Single line spacing</Title>
+  <Description>Replaces all double-spacing to single-spacing.  Line delimiter can be \r\n\r\n, \r\r, or \n\n</Description>
+  <Script>// template (CSharp)
+
+using System;
+using System.Text;
+
+public class Script : Interfaces.IClipboard
+{	
+	public string Munge (string clipboardSource)
+	{
+		string ReturnValue = clipboardSource.Replace ("\r\n\r\n", "\r\n");
+		ReturnValue = ReturnValue.Replace ("\r\r", "\r");
+		return ReturnValue.Replace ("\n\n", "\n");
+	}
+}</Script>
+  <Language>1</Language>
+  <TestData>The quick brown fox jumped over the lazy dog's back.
+
+The quick brown fox jumped over the lazy dog's back.
+
+The quick brown fox jumped over the lazy dog's back.
+
+
+
+The quick brown fox jumped over the lazy dog's back.
+
+
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

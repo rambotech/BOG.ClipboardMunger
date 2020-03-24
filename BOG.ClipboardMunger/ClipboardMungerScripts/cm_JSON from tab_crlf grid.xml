@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>JSON from tab_crlf grid</Title>
+  <Description>Clipboard contains a grid of data, using tabs between colums, and cr+lf between rows.  Usually, it is a block of cells (rows+columns) copied from Excel.
+
+- The first line must be headers which match the db table's column name.  The remaining lines are data.
+- The result is a list of json object, one row of data per object.
+
+</Description>
+  <Script>// Take a tab+crlf delimited grid of data from clipboard.
+// Run the data through it and post the JSON result.
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+		StringBuilder result = new StringBuilder();
+		Dictionary&lt;int,string&gt; Headers = new Dictionary&lt;int,string&gt;();
+		int LineIndex = 0;
+		int ColumnIndex = 0;
+		int ColumnCount = 0;
+		string InsertHeader = string.Empty;
+
+		result.AppendLine("[");
+		foreach (string ThisLine in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+		{
+			if (LineIndex == 0)
+			{
+				ColumnIndex = 0;
+				foreach (string ColumnName in ThisLine.Split(new char[] { '\t' }))
+				{
+					if (Headers.ContainsValue(ColumnName))
+					{
+						throw new ArgumentException("Duplicate header names encountered");
+					}
+					Headers.Add(Headers.Count, ColumnName.Replace("\\", "\\\\").Replace("\"", "\\\""));
+					ColumnIndex++;
+				}
+				ColumnCount = ColumnIndex;
+			}
+			else
+			{
+				if (LineIndex &gt; 1)
+				{
+					result.AppendLine(",");
+				}
+				result.AppendLine(" {");
+				ColumnIndex = 0;
+				string[] ColumnValues = ThisLine.Split(new char[] { '\t' });
+				int DataColumnCount = ColumnValues.Length;
+				while (ColumnIndex &lt; ColumnCount)
+				{
+					string ColumnValue = ColumnIndex &lt; DataColumnCount ? ColumnValues[ColumnIndex] : string.Empty;
+					if (ColumnIndex &gt; 0)
+					{
+						result.AppendLine(",");
+					}
+					result.Append("    \"" + Headers[ColumnIndex] + "\": ");
+					if (ColumnValue == "NULL")
+					{
+						result.Append("null");
+					}
+					else
+					{
+						result.Append("\"");
+						result.Append(ColumnValue.Replace("\\", "\\\\").Replace("\"", "\\\""));
+						result.Append("\"");
+					}
+					ColumnIndex++;
+				}
+				result.AppendLine();
+				result.Append(" }");
+			}
+			LineIndex++;
+		}
+		result.AppendLine();
+		result.AppendLine("]");
+
+		return result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>DataRow	Value	WildcardPattern	ExpectedResult	ThrowsException	ExceptionContains	Note
+0	The quick brown fox jumped	The quick brown fox jumped 	TRUE			
+1	The quick brown chicken jumped	The quick brown fox jumped 	FALSE	Exception	Illegal Value	
+2	The quick brown chicken jumped	NULL	FALSE			A note here
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

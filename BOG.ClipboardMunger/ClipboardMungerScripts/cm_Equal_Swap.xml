@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Equal Swap</Title>
+  <Description>Where a line has an equal sign, the items swap sides on the equal sign.
+
+If the line ends with a semi-colon, it is preserved.
+
+Set test for demo of multiple equal signs.</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+            StringBuilder output = new StringBuilder();
+	        foreach (string line in clipboardSource.Split (new string[] { "\r\n" }, StringSplitOptions.None))
+	        {
+	        	string work = line.Trim();
+	        	if (work.Length == 0 || ! work.Contains("="))
+	        	{
+	        		output.AppendLine (line);
+	        		continue;
+	        	}
+        		if (work[work.Length-1] == ';')
+        		{
+        			work = work.Substring(0, work.Length - 1);
+        		}
+        		StringBuilder InReverse = new StringBuilder();
+        		string[] segments = work.Split (new string[] { "=" }, StringSplitOptions.None);
+        		for (int index = segments.Length - 1; index &gt;= 0; index--)
+                {
+                	InReverse.Append (segments[index]);
+                	if (index &gt; 0) InReverse.Append ("=");
+                }
+                output.AppendLine(line.Replace(work, InReverse.ToString()));
+        	}
+        	return output.ToString();
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>// nothing happens here
+// something happens = here
+
+a C# switch
+test = prod;
+
+stage = dev
+
+this = that = other
+ </TestData>
+  <References>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

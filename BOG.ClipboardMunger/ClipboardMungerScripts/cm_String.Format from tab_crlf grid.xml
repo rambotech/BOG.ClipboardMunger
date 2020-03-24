@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>String.Format from tab_crlf grid</Title>
+  <Description>Clipboard contains a grid of data, using tabs between colums, and cr+lf between rows.  Columns are referenced ordinally, starting from the left at 0
+
+Input box specifies a string.Format() formatter to use against each row of the data, e.g.    Column 0: {0}, Column1: {1}
+
+The result is each row iterated through the formatter.</Description>
+  <Script>// Take a tab+crlf delimited grid of data from clipboard.
+// Prompt user for a string.Format() format string.
+// Run the data through it and post the results.
+
+// Note: Use the following in the prompt for the format, when running the test data in the test tab.
+// The data represents a collection of columns in a PostGRE SQL table.
+// Npgsql.NpgsqlParameter skuParam = new Npgsql.NpgsqlParameter("{1}", NpgsqlTypes.NpgsqlDbType.Varchar);\r\nskuParam.Value = r.ItemArray[{0}];\r\ncmd.Parameters.Add(skuParam);
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                string Reformatted = string.Empty;
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Reformat", "Enter the new line format... use {0} for the original line", ref Reformatted))
+                {
+                        return clipboardSource;
+                }
+
+                StringBuilder output = new StringBuilder();
+                foreach (string s in clipboardSource.Split (new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                        string[] elements = s.Split (new string[] { "\t" }, StringSplitOptions.None);
+                        output.AppendLine (string.Format (Reformatted, elements).Replace (@"\r", "\r").Replace (@"\n", "\n"));
+                }
+                return output.ToString();
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>0	isbn
+1	department
+2	title
+3	short_title</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

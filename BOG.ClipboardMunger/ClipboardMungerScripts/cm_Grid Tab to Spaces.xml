@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Grid Tab to Spaces</Title>
+  <Description>Clipboard contains a grid of data, using tabs between colums, and cr+lf between rows.  Usually, it is a block of cells (rows+columns) copied from Excel.
+
+Code expands the tabs to spaces, so that the longest string length in the column + 1 is the fixed length for the column.
+</Description>
+  <Script>// Take a tab+crlf delimited grid of data from clipboard.
+// Examine column lengths, and record max + 1
+// Rebuild the grid as fixed spaces.
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+		StringBuilder result = new StringBuilder();
+		int LineIndex = 0;
+		int ColumnIndex = 0;
+		int ColumnCount = 0;
+		string InsertHeader = string.Empty;
+
+		string DatabaseName = string.Empty;
+		if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Database", "Enter the database name, or leave blank to omit the USE statement", ref DatabaseName))
+		{
+			DatabaseName = string.Empty;
+		}
+
+		string TableName = string.Empty;
+		if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Table", "Enter the table name for the update", ref TableName))
+		{
+			TableName = "[Table_Name_Here]";
+		}
+
+		if (DatabaseName != string.Empty)
+		{
+			result.AppendLine(string.Format ("USE [{0}]", DatabaseName));
+			result.AppendLine("GO");
+			result.AppendLine();
+		}
+
+		result.AppendLine(string.Format ("-- SET IDENTITY_INSERT {0} ON;", TableName));
+		result.AppendLine(string.Format ("BEGIN TRAN", TableName));
+		result.AppendLine();
+		result.AppendLine(string.Format ("BEGIN TRY", TableName));
+		result.AppendLine();
+
+		foreach (string ThisLine in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+		{
+			if (LineIndex == 0)
+			{
+				ColumnIndex = 0;
+				InsertHeader = string.Format ("\tINSERT INTO [{0}] (\r\n", TableName);
+				foreach (string ColumnName in ThisLine.Split(new char[] { '\t' }))
+				{
+					if (ColumnIndex &gt; 0)
+					{
+							InsertHeader += ",\r\n";
+					}
+					InsertHeader += "\t\t[" + ColumnName + "]";
+					ColumnIndex++;
+				}
+				InsertHeader += "\r\n\t) VALUES (\r\n";
+				ColumnCount = ColumnIndex;
+				LineIndex++;
+			}
+			else
+			{
+				string InsertLine = InsertHeader;
+				ColumnIndex = 0;
+				foreach (string ColumnValue in ThisLine.Split(new char[] { '\t' }))
+				{
+					if (ColumnIndex &gt; 0)
+					{
+						InsertLine += ",\r\n";
+					}
+					if (ColumnValue == "NULL")
+					{
+						InsertLine += "\t\t" + ColumnValue;
+					}
+					else
+					{
+						InsertLine += "\t\t'" + ColumnValue.Replace("'", "''") + "'";
+					}
+					ColumnIndex++;
+				}
+				if (ColumnIndex == ColumnCount)
+				{
+					InsertLine += "\r\n\t)";
+					result.AppendLine(InsertLine);
+					result.AppendLine();
+				}
+				else
+				{
+					result.AppendLine(string.Format("\t/* Line {0}: header count is: {1}, but value count is: {2} -- skipped */", LineIndex+1, ColumnCount, ColumnIndex));
+					result.AppendLine();
+				}
+			}
+		}
+		LineIndex++;
+
+		result.AppendLine("\tCOMMIT TRAN  /* Success if at this point */");
+		result.AppendLine("\tPRINT 'Successful... committed'");
+		result.AppendLine("END TRY");
+		result.AppendLine();
+		result.AppendLine("BEGIN CATCH");
+		result.AppendLine("\tROLLBACK TRAN");
+		result.AppendLine("\tPRINT 'Failure... rollback'");
+		result.AppendLine("END CATCH");
+		result.AppendLine();
+		result.AppendLine(string.Format ("-- SET IDENTITY_INSERT {0} OFF;", TableName));
+		result.AppendLine();
+		result.AppendLine("GO");
+		result.AppendLine();
+		result.AppendLine("/*  END OF DOCUMENT  */");
+		result.AppendLine();
+
+		return result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>A	B	C	D	E			
+10	R	S	T	U			
+20	G	H	I	J			
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

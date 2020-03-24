@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>SQL to CSharp string (undo)</Title>
+  <Description>Converts a SQL sequence between a literal query, or that query wrapped in CSharp string delimters.
+
+Code is assumed to be multi-line, and Carriage Return/Line Feed characters are injected.
+
+e.g.
+
+"SELECT MyColumn1, MyColumn2, '\\R\\' AS Marker, '\"' AS Delimeter" + " \r\n" +
+FROM Table" + " \r\n";
+
+.. becomes .. 
+
+SELECT MyColumn1, MyColumn2, '\R\' AS Marker, '"' AS Delimeter
+FROM Table
+
+
+</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+    	const int MaxCharsPerLine = 70;
+        StringBuilder Result = new StringBuilder();
+        string clipboardCleaned = TrueTrim(clipboardSource);
+
+    	Result.Append("\"");
+    	int ColumnIndex = 0;
+    	for (int charIndex = 0; charIndex &lt; clipboardCleaned.Length; charIndex++)
+    	{
+    		char c = clipboardCleaned[charIndex];
+    		ColumnIndex++;
+
+    		switch (c)
+    		{
+    			case '\\':
+    				Result.Append("\\\\");
+    				break;
+    			case '"':
+    				Result.Append("\\\"");
+    				break;
+    			case '\t':
+    				Result.Append("\\t");
+    				break;
+    			case '\r':
+    				Result.Append("\\r");
+    				break;
+    			case '\n':
+    				Result.Append("\\n");
+					ColumnIndex = MaxCharsPerLine;
+    				break;
+    			default:
+    				Result.Append(c);
+    				break;
+    		}
+    		if (ColumnIndex % MaxCharsPerLine == 0)
+    		{
+    			Result.AppendLine("\"+");
+    			Result.Append("\"");
+    			ColumnIndex = 0;
+    		}
+        }
+        Result.Append("\";");
+        return Result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>"/* Generic */\r\n"+
+"\r\n"+
+"SET NOCOUNT ON;\r\n"+
+"\r\n"+
+"/*-- Testing only --------------------- */\r\n"+
+"DECLARE @ps1 VARCHAR(100)\r\n"+
+"DECLARE @ps2 VARCHAR(100) /* abcdefghijklmnopq\r\n"+
+"DECLARE @pn3 TINYINT\r\n"+
+"DECLARE @pn4 INT\r\n"+
+"";</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

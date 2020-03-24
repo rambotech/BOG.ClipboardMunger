@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Selective Columns from Grid</Title>
+  <Description>Takes rows with tab separated columns, requests operator list of columns to extract, and rebuild the grid with only those columns.</Description>
+  <Script>// Extract rows and columns from a grid, build a new grid with only the specified columns.
+
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Text;
+using System.Windows.Forms;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                string Delimiter = "\t";
+                string ExtractList = "0,1,2,3,4,5,6,7,8,9,10,11,12,13";
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Enter Column offsets to extract (e.g. 0, 2,3)", "Columns to preserve", ref ExtractList))
+                {
+                        return clipboardSource;
+                }
+                else
+                {
+                	List&lt;byte&gt; columns = new List&lt;byte&gt;();
+                	foreach (string s in ExtractList.Split (new string[] { "\t", " ", "-", ";", "," }, StringSplitOptions.RemoveEmptyEntries))
+                	{
+                		byte offset = byte.Parse (s);
+                		if (! columns.Contains(offset)) 
+                		{
+                			columns.Add(offset);
+                		}
+					}                	
+                	
+                	StringBuilder answer = new StringBuilder();
+                	foreach (string line in clipboardSource.Split (new string[] {"\r\n"}, StringSplitOptions.None))
+                	{
+						string[] ColumnValues = line.Split(new string[] {"\t" }, StringSplitOptions.None);
+						for (int Index = 0; Index &lt; columns.Count; Index++)
+						{
+							if (Index &gt; 0) answer.Append("\t");
+							answer.Append(columns[Index] &gt;= 0 &amp;&amp; columns[Index] &lt;= ColumnValues.GetUpperBound(0) ? ColumnValues[columns[Index]] : string.Empty);
+						}
+						answer.AppendLine();
+                	}
+                	return answer.ToString();
+                }
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>ITEM ID	ROLE MANUFACTURER
+01683232	parent	Max Fiend
+01541210	parent	Max Fiend
+01274148	parent	Max Fiend
+00965038	parent	Max Fiend
+01845526	parent	Max Fiend
+03192327	parent	Max Fiend
+03251439	parent	Max Fiend
+03274434	parent	Max Fiend
+01884996	parent	Max Fiend
+</TestData>
+  <References>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

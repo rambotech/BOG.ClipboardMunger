@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Strip Blank Lines</Title>
+  <Description>Does what it says.. this is not double-space to single-space: it removes any blank line.</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                return string.Join("\r\n", clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries));
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>Line1
+
+
+Line2
+
+
+Line3
+Line4
+
+Line5
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

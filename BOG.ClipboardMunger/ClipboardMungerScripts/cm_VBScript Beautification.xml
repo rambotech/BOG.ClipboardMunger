@@ -1,0 +1,316 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>VBScript Beautification</Title>
+  <Description>Takes VBScript and adjusts the identation.  Not designed for ASP, only VBS</Description>
+  <Script>// VBScript Beautification
+
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
+
+public class Script : Interfaces.IClipboard
+{	
+	public string Munge (string clipboardSource)
+	{
+		return AdjustIndentation(clipboardSource, 0);
+	}
+
+    private string AdjustIndentation(string sourceCode, byte indentSpaceCount)
+    {
+        string Line = string.Empty;
+        string TestLine = string.Empty;
+        string TestLine1 = string.Empty;
+        int IndentIndex = 0;
+        int Index = 0;
+        StringBuilder ImprovedSourceCode = new StringBuilder();
+        string WhiteSpace = "\u0020\u0009";
+        bool AdjustIndent = false;
+        bool OneLineIndentPlus = false;
+        bool InsideQuote = false;
+        string[] LineTerminator = { "\u000D\u000A" };
+
+        // The indent and unindent list is as complete as I could make it (from the MS VBScript reference).
+        IndentKeyword[] Key = {
+            new IndentKeyword (@"if ", @" then", 0, 1),
+            new IndentKeyword (@"select ", "", 0, 2),
+            new IndentKeyword (@"sub ", "", 0, 1),
+            new IndentKeyword (@"function ", "", 0, 1),
+            new IndentKeyword (@"do ","", 0, 1),
+            new IndentKeyword (@"while ","", 0, 1),
+            new IndentKeyword (@"for ","", 0, 1),
+            new IndentKeyword (@"case ", "", -1, 1),
+            new IndentKeyword (@"with ","", 0, 1),
+            new IndentKeyword (@"class ","", 0, 1),
+            new IndentKeyword (@"public sub ","", 0, 1),
+            new IndentKeyword (@"private sub ","", 0, 1),
+            new IndentKeyword (@"public function ","", 0, 1),
+            new IndentKeyword (@"private function ","", 0, 1),
+            new IndentKeyword (@"property get ","", 0, 1),
+            new IndentKeyword (@"public property get ","", 0, 1),
+            new IndentKeyword (@"private property get ","", 0, 1),
+            new IndentKeyword (@"property let ","", 0, 1),
+            new IndentKeyword (@"public property let ","", 0, 1),
+            new IndentKeyword (@"private property let ","", 0, 1),
+            new IndentKeyword (@"property set ", "", 0, 1),
+            new IndentKeyword (@"public property set ", "", 0, 1),
+            new IndentKeyword (@"private property set ", "", 0, 1),
+            new IndentKeyword (@"else ", "", -1, 1),
+            new IndentKeyword (@"elseif ", "", -1, 1),
+            new IndentKeyword (@"end if ", "", -1, 0),
+            new IndentKeyword (@"end select ", "", -2, 0),
+            new IndentKeyword (@"end sub ", "", -1, 0),
+            new IndentKeyword (@"end function ", "", -1, 0),
+            new IndentKeyword (@"loop ", "", -1, 0),
+            new IndentKeyword (@"wend ", "", -1, 0),
+            new IndentKeyword (@"next ", "", -1, 0),
+            new IndentKeyword (@"end class ", "", -1, 0),
+            new IndentKeyword (@"end property ", "", -1, 0),
+            new IndentKeyword (@"end with ", "", -1, 0)
+        };
+
+        foreach (string RawLine in Regex.Split(sourceCode, "\x0D\x0A"))
+        {
+            // Remove all whitespace on the left
+            Index = -1;
+            Line = RawLine;
+            while (++Index &lt; RawLine.Length)
+                if (WhiteSpace.IndexOf(RawLine[Index]) == -1) break;
+            if (Index == RawLine.Length)
+            {
+                Line = String.Empty;
+            }
+            else
+            {
+                if (Index &gt; 0) Line = RawLine.Substring(Index);
+            }
+
+            // Remove all whitespace on the right
+            Index = Line.Length;
+            while (--Index &gt;= 0)
+                if (WhiteSpace.IndexOf(Line[Index]) == -1) break;
+            if (Index == -1) Line = String.Empty;
+            if (Index &gt;= 0 &amp;&amp; Index &lt; Line.Length - 1) Line = Line.Substring(0, Index + 1);
+
+            TestLine = Line;
+
+            // Find any in-line comment marker, and truncate the comment if it exists.
+            InsideQuote = false;
+            for (Index = 0; Index &lt; TestLine.Length; Index++)
+            {
+                if (!InsideQuote &amp;&amp; TestLine[Index].ToString() == @"'") break;
+                if (TestLine[Index].ToString() == "\"") InsideQuote = !InsideQuote;
+            }
+            if (Index == 0)
+            {
+                TestLine = String.Empty;
+            }
+            else
+            {
+                if (Index &lt; TestLine.Length)   // Truncate comment
+                    TestLine = TestLine.Substring(0, Index);
+            }
+
+            // Remove all whitespace on the right
+            Index = TestLine.Length;
+            while (--Index &gt;= 0)
+                if (WhiteSpace.IndexOf(TestLine[Index]) == -1) break;
+            if (Index == -1) TestLine = String.Empty;
+            if (Index &gt;= 0 &amp;&amp; Index &lt; TestLine.Length - 1) TestLine = TestLine.Substring(0, Index + 1);
+
+            // The test string is set to lower case for evaluation.
+            TestLine = TestLine.ToLower();    // + space(32)
+            TestLine1 = TestLine + ' ';
+
+            // Adjust Indentation as needed
+            AdjustIndent = false;
+            for (Index = 0; Index &lt;= Key.GetUpperBound(0); Index++)
+                if (TestLine1.IndexOf(Key[Index].StartPattern) == 0)
+                {
+                    if (Key[Index].EndPattern.Length == 0)
+                    {
+                        AdjustIndent = true;
+                        break;
+                    }
+                    if (TestLine.Length &gt;= Key[Index].EndPattern.Length)
+                    {
+                        if (TestLine.Substring(TestLine.Length - Key[Index].EndPattern.Length, Key[Index].EndPattern.Length) == Key[Index].EndPattern)
+                        {
+                            AdjustIndent = true;
+                            break;
+                        }
+                    }
+                }
+
+            if (AdjustIndent)
+            {
+                IndentIndex += Key[Index].PreIndent;
+                if (IndentIndex &lt; 0) IndentIndex = 0;  // prevents negative indentation, when missing "end if" without "if", etc.
+            }
+            IndentIndex += OneLineIndentPlus ? 1 : 0;
+
+            if (indentSpaceCount &lt;= 0)
+                ImprovedSourceCode.Append(new string('\u0009', IndentIndex));  // use tabs
+            else
+                ImprovedSourceCode.Append(new string(' ', indentSpaceCount * IndentIndex));  // use spaces
+            ImprovedSourceCode.AppendLine(Line);
+
+            IndentIndex -= OneLineIndentPlus ? 1 : 0;
+			OneLineIndentPlus = TestLine.Length &gt; 0 &amp;&amp; TestLine.Substring(TestLine.Length - 1, 1) == "_";
+
+            if (AdjustIndent)
+            {
+                IndentIndex += Key[Index].PostIndent;
+                if (IndentIndex &lt; 0) IndentIndex = 0;  // prevents negative indentation.
+            }
+        }
+        return ImprovedSourceCode.ToString();
+    }
+
+    class IndentKeyword
+    {
+        string _StartPattern;
+        string _EndPattern;
+        int _PreIndent;
+        int _PostIndent;
+
+        public IndentKeyword(string startPattern, string endPattern, int preIndent, int postIndent)
+        {
+            _StartPattern = startPattern;
+            _EndPattern = endPattern;
+            _PreIndent = preIndent;
+            _PostIndent = postIndent;
+        }
+
+        public string StartPattern
+        {
+            get { return _StartPattern; }
+            set { _StartPattern = StartPattern; }
+        }
+
+        public string EndPattern
+        {
+            get { return _EndPattern; }
+            set { _EndPattern = EndPattern; }
+        }
+
+        public int PreIndent
+        {
+            get { return _PreIndent; }
+            set { _PreIndent = PreIndent; }
+        }
+
+        public int PostIndent
+        {
+            get { return _PostIndent; }
+            set { _PostIndent = PostIndent; }
+        }
+	}
+}
+</Script>
+  <Language>1</Language>
+  <TestData>' Mail Letter
+
+Set oXMLdoc = CreateObject("MSXML2.DOMDocument")
+With oXMLdoc
+	.async = false
+	.load(Replace(WScript.ScriptFullName, ".vbs", ".xml"))
+End With
+
+oXMLdoc.setProperty "SelectionLanguage", "XPath"
+
+Set oDic = CreateObject ("Scripting.Dictionary")
+nErr = 0
+For nI = 1 To 100
+On Error Resume Next
+sToken = oXMLdoc.selectSingleNode("/bulkmail/config/token[" &amp; nI &amp; "]/@name").Text
+nErr = Err.Number
+On Error Goto 0
+If nErr &lt;&gt; 0 Then
+ Exit For
+	End If
+
+	sValue = oXMLdoc.selectSingleNode("/bulkmail/config/token[" &amp; nI &amp; "]/@value").Text
+
+	sCast = LCase (oXMLdoc.selectSingleNode("/bulkmail/config/token[" &amp; nI &amp; "]/@cast").Text)
+	If sCast = "string" Then
+	   xValue = sValues
+	ElseIf sCast = "integer" Then
+	   xValue = CInt (sValues)
+	ElseIf sCast = "long" Then
+	   xValue = CLng (sValues)
+	End If
+
+	oDic.Add sToken, xValue
+Next
+
+sURL = oXMLdoc.selectSingleNode("/bulkmail/list[1]/source_url").Text
+sSubject = oXMLdoc.selectSingleNode("/bulkmail/list[1]/subject").Text
+sFrom = oXMLdoc.selectSingleNode("/bulkmail/list[1]/from").Text
+sCC = oXMLdoc.selectSingleNode("/bulkmail/list[1]/cc").Text
+sBCC = oXMLdoc.selectSingleNode("/bulkmail/list[1]/bcc").Text
+
+Set iConf = CreateObject("CDO.Configuration")
+Set Flds = iConf.Fields
+With Flds
+	 .Item("http://schemas.microsoft.com/cdo/configuration/sendusing") = oDic ("sendusing")
+ .Item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = oDic ("smtpserver")
+ .Item("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") = oDic ("smtpauthenticate")
+ .Item("http://schemas.microsoft.com/cdo/configuration/sendusername") = oDic ("sendusername")
+ .Item("http://schemas.microsoft.com/cdo/configuration/sendpassword") = oDic ("sendpassword")
+
+	 '.Item("http://schemas.microsoft.com/cdo/configuration/sendusing") =  = oDic ("sendusing")
+	 '.Item("http://schemas.microsoft.com/cdo/configuration/smtpserver") =  = oDic ("smtpserver")
+	 .Update
+
+End With
+
+iIndex = 1
+Set oNode = oXMLdoc.selectSingleNode("/bulkmail/list[1]/delivery[" &amp; iIndex &amp; "]/email")
+While Not oNode Is Nothing
+
+	sEmailAddress = oNode.Text
+	Set oNode = Nothing
+	sGreeting = oXMLdoc.selectSingleNode("/bulkmail/list[1]/delivery[" &amp; iIndex &amp; "]/greeting").Text
+
+	Set iMsg = CreateObject("CDO.Message")
+	With iMsg
+		Set .Configuration = iConf
+		.From = sFrom
+		.To = sEmailAddress
+		If sCC &lt;&gt; "" Then
+		   .CC = sCC
+		End If
+		If sBCC &lt;&gt; "" Then
+	   .BCC = sBCC
+		End If
+		.Subject = sSubject
+		.CreateMHTMLBody RTrim (Replace (sURL, "##GREETING##", sGreeting))
+		iErr = 0
+		sErr = ""
+on error resume next
+		.Send
+		nErr = Err.Number
+		sErr = Err.Description
+		on error goto 0
+	End With
+	Set iMsg = Nothing
+	If iErr &lt;&gt; 0 Then
+	   WScript.Echo "Error to: " &amp; sEmailAddress
+	   WScript.Echo nErr &amp; ": " &amp; sErr
+	Else
+	   WScript.Echo "Sent message to: " &amp; sEmailAddress
+	End If
+
+	iIndex = iIndex + 1
+	Set oNode = oXMLdoc.selectSingleNode("/bulkmail/list[1]/delivery[" &amp; iIndex &amp; "]/email")
+WEnd
+Set oNode = Nothing
+
+Set Flds = Nothing
+Set iConf = Nothing
+Set oXMLdoc = Nothing</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>SMS Message</Title>
+  <Description>Sends an SMS message
+
+Doesn't munge the clipboard: it becomes the default text to send in the SMS.
+
+You must replace myserver.com with the name of your domain, and possibly also change "mail" to the name you use for the SMTP server.
+</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+using System.Web;
+using System.Net.Mail;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                string Address = "@txt.att.net";
+                string Message = clipboardSource;
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Address", "Enter the SMS address (e.g. 5995551212@txt.att.net", ref Address))
+                {
+                        return clipboardSource;
+                }
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Message", "Enter the text to send", ref Message))
+                {
+                        return clipboardSource;
+                }
+                System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage(
+                    System.Environment.GetEnvironmentVariable("USERNAME") + "@myserver.com", 
+                    Address,
+                    string.Empty,
+                    Message);
+                System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient("mail.myserver.com");
+                client.Send(message);
+                return Message;
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>The quick brown fox jumped over the lazy dog's back.</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

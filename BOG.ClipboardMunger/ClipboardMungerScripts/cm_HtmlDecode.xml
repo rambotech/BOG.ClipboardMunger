@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>HtmlDecode</Title>
+  <Description>&amp;amp; to real &amp; , etc etc</Description>
+  <Script>// Simple UnEscape functionality.
+
+using System;
+using System.Text;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+    {
+       return System.Web.HttpUtility.HtmlDecode(clipboardSource);
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;
+&amp;lt;settings&amp;gt;
+  &amp;lt;ClipboardMunger.ScriptFolder&amp;gt;C:\Users\user\Documents\ClipboardMungerScripts&amp;lt;/ClipboardMunger.ScriptFolder&amp;gt;
+  &amp;lt;Tester.EventTemplateSelected&amp;gt;Default&amp;lt;/Tester.EventTemplateSelected&amp;gt;
+  &amp;lt;ManagerMDI.FileMenu.MRU.0.FileName&amp;gt;C:\Users\user\Documents\TempEnv.wkconf&amp;lt;/ManagerMDI.FileMenu.MRU.0.FileName&amp;gt;
+  &amp;lt;ManagerMDI.FileMenu.MRU.0.DateTime&amp;gt;12/4/2015 6:42:18 PM&amp;lt;/ManagerMDI.FileMenu.MRU.0.DateTime&amp;gt;
+&amp;lt;/settings&amp;gt;</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>PostGRE result to tab_crlf grid</Title>
+  <Description>Takes a PostGRE SQL result using ; as column delimiters, double-quotes around each column, and CR/LF line delimeters,
+and converts it tab-delimited, unquoted data which can be quickly copied into Excel.
+
+</Description>
+  <Script>// Convert PostGRE SQL result output to form suitable for pasting into Excel.
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+
+public class Script : Interfaces.IClipboard
+{
+	StringBuilder result = new StringBuilder();
+	string element = string.Empty;
+	
+	private string GetElement ()
+	{
+		string result = element == "\"" ? string.Empty : element;
+		element = string.Empty;
+		return result;
+	}
+	
+    public string Munge(string clipboardSource)
+    {
+		int CharIndex = -1;
+		bool InQuote = false;
+		bool PrevWasQuote = false;
+		result = new StringBuilder();
+		element = string.Empty;
+		while (++CharIndex &lt; clipboardSource.Length)
+		{
+			if (clipboardSource[CharIndex] == '\r') 
+			{
+				result.Append(GetElement());		
+				PrevWasQuote = false;
+				continue; // ignore
+			}
+			else if (clipboardSource[CharIndex] == '\n')
+			{
+				result.Append(GetElement());		
+				result.AppendLine();
+				PrevWasQuote = false;
+				continue;
+			}
+			else if (clipboardSource[CharIndex] == ';')
+			{
+				if (InQuote == true)
+				{
+					element += ';';
+				}
+				else
+				{
+					result.Append(GetElement());		
+					result.Append ('\t');
+				}
+				PrevWasQuote = false;
+				continue;
+			}
+			else if (clipboardSource[CharIndex] == '"')
+			{
+				InQuote = ! InQuote;
+				if (PrevWasQuote)
+				{
+					element += '"';
+				}
+				PrevWasQuote = true;
+				continue;
+			}
+			else 
+			{
+				element += clipboardSource[CharIndex];
+				PrevWasQuote = false;
+			}
+		}
+		if (element.Length &gt; 0) 
+		{
+			result.Append(GetElement());		
+		}
+		return result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>"In Both";94461203;"T";87777;"2";1;"K"
+"In DB Only";911098;"T";6799;"2";1;"N"
+"In Both";94471062;"T";87777;"2";1;"K"
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

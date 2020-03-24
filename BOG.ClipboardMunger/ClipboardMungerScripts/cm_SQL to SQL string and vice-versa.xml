@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>SQL to SQL string and vice-versa</Title>
+  <Description>Converts a SQL sequence between a literal query, or that query wrapped in SQL string delimters (').
+
+Code is assumed to be multi-line, and Carriage Return/Line Feed characters are injected.
+
+e.g.
+
+SELECT MyColumn1, MyColumn2, '\R\' AS Marker, '"' AS Delimeter
+FROM Table
+
+.. becomes .. 
+
+'SELECT MyColumn1, MyColumn2, ''\R\'' AS Marker, ''"'' AS Delimeter' + CHAR(13) + CHAR(10) +
+'FROM Table' + CHAR(13) + CHAR(10) +
+'' + CHAR(13) + CHAR(10)
+</Description>
+  <Script>// SQL to SQL string, and vice-versa
+
+using System;
+using System.Text;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+            const string Prefix = "'";
+            const string Append = " ' + CHAR(13) + CHAR(10) +";
+            const string EndsWith = " ' + CHAR(13) + CHAR(10)";
+            StringBuilder Result = new StringBuilder();
+            string clipboardCleaned = clipboardSource.Trim();
+
+            if (clipboardCleaned.IndexOf(EndsWith) &gt; -1)
+            {
+                foreach (string line in clipboardCleaned.Split(new string[] { "\r\n" }, StringSplitOptions.None))
+                {
+                    if (line.Trim().Length == 0) continue;
+                    string WorkLine = line.Substring(Prefix.Length);
+                    WorkLine = WorkLine.Replace("''", "'");
+                    if (WorkLine.IndexOf (Append) &gt;= 0) WorkLine = WorkLine.Substring(0, WorkLine.Length - Append.Length);
+                    if (WorkLine.IndexOf (EndsWith) &gt;= 0) WorkLine = WorkLine.Substring(0, WorkLine.Length - EndsWith.Length);
+                    Result.AppendLine(WorkLine);
+                }
+            }
+            else
+            {
+                foreach (string line in clipboardCleaned.Split(new string[] { "\r\n" }, StringSplitOptions.None))
+                {
+                    if (line.Trim().Length == 0)
+                    {
+                        Result.Append(Prefix);
+                        Result.AppendLine(Append);
+                        continue;
+                    }
+                    string WorkLine = line;
+                    WorkLine = WorkLine.Replace("'", "''");
+                    Result.Append(Prefix);
+                    Result.Append(WorkLine);
+                    Result.AppendLine(Append);
+                }
+                Result.Append(Prefix);
+                Result.AppendLine(EndsWith);
+            }
+            return Result.ToString();
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>SET NOCOUNT ON;
+
+Declare				
+	@dToday DATETIME,			
+	@dYesterday DATETIME,			
+	@Message VARCHAR(MAX)
+				
+SET @dToday              = Convert(Varchar, DATEADD(dd,0,GetDate()), 101)				
+SET @dYesterday          = DATEADD(dd, -1, @dToday)
+SET @Message             = ''				
+
+If object_id('Tempdb..#tResult') Is Not Null DROP TABLE #tResult				
+
+
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

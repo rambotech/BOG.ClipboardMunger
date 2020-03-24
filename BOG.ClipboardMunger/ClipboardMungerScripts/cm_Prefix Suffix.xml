@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Prefix Suffix</Title>
+  <Description>Allows text to be prefixed, suffixed, or both to each line of text.  %INDEX% in the prefix or suffix text is replaced with the line number.
+
+When source is:
+
+Line 1
+Line 2
+Line 3
+
+Line 4
+
+... and prefix is %INDEX%--
+...and suffix is .mp3
+
+Result is...
+1--Line 1.mp3
+2--Line 2.mp3
+3--Line 3.mp3
+4--Line 4.mp3
+</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                string Prefix = string.Empty;
+                string Suffix = string.Empty;
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Prefix", "Enter the text to prefix to the beginning of each line", ref Prefix))
+                {
+                        return clipboardSource;
+                }
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Suffix", "Enter the text to suffix to the end of each line", ref Suffix))
+                {
+                        return clipboardSource;
+                }
+				
+				StringBuilder result = new StringBuilder();
+				int LineIndex = 0;
+				foreach (string Line in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+				{
+					LineIndex++;
+					result.AppendLine(
+						HttpUtility.UrlDecode(Prefix.Replace ("%INDEX%", LineIndex.ToString())) + 
+						Line + 
+						HttpUtility.UrlDecode(Suffix.Replace ("%[INDEX]%", LineIndex.ToString()))
+					);
+				}
+                return result.ToString();
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>Line 1
+Line 2
+Line 3
+
+Line 4</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

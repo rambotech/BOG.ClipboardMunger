@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>CSharp Class Fill out (object-bias)</Title>
+  <Description>Takes a skeleton class in CSharp which has only properties, and builds a public class with instantiaion, and get/set methods for each property.
+
+The class can contain implementation/inheritance, and can have one or more attributes prefixed to a property. See the test tab for an example.
+
+This internally makes all storage an object-type, with the property casting to the real-type at set; and get;</Description>
+  <Script>// Take a simple CSharp class sample, with only property values, and make a public
+// class form it with get/set methods for each property, where the get/set method
+// uses the property's original name, and stores in local variable named using a
+// prefix.
+//
+// E.g.
+// class MyClass
+// {
+//   int Sequence;
+//   string[] DisplayItems;
+//   OtherClass.Special x;
+// }
+//  Object bias stores all properties as object type, and object-return returns them
+//  as objects.. the property get will cast the object to its intended type (string, etc),
+//  so the consumer must be aware of a potential exception when a property is null.
+
+using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+        {
+            StringBuilder output = new StringBuilder();
+            Dictionary&lt;int, string[]&gt; Property = new Dictionary&lt;int, string[]&gt;();
+            StringDictionary Attribute = new StringDictionary();
+            List&lt;string&gt; AttributeHolder = new List&lt;string&gt;();
+            bool InDefinitions = false;
+            string ClassName = string.Empty;
+            string ClassImplements = string.Empty;
+
+            foreach (string l in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                string s = l.Trim();
+                while (s.Length &gt; 0 &amp;&amp; s[0] == '\t') s = s.Length == 1 ? string.Empty : s.Substring(1);
+                while (s.Length &gt; 0 &amp;&amp; s[s.Length - 1] == '\t') s = s.Length == 1 ? string.Empty : s.Substring(0, s.Length - 2);
+
+                if (! InDefinitions &amp;&amp; l.IndexOf("class ") == 0)
+                {
+                    output.AppendLine(string.Format ("public {0}", s));
+                    ClassName = l.Substring(5).Trim();
+                    if (ClassName.IndexOf (':') &gt;= 0)
+                    {
+                        if (ClassName.Length - 1 &gt; ClassName.IndexOf (':'))
+                        {
+                            ClassImplements = ClassName.Substring (ClassName.IndexOf (':') + 1).Trim();
+                        }
+                        ClassName = ClassName.Substring (0, ClassName.IndexOf (':')).Trim();
+                    }
+                }
+                else if (l.Substring(0) == "{")
+                {
+                    InDefinitions = true;
+                    output.AppendLine(s);
+                }
+                else if (l.Substring(0) == "}")
+                {
+                    // Create the instantiation method
+                    output.AppendLine();
+                    output.AppendLine(string.Format("\tpublic {0} ()", ClassName));
+                    output.AppendLine("\t{");
+                    output.AppendLine("\t}");
+
+                    // Create an instantiation method with all the properties as object parameters (from database storage).
+                    output.AppendLine();
+                    output.Append(string.Format("\tpublic {0} (", ClassName));
+                    // Got all the definitions, so create the properties.
+                    string comma = string.Empty;
+                    for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+                    {
+	                    output.Append(string.Format("{0}object p_{1}", comma, Property[Index][1]));
+	                    comma = ", ";
+                    }
+                    output.AppendLine(")");
+                    output.AppendLine("\t{");
+                    for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+                    {
+	                    output.AppendLine(string.Format("\t\tthis._{0} = p_{1};", Property[Index][1], Property[Index][1]));
+                    }
+                    output.AppendLine("\t}");
+
+                    // Create an instantiation method with an existing instance as the parameter.
+                    output.AppendLine();
+                    output.AppendLine(string.Format("\tpublic {0} ({0} p_obj)", ClassName));
+                    output.AppendLine("\t{");
+                    for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+                    {
+	                    output.AppendLine(string.Format("\t\tthis._{0} = p_obj.{1};", Property[Index][1], Property[Index][1]));
+                    }
+                    output.AppendLine("\t}");
+
+                    // Create an instantiation method with object[] as the parameter.
+                    output.AppendLine();
+                    output.AppendLine(string.Format("\tpublic {0} (object[] p_obj)", ClassName));
+                    output.AppendLine("\t{");
+                    int Index1 = 0;
+                    for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+                    {
+	                    output.AppendLine(string.Format("\t\tthis._{0} = p_obj[{1}];", Property[Index][1], Index1++));
+                    }
+                    output.AppendLine("\t}");
+
+                    // Got all the definitions, so create the properties.
+                    for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+                    {
+                        output.AppendLine();
+
+                        if (Attribute.ContainsKey(Property[Index][1]))
+                        {
+                            foreach (string Line in Attribute[Property[Index][1]].Split (new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                output.AppendLine(string.Format("\t{0}", Line));
+                            }
+                        }
+
+                        output.AppendLine(string.Format("\tpublic {0} {1}", Property[Index][0], Property[Index][1]));
+                        output.AppendLine("\t{");
+                        output.AppendLine(string.Format("\t\tget {{ return ({1}) _{0}; }}", Property[Index][1], Property[Index][0]));
+                        output.AppendLine(string.Format("\t\tset {{ _{0} = (object) value; }}", Property[Index][1]));
+                        output.AppendLine("\t}");
+                    }
+                    output.AppendLine("}");
+                    InDefinitions = false;
+                    break;
+                }
+                else if (InDefinitions &amp;&amp; s.Length &gt; 0 &amp;&amp; s[s.Length - 1] == ';')
+                {
+                    string[] a = s.Substring(0, s.Length - 1).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (a.Length &lt; 2)
+                    {
+                        output.AppendLine(l);
+                    }
+                    else
+                    {
+                        Property.Add(Property.Keys.Count, new string[] { a[0], a[1] });
+                        StringBuilder AttributeLines = new StringBuilder();
+                        foreach (string AttributeLine in AttributeHolder) AttributeLines.AppendLine(AttributeLine);
+                        Attribute.Add(a[1], AttributeLines.ToString());
+                        AttributeHolder.Clear();
+
+                        output.Append(string.Format("\tprivate object _{0}", a[1]));
+                        for (int i=2; i&lt;a.Length; i++)
+                        {
+                            if (a[i] == "=")
+                            {
+                               output.Append(" = (object)");
+                            }
+                            else
+                            {
+                               output.Append(string.Format(" {0}", a[i]));
+                            }
+                        }
+                        output.AppendLine(";");
+                    }
+                }
+                else if (InDefinitions &amp;&amp; s.Length &gt; 0 &amp;&amp; s[0] == '[' &amp;&amp; s[s.Length - 1] == ']')
+                {
+                    AttributeHolder.Add(s);
+                }
+                else
+                {
+                    output.AppendLine(s);
+                }
+            }
+            return output.ToString();
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>[ISerializable]
+class MyClass : IClonable
+{
+	[CategoryAttribute("Admin"), DisplayNameAttribute("Sequence"), DescriptionAttribute("Controls the sequence of placement."), ReadOnly(false)]
+	int Sequence = 27;
+	
+	[CategoryAttribute("Admin"), DisplayNameAttribute("Display Items"), DescriptionAttribute("The collection of items to display."), ReadOnly(false)]
+	[XmlAttribute ("second")]
+	string[] DisplayItems = new string[] {"Test", "Stage", "Production"};
+	
+	[CategoryAttribute("Admin"), DisplayNameAttribute("Connection String"), DescriptionAttribute("The location of SQL, Access, MySQL or PostGre SQL."), ReadOnly(false)]
+	string ConnectionString = "Server=localhost;Integrated Security=True;Initial Catalog=master";
+	
+	OtherClass.Special x;
+}
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

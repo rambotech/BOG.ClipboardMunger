@@ -1,0 +1,412 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>CSharp Class Fill out</Title>
+  <Description>Takes a skeleton class in CSharp which has only properties, and builds a public class with instantiaion, and get/set methods for each property.
+
+The class can contain implementation/inheritance, and can have one or more attributes prefixed to a property. See the test tab for an example.</Description>
+  <Script>// Take a simple CSharp class sample, with only property values, and make a public
+// class form it with get/set methods for each property, where the get/set method
+// uses the property's original name, and stores in a local variable named using an
+// underscore prefix on the original name.
+//
+// This is a very powerful utility.  See the test tab for details.
+//
+// E.g.
+// class MyClass : ICloneable
+// {
+//   int Sequence;
+//   string[] DisplayItems;
+//   // [[NO CLONE]]
+//   OtherClass.Special x;
+// }
+//
+// NOTE: This builder looks for ICloneable and ISerializable and adds methods
+// Clone() and GetObjectData() methods, respectively, when present.  If a 
+// field contains one or more of the following comments, it is exlcuded from
+// the code in the Clone() ...
+//      // [[NO CLONE]]
+// and/or the code in the GetObjectData() ...
+//      // [[NO SERIALIZE]]
+
+using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+
+public class Script : Interfaces.IClipboard
+{
+	private string LowerCaseFirstLetter(string original)
+	{
+		return original.Length == 0 ? original : (
+			original.Length == 1 ? 
+				original.Substring(0,1).ToLower() : original.Substring(0,1).ToLower() + original.Substring(1));
+	}
+
+	public string Munge (string clipboardSource)
+    {
+		StringBuilder output = new StringBuilder();
+		Dictionary&lt;int, string[]&gt; Property = new Dictionary&lt;int, string[]&gt;();
+		Dictionary&lt;int, bool&gt; PropertyExcludeFromCloneNew = new Dictionary&lt;int, bool&gt;();
+		Dictionary&lt;int, bool&gt; PropertyExcludeFromSerialization = new Dictionary&lt;int, bool&gt;();
+		StringDictionary Attribute = new StringDictionary();
+		List&lt;string&gt; AttributeHolder = new List&lt;string&gt;();
+		List&lt;string&gt; ClassAttributeHolder = new List&lt;string&gt;();
+		bool InDefinitions = false;
+		bool CodeGenerationCompleted = false;
+		bool SetExcludeFromCloneNew = false;
+		bool HasExcludeFromCloneNew = false;
+		bool SetExcludeFromSerialization = false;
+		bool HasExcludeFromSerialization = false;
+
+		bool IncludeCloneMethod = false;
+		bool IncludeGetObjectDataMethod = false;
+		string ClassName = string.Empty;
+		string ClassImplements = string.Empty;
+	
+		foreach (string l in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+		{
+			string s = l;
+			while (s.Length &gt; 0 &amp;&amp; (s[0] == ' ' || s[0] == '\t')) 
+				s = s.Length == 1 ? string.Empty : s.Substring(1);
+			while (s.Length &gt; 0 &amp;&amp; (s[s.Length - 1] == ' ' || s[s.Length - 1] == '\t'))
+				s = s.Length == 1 ? string.Empty : s.Substring(0, s.Length - 1);
+				
+			if (CodeGenerationCompleted) // this is user code which we append to the end of the class.
+			{
+				output.Append("\t");
+				output.AppendLine(s);
+				continue;
+			}
+	
+			if (!InDefinitions &amp;&amp; s.Length &gt; 2 &amp;&amp; s.IndexOf("[") == 0 &amp;&amp; s.LastIndexOf("]") == s.Length - 1)
+			{
+				ClassAttributeHolder.Add (s);
+			}
+			else if (!InDefinitions &amp;&amp; s.IndexOf("class ") == 0)
+			{
+				foreach (string attribute in ClassAttributeHolder)
+				{
+					output.AppendLine(attribute);
+				}
+				output.AppendLine(string.Format("public {0}", s));
+				ClassName = s.Substring(5).Trim();
+				if (ClassName.IndexOf(':') &gt;= 0)
+				{
+					if (ClassName.Length - 1 &gt; ClassName.IndexOf(':'))
+					{
+						ClassImplements = ClassName.Substring(ClassName.IndexOf(':') + 1).Trim();
+						IncludeCloneMethod = ClassImplements.Contains ("ICloneable");
+						IncludeGetObjectDataMethod = ClassImplements.Contains ("ISerializable");
+					}
+					ClassName = ClassName.Substring(0, ClassName.IndexOf(':')).Trim();
+				}
+			}
+			else if (s.Substring(0) == "{")
+			{
+				InDefinitions = true;
+				output.AppendLine(s);
+			}
+			else if (s.Substring(0) == "}")
+			{
+				// Create the instantiation method
+				output.AppendLine();
+				output.AppendLine(string.Format("\tpublic {0} ()", ClassName));
+				output.AppendLine("\t{");
+				output.AppendLine("\t}");
+	
+				// Create an instantiation method with all the properties as parameters.
+				output.AppendLine();
+				output.Append(string.Format("\tpublic {0} (", ClassName));
+				// Got all the definitions, so create the properties.
+				string comma = string.Empty;
+				for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+				{
+					output.Append(string.Format("{0}{1} {2}", comma, Property[Index][0], LowerCaseFirstLetter(Property[Index][1])));
+					comma = ", ";
+				}
+				output.AppendLine(")");
+				output.AppendLine("\t{");
+				for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+				{
+					output.AppendLine(string.Format("\t\tthis._{0} = {1};", Property[Index][1], LowerCaseFirstLetter(Property[Index][1])));
+				}
+				output.AppendLine("\t}");
+	
+				// Create an instantiation method with an existing instance as the parameter.
+				output.AppendLine();
+				output.AppendLine(string.Format("\tpublic {0} ({0} obj)", ClassName));
+				output.AppendLine("\t{");
+				output.AppendLine(string.Format("\t\tthis.Load (obj);", ClassName));
+				output.AppendLine("\t}");
+	
+				// Create an instantiation method with object[] as the parameter.
+				output.AppendLine();
+				output.AppendLine(string.Format("\tpublic {0} (object[] obj)", ClassName));
+				output.AppendLine("\t{");
+				int Index1 = 0;
+				for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+				{
+					output.AppendLine(string.Format("\t\tthis._{0} = ({1}) obj[{2}];", Property[Index][1], Property[Index][0], Index1++));
+				}
+				output.AppendLine("\t}");
+	
+				// Create a load method to populate from an existing instance as the parameter.
+				output.AppendLine();
+				output.AppendLine(string.Format("\tpublic void Load ({0} obj)", ClassName));
+				output.AppendLine("\t{");
+				for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+				{
+					output.AppendLine(string.Format("\t\tthis._{0} = obj.{1};", Property[Index][1], Property[Index][1]));
+				}
+				output.AppendLine("\t}");
+	
+				// Got all the definitions, so create the properties.
+				for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+				{
+					output.AppendLine();
+	
+					if (Attribute.ContainsKey(Property[Index][1]))
+					{
+						foreach (string Line in Attribute[Property[Index][1]].Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+						{
+							output.AppendLine(string.Format("\t{0}", Line));
+						}
+					}
+	
+					output.AppendLine(string.Format("\tpublic {0} {1}", Property[Index][0], Property[Index][1]));
+					output.AppendLine("\t{");
+					output.AppendLine(string.Format("\t\tget {{ return this._{0}; }}", Property[Index][1]));
+					output.AppendLine(string.Format("\t\tset {{ this._{0} = value; }}", Property[Index][1]));
+					output.AppendLine("\t}");
+				}
+				
+				// For ICloneable, create the Clone() method to fulfill the interface requirement
+				if (IncludeCloneMethod)
+				{
+					output.AppendLine();
+					output.AppendLine("\tpublic object Clone()");
+					output.AppendLine("\t{");
+					output.AppendLine(string.Format("\t\treturn new {0}(this);", ClassName));
+					output.AppendLine("\t}");
+				}
+
+				// For ICloneable, create the CloneNew() method.  This is similar to Clone(),
+				// but specific properties are excluded from the copy of the new object, forcing
+				// the default in the cloned object.
+				if (IncludeCloneMethod)
+				{
+					output.AppendLine();
+					if (HasExcludeFromCloneNew)
+					{
+						output.AppendLine("\tpublic object CloneNew()");
+						output.AppendLine("\t{");
+						output.AppendLine(string.Format("\t\t{0} result = new {0}();", ClassName));
+						for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+						{
+							if (! PropertyExcludeFromCloneNew[Index])
+							{
+								output.AppendLine(string.Format("\t\tresult.{0} = _{0};", Property[Index][1]));
+							}
+						}
+						output.AppendLine("\t\treturn result;");
+					} else {
+						output.AppendLine("\tpublic object CloneNew()");
+						output.AppendLine("\t{");
+						output.AppendLine("\t\treturn this.Clone();");
+					}
+					output.AppendLine("\t}");
+				}
+
+				// For ISerializable, create the GetObjectData() method.
+				if (IncludeGetObjectDataMethod)
+				{
+					output.AppendLine();
+					output.AppendLine("\t[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]");
+					output.AppendLine("\tpublic virtual void GetObjectData(SerializationInfo info, StreamingContext context)");
+					output.AppendLine("\t{");
+					output.AppendLine("\t\tif (info == null)");
+					output.AppendLine("\t\t{");
+					output.AppendLine("\t\t\tthrow new System.ArgumentNullException(\"Not a valid object\");");
+					output.AppendLine("\t\t}");
+					output.AppendLine();
+					for (int Index = 0; Index &lt; Property.Keys.Count; Index++)
+					{
+						if (! PropertyExcludeFromSerialization[Index])
+						{
+							output.AppendLine(string.Format("\t\tinfo.AddValue(\"{0}\", this._{0});", Property[Index][1], Property[Index][1]));
+						}
+					}
+					output.AppendLine("\t}");
+					output.AppendLine("\t/*****************************************************************************/");
+					output.AppendLine("\t/***** Auto-Generated code ends here: preserve methods after this marker *****/");
+					output.AppendLine("\t/*****************************************************************************/");
+				}
+				output.AppendLine();
+				InDefinitions = false;
+				CodeGenerationCompleted = true;
+			}
+			else if (s.ToLower().IndexOf("public enum ") == 0)
+			{
+				foreach (string AttributeLine in AttributeHolder)
+				{
+					output.AppendLine(string.Format("\t{0}", AttributeLine));
+				}
+				AttributeHolder.Clear();
+				output.AppendLine(string.Format("\t{0}", s));
+			}
+			else if (InDefinitions &amp;&amp; s.Length &gt; 0 &amp;&amp; s[s.Length - 1] == ';')  // A property definition
+			{
+				// A quirk: if generics are in use which require more than one argument, space parsing will not yield
+				// the positions expected.  So, remove any spaces encloded by '&lt;' and '&gt;', including nested.
+				string Fixed = PropertyLinePrep(s);
+				string[] a = Fixed.Substring(0, Fixed.Length - 1).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+				if (a.Length &lt; 2)
+				{
+					output.AppendLine(string.Format("\t{0}", l));
+				}
+				else
+				{
+					Property.Add(Property.Keys.Count, new string[] { a[0], a[1] });
+					PropertyExcludeFromCloneNew.Add(PropertyExcludeFromCloneNew.Keys.Count, SetExcludeFromCloneNew);
+					SetExcludeFromCloneNew = false;
+					PropertyExcludeFromSerialization.Add(PropertyExcludeFromSerialization.Keys.Count, SetExcludeFromSerialization);
+					SetExcludeFromSerialization = false;
+					StringBuilder AttributeLines = new StringBuilder();
+					foreach (string AttributeLine in AttributeHolder)
+					{
+						AttributeLines.AppendLine(AttributeLine);
+					}
+					Attribute.Add(a[1], AttributeLines.ToString());
+					AttributeHolder.Clear();
+	
+					output.Append(string.Format("\tprivate {0} _{1}", a[0], a[1]));
+					for (int i = 2; i &lt; a.Length; i++)
+					{
+						output.Append(string.Format(" {0}", a[i]));
+					}
+					output.AppendLine(";");
+				}
+			}
+			else if (InDefinitions &amp;&amp; s.Length &gt; 0 &amp;&amp; s.IndexOf("[") == 0 &amp;&amp; s.LastIndexOf("]") == s.Length - 1)
+			{
+				// This is an attribute which must be placed above the public set/get declaration,
+				// or the public enum declaration, as appropriate.
+				AttributeHolder.Add(s);
+			}
+			else if (InDefinitions &amp;&amp; s.Length &gt; 2 &amp;&amp; s.IndexOf("///") == 0)
+			{
+				// This is a public documentation marker, which must also be placed above 
+				// the public set/get declaration, or the public enum declaration, 
+				// as appropriate.
+				AttributeHolder.Add(s);
+			}
+			else
+			{
+				if (s.Length &gt;= 5 &amp;&amp; s.Substring(0,5) == "// [[")  // look for control tags
+				{
+					if (string.Compare (s.ToUpper(), "// [[NO CLONE]]", true) == 0)
+					{
+						SetExcludeFromCloneNew = true;
+						HasExcludeFromCloneNew = true;
+					}
+					if (string.Compare (s.ToUpper(), "// [[NO SERIALIZE]]", true) == 0)
+					{
+						SetExcludeFromSerialization = true;
+						HasExcludeFromSerialization = true;
+					}
+				}
+				else
+				{
+					output.AppendLine(string.Format(InDefinitions ? "\t{0}" : "{0}", s));
+				}
+			}
+		}
+		output.AppendLine("}");
+		return output.ToString();
+	}
+	
+	private string PropertyLinePrep(string line)
+	{
+		StringBuilder result = new StringBuilder();
+		bool InQuote = false;
+		int GenericNestingLevel = 0;
+		bool HaveEqualSign = false;
+		for (int Index = 0; Index &lt; line.Length; Index++)
+		{
+			string thisChar = line.Substring(Index, 1);
+			if (thisChar == "=") HaveEqualSign = true;
+			if (HaveEqualSign)
+			{
+				result.Append(thisChar);
+				continue;
+			}
+			if (thisChar == "&lt;")
+			{
+				GenericNestingLevel++;
+				result.Append(thisChar);
+				continue;
+			}
+			if (thisChar == "&gt;")
+			{
+				GenericNestingLevel--;
+				result.Append(thisChar);
+				continue;
+			}
+			if (thisChar == " " &amp;&amp; GenericNestingLevel &gt; 0) continue;
+			result.Append(thisChar);
+		}
+		return result.ToString();
+	}
+}</Script>
+  <Language>1</Language>
+  <TestData>[ISerializable]
+[DefaultPropertyAttribute("Description")]
+
+class MyClass : ICloneable, ISerializable
+{
+        /// &lt;summary&gt;
+        /// Public documentation for enum WatcherForm.
+        /// &lt;summary&gt;
+	public enum WatcherForm : byte { mild, medium, paranoid }
+
+        /// &lt;summary&gt;
+        /// Public documentation for Sequence.
+        /// &lt;summary&gt;
+	[CategoryAttribute("Admin"), DisplayNameAttribute("Sequence"), DescriptionAttribute("Controls the sequence of placement."), ReadOnly(false)]
+	int Sequence = 27;
+	
+	// A comment which should be tabbed in with the output.
+        [CategoryAttribute("Admin"), DisplayNameAttribute("Display Items"), DescriptionAttribute("The collection of items to display."), ReadOnly(false)]
+	[XmlAttribute ("second")]
+	string[] DisplayItems = new string[] { "Test", "Stage", "Production" };
+	
+	[CategoryAttribute("Admin"), DisplayNameAttribute("Connection String"), DescriptionAttribute("The location of SQL, Access, MySQL or PostGre SQL."), ReadOnly(false)]
+	string ConnectionString = "Server=localhost;Integrated Security=True;Initial Catalog=master";
+	
+	Dictionary&lt;int, Dictionary&lt;int, string&gt;&gt; Special1;
+	Dictionary&lt;int, Dictionary&lt;int, string&gt;&gt; Special2 = new Dictionary&lt;int, Dictionary&lt;int, string&gt;&gt;();
+
+	OtherClass.Special X;
+
+	// [[NO CLONE]]
+	// [[NO SERIALIZE]]
+	OtherClass.Special Y;
+	
+        WatcherForm w = WatcherForm.paranoid;
+}
+
+public void Validate()
+{
+   // This is a method I do want added after the auto generated code.
+}
+
+private string ValidateAll()
+{
+   // This is another method I do want added after the auto generated code.
+   return "Test";
+}</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

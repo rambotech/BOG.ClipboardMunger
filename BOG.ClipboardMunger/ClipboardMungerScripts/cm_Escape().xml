@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Escape()</Title>
+  <Description>real characters to %##.
+
+See the test tab for an example.</Description>
+  <Script>// Simple UnEscape functionality.
+
+using System;
+using System.Text;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+        {
+           return System.Web.HttpUtility.UrlEncode(clipboardSource);
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>The Quick Brown Fox jumped over the lazy dog's back.</TestData>
+  <References>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

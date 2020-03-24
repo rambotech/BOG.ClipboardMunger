@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>DateTime Sequence</Title>
+  <Description>With a starting date, the days to offset, and the iteration count, create a list of dates with one date per row.
+
+Used for creating a column in a spreadsheet.</Description>
+  <Script>// DateTime offset from a specific date or Now
+
+using System;
+using System.Collections.Generic;
+using BOG.Framework;
+using System.Windows.Forms;
+using System.Text;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+	{
+		StringBuilder result = new StringBuilder();
+
+	    DateTime dateTimeBase = DateTime.Now;
+	    string DateTimeBase = DateTime.Now.ToString("MM/dd/yyyy");
+	    if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("First DateTime (leave empty for today)", "Enter the date", ref DateTimeBase))
+	    {
+	            return clipboardSource;
+	    }
+	    dateTimeBase = DateTimeBase.Trim().Length == 0 ? DateTime.Now : DateTime.Parse (DateTimeBase);
+	    
+	    List&lt;string&gt; Intervals = new List&lt;string&gt;();
+	    Intervals.AddRange(new string[] { "D", "M", "Y", "H", "N", "S" });
+
+	    string intervalBase = "D";
+	    string IntervalBase = "D";
+	    if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Interval: D for days, M for months, Y for years (leave empty for days)", "Interval", ref IntervalBase))
+	    {
+	            return clipboardSource;
+	    }
+	    intervalBase = IntervalBase;
+	    if (! Intervals.Contains(intervalBase))
+	    {
+	    	throw new Exception("Invalid interval entered");
+	    }
+
+	    int offsetBase = 1;
+	    string OffsetBase = offsetBase.ToString();
+	    if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Days to offset", "Use positive for foward, or negative for the past", ref OffsetBase))
+	    {
+	            return clipboardSource;
+	    }
+	    offsetBase = int.Parse (OffsetBase);
+
+	    int iterationBase = 50;
+	    string IterationBase = iterationBase.ToString();
+	    if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Iteration count", "Number of dates required", ref IterationBase))
+	    {
+	            return clipboardSource;
+	    }
+	    iterationBase = int.Parse (IterationBase);
+	    for (int index = 0; index &lt; iterationBase; index++)
+	    {
+			result.AppendLine (dateTimeBase.ToString("MM/dd/yyyy"));
+			if (string.Compare(intervalBase, "D", true) == 0)
+			{
+				dateTimeBase = dateTimeBase.AddDays(offsetBase);
+			}
+			else if (string.Compare(intervalBase, "M", true) == 0)
+			{
+				dateTimeBase = dateTimeBase.AddMonths(offsetBase);
+			}
+			else if (string.Compare(intervalBase, "Y", true) == 0)
+			{
+				dateTimeBase = dateTimeBase.AddYears(offsetBase);
+			}
+			else if (string.Compare(intervalBase, "H", true) == 0)
+			{
+				dateTimeBase = dateTimeBase.AddHours(offsetBase);
+			}
+			else if (string.Compare(intervalBase, "N", true) == 0)
+			{
+				dateTimeBase = dateTimeBase.AddMinutes(offsetBase);
+			}
+			else if (string.Compare(intervalBase, "S", true) == 0)
+			{
+				dateTimeBase = dateTimeBase.AddSeconds(offsetBase);
+			}
+			else
+			{
+				throw new Exception("Unknown interval: " + intervalBase);
+			}
+	    }
+	    return result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData />
+  <References>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

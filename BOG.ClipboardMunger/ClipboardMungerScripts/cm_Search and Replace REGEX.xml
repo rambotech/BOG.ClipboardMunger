@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Search and Replace REGEX</Title>
+  <Description>Generic REGEX search and replace on the entire text.
+
+Both the Search and Replace text, entered at the user prompts, are UrlDecoded() prior to the search replace, so
+
+For...
+
+DebugMode=true&lt;/Debug=
+
+... where search is (&lt;/)(.+)(=)
+... and replace is =$2
+
+.. the resulting text is...
+
+DebugMode=true=&lt;/Debug</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using BOG.Framework;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                string Search = string.Empty;
+                string Replace = string.Empty;
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Search", "Enter the REGEX expression to match", ref Search))
+                {
+                        return clipboardSource;
+                }
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Replace", "Enter the REGEX expression to substitute", ref Replace))
+                {
+                        return clipboardSource;
+                }
+				//Regex r = new Regex (, RegexOptions.IgnoreCase);
+				return Regex.Replace(clipboardSource, HttpUtility.UrlDecode(Search), HttpUtility.UrlDecode(Replace));
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>DebugMode=true&lt;/Debug=</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Rows To Continuous String</Title>
+  <Description>Takes multiple lines of text, and creates a single line of text with the lines separated by a pipe symbol.</Description>
+  <Script>// template (CSharp)
+
+using System;
+
+public class Script : Interfaces.IClipboard
+{	
+	public string Munge (string clipboardSource)
+	{
+		return clipboardSource.Replace ("\r\n", "\r").Replace ("\n", "\r").Replace("\r", "|");
+	}
+}</Script>
+  <Language>1</Language>
+  <TestData>test1
+test2
+test3
+
+test4
+test5</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

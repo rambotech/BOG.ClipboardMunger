@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>E-02 to double</Title>
+  <Description>changes a scientific exponention like 
+
+4.833475E-02
+
+to
+
+0.04833475
+
+Mostly useful for converting very old 8/16 bit code.</Description>
+  <Script>// De-scientific notationafication  (Thanks George W Bush!)
+
+using System;
+using System.Text;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+        	StringBuilder Results = new StringBuilder();
+        	foreach (string number in clipboardSource.Split(new string[] {"\x0D\x0A"}, StringSplitOptions.None))
+        	{
+        		if (string.IsNullOrEmpty(number))
+        		{
+        			continue;
+        		}
+        		double theValue = 0.0D;
+        		if (! double.TryParse(number, out theValue))
+        		{
+        			Results.AppendLine (string.Format ("{0}  ### PARSING ERRROR ###", number));
+        		}
+        		else
+        		{
+        			Results.AppendLine(theValue.ToString("R"));
+        		}
+            }
+            return Results.ToString();
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>LC1
+178.179078
+ 342.767053
+ 293.737334
+ 238.049257
+ 266.564377
+ 243.49747
+ 84.957994
+ 181.64632
+
+LC2
+149474.07078
+ 58519.21191
+ 19141.69551
+ 3036.301986
+ 1223.509884
+ 429.863546
+ 219.885914
+ 0.0
+
+LC3
+.0003011
+ .0003097
+ .0003107
+ .0003347
+ .0003245
+ .000316
+ .0003205
+ 0.0
+
+LC4
+0.0
+0.0
+0.0
+-1.65E-06
+-.0000058
+-.0000006
+.0000006
+ 0.0
+
+A
+.3870986
+.7233316
+1.5236883
+5.202561
+9.554746
+19.21814
+30.10957
+39.43871
+
+EC1
+.20561421
+6.82069E-03
+9.331289E-02
+4.833475E-02
+5.589232E-02
+.0463444
+8.97704E-03
+.250236
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

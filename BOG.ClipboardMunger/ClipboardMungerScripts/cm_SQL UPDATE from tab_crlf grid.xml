@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>SQL UPDATE from tab_crlf grid</Title>
+  <Description>Clipboard contains a grid of data, using tabs between colums, and cr+lf between rows.  Usually, it is a block of cells (rows+columns) copied from Excel.
+
+- The first line must be headers which match the db table's column name.  The remaining lines are data.
+- The leftmost columns must be the primary key column(s), with the other columns following to the right.
+- The result is a long sequence of SQL UPDATE statements, one per row.
+
+Three dialogs will prompt for A) Database Name, B) Table Name, C) the number of the leftmost columns, which comprise the primary key.  Default it 1.
+
+Notes:
+- Build the UPDATE statements wrapped in a TRY/CATCH, and a transaction which is rolled back if an error occurs.
+- If NULL appears in a cell, it is written as NULL (a true null) instead of 'NULL' (a string)</Description>
+  <Script>// Take a tab+crlf delimited grid of data from clipboard.
+// Prompt user for a string.Format() format string.
+// Run the data through it and post the results.
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+		StringBuilder result = new StringBuilder();
+		int LineIndex = 0;
+		int ColumnIndex = 0;
+		int ColumnCount = 0;
+		string UpdateTemplate = string.Empty;
+		
+		string DatabaseName = string.Empty;
+		if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Database", "Enter the database name, or leave blank to omit the USE statement", ref DatabaseName))
+		{
+			DatabaseName = string.Empty;
+		}
+
+		string TableName = string.Empty;
+		if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Table", "Enter the table name for the update", ref TableName))
+		{
+			TableName = "[Table_Name_Here]";
+		}
+		
+		int ColumnsInPrimaryKey = 1;
+		string ColumnsInPK = "1";
+		BOG.Framework.FormEx.InputBox ("Primary key", "How many of the left most columns comprise the primary key", ref ColumnsInPK);
+		ColumnsInPrimaryKey = int.Parse(ColumnsInPK);
+		if (ColumnsInPrimaryKey &lt; 1)
+		{
+			ColumnsInPrimaryKey = 1;
+		}
+
+		if (DatabaseName != string.Empty)
+		{
+			result.AppendLine(string.Format ("USE [{0}]", DatabaseName));
+			result.AppendLine("GO");
+			result.AppendLine();
+		}
+
+		result.AppendLine(string.Format ("BEGIN TRAN", TableName));
+		result.AppendLine();
+		result.AppendLine(string.Format ("BEGIN TRY", TableName));
+		result.AppendLine();
+
+		string[] Lines = clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+		string[] HeaderColumnNames = Lines[0].Split(new char[] { '\t' });
+		if (HeaderColumnNames.Length &lt;= ColumnsInPrimaryKey)
+		{
+			throw new Exception (string.Format ("WTF?.. Columns in row == {0}, and primary key column count == {1}", HeaderColumnNames.Length, ColumnsInPrimaryKey));
+		}
+
+		foreach (string ThisLine in Lines)
+		{
+			LineIndex++;
+			if (LineIndex == 1) continue;
+
+			string[] ColumnNames = ThisLine.Split(new char[] { '\t' });
+			string UpdateLine = string.Empty;
+			
+			if (ColumnNames.Length != HeaderColumnNames.Length)
+			{
+				result.AppendLine(string.Format("\t/* Line {0}: header count is: {1}, but value count is: {2} -- skipped */", LineIndex, HeaderColumnNames.Length, ColumnNames.Length));
+				result.AppendLine();
+				continue;
+			}
+			UpdateLine = string.Format ("\tUPDATE [{0}] SET\r\n", TableName);
+			for (int Index = ColumnsInPrimaryKey; Index &lt; ColumnNames.Length; Index++)
+			{
+				if (Index &gt; ColumnsInPrimaryKey &amp;&amp; Index &lt; ColumnNames.Length)
+				{
+						UpdateLine += ",\r\n";
+				}
+				if (ColumnNames[Index] == "NULL")
+				{
+					UpdateLine += "\t\t[" + HeaderColumnNames[Index] + "] = " + ColumnNames[Index];
+				}
+				else
+				{
+					UpdateLine += "\t\t[" + HeaderColumnNames[Index] + "] = '" + ColumnNames[Index]+ "'";
+				}
+			}
+			UpdateLine += "\r\n\tWHERE ";
+			for (int Index = 0; Index &lt; ColumnsInPrimaryKey; Index++)
+			{
+				if (Index &gt; 0 )
+				{
+					UpdateLine += "\r\n\tAND   ";
+				}
+				if (ColumnNames[Index] == "NULL")
+				{
+					UpdateLine += "[" + HeaderColumnNames[Index] + "] = '" + ColumnNames[Index] + "'";
+				}
+				else
+				{
+					UpdateLine += "[" + HeaderColumnNames[Index] + "] = '" + ColumnNames[Index] + "'";
+				}
+			}
+			result.AppendLine(UpdateLine);
+			result.AppendLine();
+		}
+
+		result.AppendLine("\tCOMMIT TRAN  /* Success if at this point */");
+		result.AppendLine("\tPRINT 'Successful... committed'");
+		result.AppendLine("END TRY");
+		result.AppendLine();
+		result.AppendLine("BEGIN CATCH");
+		result.AppendLine("\tROLLBACK TRAN");
+		result.AppendLine("\tPRINT 'Failure... rollback'");
+		result.AppendLine("END CATCH");
+		result.AppendLine();
+		result.AppendLine("GO");
+		result.AppendLine();
+		result.AppendLine("/*  END OF DOCUMENT  */");
+		result.AppendLine();
+
+		return result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>Destination_Id	Username	Password	Ignore	Created
+1	max	snork	0	2010-10-05 16:31:12.277
+52	cool	NULL	1	2010-10-06 18:13:11.623</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

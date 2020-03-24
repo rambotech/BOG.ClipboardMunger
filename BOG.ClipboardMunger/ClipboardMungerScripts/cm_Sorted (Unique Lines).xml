@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Sorted (Unique Lines)</Title>
+  <Description>Simple ascending sort.  If any two lines are duplcated, throws an error.</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+
+public class Script : Interfaces.IClipboard
+{
+		public string Munge(string clipboardSource)
+        {
+                StringDictionary Unique = new StringDictionary();
+                foreach (string s in clipboardSource.Split (new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                        if (! Unique.ContainsKey (s)) Unique[s] = string.Empty;
+                }
+                StringBuilder output = new StringBuilder();
+                List&lt;string&gt; s1 = new List&lt;string&gt;();
+                foreach (string s2 in Unique.Keys) s1.Add(s2);
+                s1.Sort();
+
+                foreach (string s in s1)
+                {
+                        output.AppendLine (s);
+                }
+                return output.ToString();
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>Jim
+Allen
+Bob
+Max
+allen
+BOB</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

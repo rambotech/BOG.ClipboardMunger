@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Search and Replace (Bulk)</Title>
+  <Description>Generic search and replace on the entire text.
+
+Create a two-column spreadsheet with the search phrase in column A and the replace phrase in column B.  Use encoding as specified below for both columns.
+
+Copy the text to fix to the clipboard, then start the script.
+
+When the dialog prompts for the replacement text, highlight all rows in the two columns, and Ctrl+C to copy
+to the clipboard.  Then press OK on the dialog.
+
+The fixed text will be on the clipboard.
+
+Both the Search and Replace text are UrlDecoded() prior to the search replace, so
+
+For...
+
+This|is|a|set|of|words
+
+... where search is |
+... and replace is %0d%0a
+
+.. the resulting text is...
+
+This
+is
+a
+set
+of
+words
+</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                string Result = clipboardSource;
+                string Ignored = string.Empty;
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Search and Replace info", "Copy the spreadsheet columns to the clipboard, and press enter.", ref Ignored))
+                {
+                        return clipboardSource;
+                }
+				string SRtext = Clipboard.GetText();
+				
+				foreach (string line in SRtext.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+				{
+					string[] sr = line.Split(new string[] { "\t" }, StringSplitOptions.None);
+					string Search = HttpUtility.UrlDecode(sr[0]);
+					string Replace = HttpUtility.UrlDecode(sr.Length == 1 ? string.Empty : sr[1]);
+					Result = Result.Replace (Search, Replace);
+				}
+                return Result;
+        }
+}
+</Script>
+  <Language>1</Language>
+  <TestData>"zip code", "state abbreviation", "latitude", "longitude", "city", "state"
+"35004", "AL", " 33.606379", " -86.50249", "Moody", "Alabama"
+"35005", "AL", " 33.592585", " -86.95969", "Adamsville", "Alabama"
+"35006", "AL", " 33.451714", " -87.23957", "Adger", "Alabama"
+"35007", "AL", " 33.232422", " -86.80871", "Alabaster", "Alabama"
+"35010", "AL", " 32.903432", " -85.92669", "Alexander City", "Alabama"
+
+For search replace use:
+
+Alabama,Mississippi
+3500,4200
+
+
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

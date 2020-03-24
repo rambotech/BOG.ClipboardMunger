@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Split (Multi-line)</Title>
+  <Description>Splits a string containing multiple lines, using on each delimeter, and returns multiple lines.
+
+Useful for taking a clipboard copy of a spreadsheet and making a long list of items:
+
+ColA    ColB    ColC
+123      456     789
+abc      def      ghi
+
+
+Delimiter: %09    (tab)
+
+Result:
+
+ColA
+ColB
+ColC
+123
+456
+789
+
+If first line is treated as a header:
+
+ColA: 123
+ColB: 456
+ColC: 789
+
+ColA: abc
+ColB: def
+ColC: ghi
+
+
+</Description>
+  <Script>// Split a single line into multiple lines, on a specified delimiter.
+
+using System;
+using System.Windows.Forms;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                string Delimiter = "|";
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Split strings", "Enter the delimiter to use", ref Delimiter))
+                {
+                        return clipboardSource;
+                }
+                else
+                {
+                        return string.Join ("\r\n", clipboardSource.Split(new string[] { System.Web.HttpUtility.UrlDecode(Delimiter) }, StringSplitOptions.None));
+                }
+        }
+}
+</Script>
+  <Language>1</Language>
+  <TestData>The|quick|brown|fox|jumped|over|the|lazy|dog's||back
+|The|cow|jumped|over|the|full|moon</TestData>
+  <References>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

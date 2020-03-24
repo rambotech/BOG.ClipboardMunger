@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Trim Whitespace</Title>
+  <Description>Trims Leading, Trailing (or both) whitespace.  Whitespace is either a space or tab, as specified.</Description>
+  <Script>// Trims leading, trailing whitespace (or both).
+// User specifies space, tab or both as whitespace characters.
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+		StringBuilder result = new StringBuilder();
+		int TrimSelection = 0;
+		int WhitespaceSelection = 0;
+		string TrimChoice = "3";
+		if (DialogResult.OK == BOG.Framework.FormEx.InputBox ("What to trim", "Enter the digit: 1 for leading, 2 for trailing or 3 for both", ref TrimChoice))
+		{
+			TrimSelection = "123".IndexOf(TrimChoice);
+			if (TrimSelection == -1) 
+			{
+				throw new ArgumentException("Invalid choice " + TrimChoice);
+			}
+		}
+		else return clipboardSource;
+		
+		string WhitespaceChoice = "3";
+		if (DialogResult.OK == BOG.Framework.FormEx.InputBox ("What is whitespace", "Enter the digit: 1 for space, 2 for tab or 3 for both", ref WhitespaceChoice))
+		{
+			WhitespaceSelection = "123".IndexOf(WhitespaceChoice);
+			if (WhitespaceSelection == -1) 
+			{
+				throw new ArgumentException("Invalid choice " + WhitespaceChoice);
+			}
+		}
+		else return clipboardSource;
+
+		char[] whitespacers = 
+			WhitespaceSelection == 0 ? new char[] {' '} :
+			(WhitespaceSelection == 1 ? new char[] {'\t'} :
+			new char[] {' ', '\t'});
+		string[] splitCRLF = clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+		string[] splitLF = clipboardSource.Split(new string[] { "\n" }, StringSplitOptions.None);
+
+		foreach (string line in splitCRLF.Length &gt;= splitLF.Length ? splitCRLF : splitLF)
+		{
+			switch (TrimSelection)
+			{
+				case 0:
+					result.AppendLine(line.TrimStart(whitespacers));
+					break;
+				case 1:
+					result.AppendLine(line.TrimEnd(whitespacers));
+					break;
+				case 2:
+					result.AppendLine(line.Trim(whitespacers));
+					break;
+			}
+		}
+		return result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>			now is the time for all men to stand up !    	 	 	 </TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

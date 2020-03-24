@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>SQL to CSharp string</Title>
+  <Description>Converts a SQL sequence between a literal query, or that query wrapped in CSharp string delimters.
+
+Code is assumed to be multi-line, and Carriage Return/Line Feed characters are injected.
+
+e.g.
+
+SELECT MyColumn1, MyColumn2, '\R\' AS Marker, '"' AS Delimeter
+FROM Table
+
+.. becomes .. 
+
+"SELECT MyColumn1, MyColumn2, '\\R\\' AS Marker, '\"' AS Delimeter" + " \r\n" +
+FROM Table" + " \r\n";
+</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+
+public class Script : Interfaces.IClipboard
+{
+	private string TrueTrim(string x)
+	{
+		string Result = x;
+		while (Result.Length &gt; 0 &amp;&amp; Result.IndexOfAny (new char[] {'\x20', '\x09'}) == 0) Result = Result.Length == 0 ? string.Empty : Result.Substring(1);
+		while (Result.Length &gt; 0 &amp;&amp; Result.LastIndexOfAny (new char[] {'\x20', '\x09'}) == Result.Length - 1) Result = Result.Length == 0 ? string.Empty : Result.Substring(0,Result.Length-1);
+		return Result;
+	}
+	
+    public string Munge(string clipboardSource)
+    {
+    	const int MaxCharsPerLine = 70;
+        StringBuilder Result = new StringBuilder();
+        string clipboardCleaned = TrueTrim(clipboardSource);
+
+    	Result.Append("\"");
+    	int ColumnIndex = 0;
+    	for (int charIndex = 0; charIndex &lt; clipboardCleaned.Length; charIndex++)
+    	{
+    		char c = clipboardCleaned[charIndex];
+    		ColumnIndex++;
+
+    		switch (c)
+    		{
+    			case '\\':
+    				Result.Append("\\\\");
+    				break;
+    			case '"':
+    				Result.Append("\\\"");
+    				break;
+    			case '\t':
+    				Result.Append("\\t");
+    				break;
+    			case '\r':
+    				Result.Append("\\r");
+    				break;
+    			case '\n':
+    				Result.Append("\\n");
+					ColumnIndex = MaxCharsPerLine;
+    				break;
+    			default:
+    				Result.Append(c);
+    				break;
+    		}
+    		if (ColumnIndex % MaxCharsPerLine == 0)
+    		{
+    			Result.AppendLine("\"+");
+    			Result.Append("\"");
+    			ColumnIndex = 0;
+    		}
+        }
+        Result.Append("\";");
+        return Result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>/* Generic */
+
+SET NOCOUNT ON;
+
+/*-- Testing only --------------------- */
+DECLARE @ps1 VARCHAR(100)
+DECLARE @ps2 VARCHAR(100) /* abcdefghijklmnopq
+DECLARE @pn3 TINYINT
+DECLARE @pn4 INT
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>UrlDecode</Title>
+  <Description>&amp;amp; to real &amp; , etc etc</Description>
+  <Script>// Simple UnEscape functionality.
+
+using System;
+using System.Text;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+        {
+           return System.Web.HttpUtility.UrlDecode(clipboardSource);
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>http%3A%2f%2fwww.myserver.com
+
+ftp://user42:w3!rd%40cc3ss@myserver/./subfolder/#LATEST:Fr%40nks_(\d){1-3}\.txt</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

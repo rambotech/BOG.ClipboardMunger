@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Search and Replace</Title>
+  <Description>Generic search and replace on the entire text.
+
+Both the Search and Replace text, entered at the user prompts, are UrlDecoded() prior to the search replace, so
+
+For...
+
+This|is|a|set|of|words
+
+... where search is |
+... and replace is %0d%0a
+
+.. the resulting text is...
+
+This
+is
+a
+set
+of
+words
+</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                string Search = string.Empty;
+                string Replace = string.Empty;
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Search", "Enter the text to match", ref Search))
+                {
+                        return clipboardSource;
+                }
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Replace", "Enter the text to substitute", ref Replace))
+                {
+                        return clipboardSource;
+                }
+
+                return clipboardSource.Replace (HttpUtility.UrlDecode(Search), HttpUtility.UrlDecode(Replace));
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>"zip code", "state abbreviation", "latitude", "longitude", "city", "state"
+"35004", "AL", " 33.606379", " -86.50249", "Moody", "Alabama"
+"35005", "AL", " 33.592585", " -86.95969", "Adamsville", "Alabama"
+"35006", "AL", " 33.451714", " -87.23957", "Adger", "Alabama"
+"35007", "AL", " 33.232422", " -86.80871", "Alabaster", "Alabama"
+"35010", "AL", " 32.903432", " -85.92669", "Alexander City", "Alabama"
+
+For the input boxes prompt, use 
+
+", "
+%25</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

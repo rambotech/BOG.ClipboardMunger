@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Default 2</Title>
+  <Description>Copy clipboard content backwards, back to Windows Clipboard (default script)</Description>
+  <Script>// template (CSharp)
+
+using System;
+using System.Text;
+
+public class Script : Interfaces.IClipboard
+{	
+	public string Munge (string clipboardSource)
+	{
+		StringBuilder sb = new StringBuilder();
+		for (int Index = clipboardSource.Length - 1; Index &gt;= 0; Index--)
+		{
+			sb.Append (clipboardSource.Substring(Index, 1));
+		}
+		return sb.ToString();
+	}
+}</Script>
+  <Language>1</Language>
+  <TestData>The quick brown fox jumped over the lazy dog's back.</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+</ClipboardMungerScriptContainer>

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Line Filter</Title>
+  <Description>Given a block of text, returns only those lines containing a specified string.
+
+Intended as a quick way to extract only those lines desired in a file.</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                string Filter = string.Empty;
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Filter", "Enter the string which the line must contain", ref Filter))
+                {
+                        return clipboardSource;
+                }
+				
+				StringBuilder result = new StringBuilder();
+				int LineIndex = 0;
+				foreach (string Line in clipboardSource.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries))
+				{
+					if (Line.IndexOf (Filter) &gt;= 0)
+					{
+						result.AppendLine(Line);
+					}
+				}
+                return result.ToString();
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>"DEBUG"	252	"2011-12-10 01:52:35.536"	"Client connection from 200.63.19.244 was not accepted. Blocked either by IP range or by connection limit."
+"DEBUG"	252	"2011-12-10 01:52:35.806"	"Client connection from 200.63.19.244 was not accepted. Blocked either by IP range or by connection limit."
+"DEBUG"	252	"2011-12-10 01:52:35.836"	"Client connection from 200.63.19.244 was not accepted. Blocked either by IP range or by connection limit."
+"DEBUG"	252	"2011-12-10 01:52:36.327"	"Client connection from 200.63.19.244 was not accepted. Blocked either by IP range or by connection limit."
+"DEBUG"	252	"2011-12-10 01:52:36.858"	"Client connection from 200.63.19.244 was not accepted. Blocked either by IP range or by connection limit."
+"DEBUG"	440	"2011-12-10 01:52:36.858"	"Ending session 2817"
+"DEBUG"	252	"2011-12-10 01:52:37.388"	"Client connection from 200.63.19.244 was not accepted. Blocked either by IP range or by connection limit."
+"DEBUG"	252	"2011-12-10 01:54:44.321"	"Creating session 2824"
+"POP3D"	252	2824	"2011-12-10 01:54:44.321"	"50.89.9.251"	"SENT: +OK myserver.com (private -- abuse logged and reported)"
+"POP3D"	252	2824	"2011-12-10 01:54:44.501"	"50.89.9.251"	"RECEIVED: USER user@myserver.com"
+
+
+Set the filter to: 200.63.19.244</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

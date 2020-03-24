@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Join</Title>
+  <Description>Take rows of lines, and join them to a single line delimited by a specified char/string.</Description>
+  <Script>// Join lines to a single string, adding a delimiter between them.
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                string Delimiter = "|";
+                string Work = "0";
+                int LinesBeforeAddingLineBreak = 0;
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Join rows to a string", "Enter the delimiter to use", ref Delimiter))
+                {
+                        return clipboardSource;
+                }
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Lines before adding line break", "Leave as 0 for no line breaks added", ref Work))
+                {
+                        return clipboardSource;
+                }
+                LinesBeforeAddingLineBreak = int.Parse (Work);
+                StringBuilder s = new StringBuilder();
+                if (LinesBeforeAddingLineBreak == 0)
+                {
+                	s.Append (string.Join (System.Web.HttpUtility.UrlDecode(Delimiter), clipboardSource.Split (new string[] { "\r\n" }, StringSplitOptions.None)));
+                }
+                else
+                {
+                	int LineIndex = 0;
+                	StringBuilder LineSet = new StringBuilder();
+                	foreach (string line in clipboardSource.Split (new string[] { "\r\n" }, StringSplitOptions.None))
+                	{
+                		LineIndex++;
+						LineSet.AppendLine (line);
+						if (LineIndex % LinesBeforeAddingLineBreak == 0)  // this set complete... commit it.
+						{
+							s.AppendLine(string.Join (System.Web.HttpUtility.UrlDecode(Delimiter), LineSet.ToString().Split (new string[] { "\r\n" }, StringSplitOptions.None)));
+							LineSet = new StringBuilder();
+						}
+                	}
+                }
+				return s.ToString();
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>Name
+Email
+Address</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

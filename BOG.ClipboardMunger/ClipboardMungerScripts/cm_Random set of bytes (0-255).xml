@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Random set of bytes (0-255)</Title>
+  <Description>Generates a string consistingof a specified number of random byte values.
+
+Useful for crypto-key generation</Description>
+  <Script>// Build a random byte content of a specific length.
+// Sets the clipboard content to the result as a string.
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+	{
+		string Size = "32";
+	    if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Random byte array", "Enter the length to generate (default: 32)", ref Size))
+	    {
+	            return clipboardSource;
+	    }
+		int ByteArraySize = int.Parse (Size);
+		byte[] b = new byte[ByteArraySize];
+		Random r = new Random();
+		for (int Index = 0; Index &lt; ByteArraySize; Index++)
+		{
+			b[Index] = (byte) r.Next (0,256);
+	    }
+	    StringBuilder s = new StringBuilder();
+		for (int x = 0; x &lt; b.Length; ++x)
+		{
+		    s.Append((char)b[x]);
+		}
+		s.AppendLine();
+		for (int x = 0; x &lt; b.Length; ++x)
+		{
+			if (x % 8 == 0) s.AppendLine();
+		    s.Append(string.Format("{0}", b[x]));
+		    if (x &lt; b.Length - 1)
+		    {
+		    	s.Append(",");
+		    }
+		}
+		s.AppendLine();
+		return s.ToString();
+	}
+}</Script>
+  <Language>1</Language>
+  <TestData>0000: 85 09 0a 7f e7 77 f7 ba 1a 32 e7 52 40 85 17 1f  | ....w...2.R@...
+0010: 04 1d 4d e6 b2 a4 7b da 55 50 ac ba ce e9 fe e8  | ..M...{.UP......
+</TestData>
+  <References>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

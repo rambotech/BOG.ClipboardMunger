@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>UnHex</Title>
+  <Description>Take a series of double-digit hex digits, and decode them</Description>
+  <Script>// Change the clipboard content from Hex View into a readable view
+
+using System;
+using System.Text;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+	{
+		StringBuilder s = new StringBuilder();
+		if (clipboardSource.Length &gt; 0)
+		{
+			int Value = 0;
+			int Position = 0;
+			for (int iOffset = 0; iOffset &lt; clipboardSource.Length; iOffset++)
+			{
+				int ThisValue = ("0123456789ABCDEF").IndexOf(clipboardSource.Substring(iOffset, 1).ToUpper());
+				if (ThisValue == -1) continue;
+				
+				Value = 16 * Value + ThisValue;
+				if (++Position == 2)
+				{
+					s.Append (Value &gt;= 32 &amp;&amp; Value &lt; 128 ? (char) Value : '.');
+					Position = 0;
+					Value = 0;
+				}
+			}
+		}
+		return s.ToString();
+	}
+}
+</Script>
+  <Language>1</Language>
+  <TestData>54 68 69 73 20 69 73 20 61 20 70 75 7a 7a 6c 652d 62 61 73 65 64 20 73 63 61 76 65 6e 67 65 72
+2d 74 79 70 65 20 68 75 6e 74 20 64 65 76 65 6c6f 70 65 64 20 61 6e 64 20 72 75 6e 20 62 79 20
+74 68 65 20 47 72 65 79 20 4c 61 62 79 72 69 6e74 68 2e                         </TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

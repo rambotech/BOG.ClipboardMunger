@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BOG.ClipboardMunger</RootNamespace>
     <AssemblyName>BOG.ClipboardMunger</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -41,10 +41,6 @@
       <HintPath>..\packages\BOG.Framework.2.1.1\lib\net452\BOG.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ICSharpCode.TextEditor, Version=3.2.1.6466, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
-      <HintPath>..\packages\ICSharpCode.TextEditor.3.2.1.6466\lib\Net20\ICSharpCode.TextEditor.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -62,26 +58,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClipboardMungerScriptContainer.cs" />
-    <Compile Include="GAC.cs" />
-    <Compile Include="Interfaces.cs" />
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="frmScriptExec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScriptExec.Designer.cs">
+      <DependentUpon>frmScriptExec.cs</DependentUpon>
+    </Compile>
     <Compile Include="Scripting.cs" />
     <Compile Include="Settings1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings1.settings</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -92,6 +82,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="frmScriptExec.resx">
+      <DependentUpon>frmScriptExec.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -107,6 +100,97 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ClipboardMungerScripts\cm_Base64 Decode.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Base64 Encode.xml" />
+    <Content Include="ClipboardMungerScripts\cm_CSharp Class Fill out %28auto property%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_CSharp Class Fill out %28object-bias%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_CSharp Class Fill out %28object-bias, object return%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_CSharp Class Fill out %28StyleCop%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_CSharp Class Fill out.xml" />
+    <Content Include="ClipboardMungerScripts\cm_DateTime Add.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Default 1.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Default 2.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Double-To-Single line spacing.xml" />
+    <Content Include="ClipboardMungerScripts\cm_E-02 to double.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Equal_Swap.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Escape%28%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Filter for tab_crlf grid %28Keep%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Filter with Line Number %28Escaped%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_FirstCharacterOnly.xml" />
+    <Content Include="ClipboardMungerScripts\cm_FOR LINUX Backslashes to forward slashes.xml" />
+    <Content Include="ClipboardMungerScripts\cm_FOR WINDOWS forward slashes to Backslashes.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Formatted Date.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Grid Tab to Spaces.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Grid Trim.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Hex View.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Hexify.xml" />
+    <Content Include="ClipboardMungerScripts\cm_HtmlDecode.xml" />
+    <Content Include="ClipboardMungerScripts\cm_HtmlEncode.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Join.xml" />
+    <Content Include="ClipboardMungerScripts\cm_JSON-it.xml" />
+    <Content Include="ClipboardMungerScripts\cm_JSON-minimize.xml" />
+    <Content Include="ClipboardMungerScripts\cm_JSON-readable.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Line Filter.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Make a GUID.xml" />
+    <Content Include="ClipboardMungerScripts\cm_MD5 hash.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Phoeneticized Password.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Pivot from 2-column tab_crlf grid.xml" />
+    <Content Include="ClipboardMungerScripts\cm_PostGRE result to tab_crlf grid.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Prefix Suffix.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Random set of bytes %280-255%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Reformatted.xml" />
+    <Content Include="ClipboardMungerScripts\cm_REGEX extraction.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Rows To Continuous String.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Search and Replace %28Bulk%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Search and Replace REGEX.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Search and Replace.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Selective Columns from Grid.xml" />
+    <Content Include="ClipboardMungerScripts\cm_SMS Message.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Sorted %28Unique Lines%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Sorted.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Split %28by delimiter%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Split %28fixed-width, double-space separate%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Split %28fixed-width, list of offsets%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Split %28Multi-line%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Split.xml" />
+    <Content Include="ClipboardMungerScripts\cm_SQL INSERT from tab_crlf grid.xml" />
+    <Content Include="ClipboardMungerScripts\cm_SQL to CSharp string %28undo%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_SQL to CSharp string and vice-versa.xml" />
+    <Content Include="ClipboardMungerScripts\cm_SQL to CSharp string.xml" />
+    <Content Include="ClipboardMungerScripts\cm_SQL to SQL string and vice-versa.xml" />
+    <Content Include="ClipboardMungerScripts\cm_SQL UPDATE from tab_crlf grid.xml" />
+    <Content Include="ClipboardMungerScripts\cm_String to CSharp string and vice-versa.xml" />
+    <Content Include="ClipboardMungerScripts\cm_String to stirng_Format safe.xml" />
+    <Content Include="ClipboardMungerScripts\cm_String.Format from tab_crlf grid.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Strip Blank Lines.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Strip Where Matched.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Strip Where No Match.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Substring%28%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_To Hex.xml" />
+    <Content Include="ClipboardMungerScripts\cm_ToLower%28%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_ToUpper%28%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Trim Whitespace.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Truncate at character %28return post character%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Truncate at character %28return prior%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Truncate at character.xml" />
+    <Content Include="ClipboardMungerScripts\cm_UnEscape%28%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_UnHex.xml" />
+    <Content Include="ClipboardMungerScripts\cm_UnHexify.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Unique Entries %28With Count%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_Unique Entries.xml" />
+    <Content Include="ClipboardMungerScripts\cm_UrlDecode.xml" />
+    <Content Include="ClipboardMungerScripts\cm_UrlEncode %28All%29.xml" />
+    <Content Include="ClipboardMungerScripts\cm_UrlEncode.xml" />
+    <Content Include="ClipboardMungerScripts\cm_VBScript Beautification.xml" />
+    <Content Include="ClipboardMungerScripts\cm_XML Readable.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BOG.ClipboardMunger.Common\BOG.ClipboardMunger.Common.csproj">
+      <Project>{7F39B0A9-6809-4E60-A012-C9AAFFF4951A}</Project>
+      <Name>BOG.ClipboardMunger.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

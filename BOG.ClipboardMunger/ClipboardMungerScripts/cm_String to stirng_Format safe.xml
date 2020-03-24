@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>String to string_Format safe</Title>
+  <Description>Changes all single left and right curly braces to doubled equivalents, allowing the string to be easily adjusted to string.Format().
+
+E.g.
+
+foreach (string s in i) { Console.WriteLine ("These {sic} were from a list: X and Y"); }
+
+... becomes ...
+
+foreach (string s in i) {{ Console.WriteLine ("These {{sic}} were from a list: X and Y"); }}
+
+.. which can now be safely changed to ...
+
+foreach (string s in i) {{ Console.WriteLine ("These {{sic}} were from a list: {0} and {1}"); }}</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+    	return clipboardSource.Replace ("{", "{{").Replace ("}", "}}");
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>foreach (string s in i) { Console.WriteLine ("These {sic} were from a list: X and Y"); }</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

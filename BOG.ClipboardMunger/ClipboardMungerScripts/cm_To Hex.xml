@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>To Hex</Title>
+  <Description>Source as a parsable integer</Description>
+  <Script>// SQL to CSharp string, and vice-versa
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using System.Web;
+using BOG.Framework;
+
+public class Script : Interfaces.IClipboard
+{
+        public string Munge(string clipboardSource)
+        {
+                string Reformatted = string.Empty;
+                if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Reformat", "Enter the new line format... use {0} for the original line", ref Reformatted))
+                {
+                        return clipboardSource;
+                }
+                Reformatted = HttpUtility.UrlDecode(Reformatted);
+                
+                StringBuilder output = new StringBuilder();
+                foreach (string s in clipboardSource.Split (new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                        output.AppendLine (string.Format (Reformatted, int.Parse(s.Replace("\t", string.Empty).Replace(" ", string.Empty))));
+                }
+                return output.ToString();
+        }
+}</Script>
+  <Language>1</Language>
+  <TestData>120743922
+119862196
+
+0x{0:8x}</TestData>
+  <References>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

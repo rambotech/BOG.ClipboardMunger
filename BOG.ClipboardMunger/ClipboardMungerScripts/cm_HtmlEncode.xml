@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>HtmlEncode</Title>
+  <Description>&amp; to &amp;amp , etc etc</Description>
+  <Script>// Simple HTML Encode functionality.
+
+using System;
+using System.Text;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+    {
+       return System.Web.HttpUtility.HtmlEncode(clipboardSource);
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;settings&gt;
+  &lt;ClipboardMunger.ScriptFolder&gt;C:\Users\user\Documents\ClipboardMungerScripts&lt;/ClipboardMunger.ScriptFolder&gt;
+  &lt;Tester.EventTemplateSelected&gt;Default&lt;/Tester.EventTemplateSelected&gt;
+  &lt;ManagerMDI.FileMenu.MRU.0.FileName&gt;C:\Users\user\Documents\TempEnv.wkconf&lt;/ManagerMDI.FileMenu.MRU.0.FileName&gt;
+  &lt;ManagerMDI.FileMenu.MRU.0.DateTime&gt;12/4/2015 6:42:18 PM&lt;/ManagerMDI.FileMenu.MRU.0.DateTime&gt;
+&lt;/settings&gt;</TestData>
+  <References>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</string>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences />
+</ClipboardMungerScriptContainer>

@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Substring()</Title>
+  <Description>Enter the starting poistion (0 - ...) to return.  The remainder is returned.
+
+An empty string is returned if the length is shorter than needed.</Description>
+  <Script>// Substring() to truncate the beginning of a number of lines.
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+using System.Web;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+        string Marker = "1";
+        if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Substring()", "Enter the starting position (1 or greater) to return", ref Marker))
+        {
+        	return clipboardSource;
+        }
+        int Offset = int.Parse (Marker);
+        if (Offset &lt; 1) Offset = 1;
+        
+    	StringBuilder Result = new StringBuilder();
+        foreach (string line in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.None))
+        {
+        	Result.AppendLine (line.Length &lt;= Offset ? string.Empty : line.Substring(Offset));
+        }
+        return Result.ToString();
+    }
+}
+
+</Script>
+  <Language>1</Language>
+  <TestData>D*
+D
+D*1213
+D*456
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

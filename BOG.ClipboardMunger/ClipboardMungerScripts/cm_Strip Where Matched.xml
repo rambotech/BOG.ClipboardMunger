@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Strip Where Matched</Title>
+  <Description>Clipboard contains lines separated by cr+lf.  Returns only those lines which DO match a search value.  Discards all others</Description>
+  <Script>// Take a crlf delimited lines from clipboard.
+// Only returns those lines which DO not contain a specified search string.
+
+using System;
+using System.Text;
+using System.Windows.Forms;
+using BOG.Framework;
+
+public class Script : Interfaces.IClipboard
+{
+    public string Munge(string clipboardSource)
+    {
+		StringBuilder result = new StringBuilder();
+		string Filter = string.Empty;
+		if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Filter", "Enter a phrase which, when exists, will cause the line to be discarded", ref Filter))
+		{
+			Filter = string.Empty;
+		}
+
+		string Source = clipboardSource.Replace("\r\n", "\n").Replace("\r", "\n");
+		foreach (string ThisLine in Source.Split(new string[] { "\n" }, StringSplitOptions.None))
+		{
+			if (ThisLine.IndexOf (Filter) &lt; 0)
+			{
+				result.AppendLine(ThisLine);
+			}
+		}
+		return result.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>2012-10-15.completed	2012-10-14.completed
+2012-10-17	2012-10-16
+
+2012-09-05.completed	2012-09-04.completed
+</TestData>
+  <References>
+    <string>System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+    <string>System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</string>
+  </References>
+  <OtherReferences>
+    <string>C:\apps\Clipboard Munger\Framework.DLL</string>
+  </OtherReferences>
+</ClipboardMungerScriptContainer>

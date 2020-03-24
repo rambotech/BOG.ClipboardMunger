@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ClipboardMungerScriptContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>MD5 hash</Title>
+  <Description>Build an MD5 hash for the clipboard content.</Description>
+  <Script>// Simple UnEscape functionality.
+
+using System;
+using System.Text;
+using System.Security.Cryptography;
+
+public class Script : Interfaces.IClipboard
+{
+	public string Munge (string clipboardSource)
+	{
+		// step 1, calculate MD5 hash from input
+		MD5 md5 = MD5.Create();
+		byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(clipboardSource);
+		byte[] hash = md5.ComputeHash(inputBytes);
+		
+		// step 2, convert byte array to hex string
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i &lt; hash.Length; i++)
+		{
+		    sb.Append(hash[i].ToString("x2"));
+		}
+		return sb.ToString();
+    }
+}</Script>
+  <Language>1</Language>
+  <TestData>The quick brown fox jumped over the lazy dogs back.</TestData>
+  <References />
+  <OtherReferences />
+</ClipboardMungerScriptContainer>
