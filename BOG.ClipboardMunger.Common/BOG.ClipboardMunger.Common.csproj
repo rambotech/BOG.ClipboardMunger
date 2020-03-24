@@ -45,6 +45,7 @@
     <Compile Include="Entity\Argument.cs" />
     <Compile Include="Entity\Example.cs" />
     <Compile Include="Helper\MethodRetriever.cs" />
+    <Compile Include="MethodLibrary\Base64Decode.cs" />
     <Compile Include="MethodLibrary\Base64Encode.cs" />
     <Compile Include="Interface\IClipboardMungerProvider.cs" />
     <Compile Include="MethodLibrary\MakeGuid.cs" />

@@ -52,7 +52,7 @@ namespace BOG.ClipboardMunger
 			var methods = new List<string>();
 			foreach (var itemKey in _MethodRetriever.mungers.Keys)
 			{
-				if (itemKey.Contains(searchFilter))
+				if (itemKey.ToLower().Contains(searchFilter))
 				{
 					methods.Add(itemKey);
 				}
@@ -82,6 +82,7 @@ namespace BOG.ClipboardMunger
 				{
 					this.trvScripts.Nodes.Add(groupNode);
 				}
+				this.trvScripts.ExpandAll();
 			}
 			if (!string.IsNullOrWhiteSpace(searchFilter))
 			{
@@ -99,17 +100,12 @@ namespace BOG.ClipboardMunger
 
 		}
 
-		private void txtFilter_TextChanged(object sender, EventArgs e)
-		{
-			searchFilter = this.txtFilter.Text;
-			LoadScriptTree();
-		}
-
 		private void trvScripts_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			if (e.Node.Nodes.Count > 0)
 			{
-				this.tabstripMain.Visible = false;
+				this.tabstripScript.Visible = false;
+				this.tabpageScript.Text = "Select a script for use";
 				return;
 			}
 			var nodeKey = e.Node.Parent.Text + "::" + e.Node.Text;
@@ -124,12 +120,42 @@ namespace BOG.ClipboardMunger
 					item.Value.ValidatorRegex
 				});
 			}
-			this.tabstripMain.Visible = true;
+			this.tabpageScript.Text = $"Script for {e.Node.Text} ({e.Node.Parent.Text})";
+			this.tabstripScript.Visible = true;
 		}
 
 		private void frmScriptExec_Activated(object sender, EventArgs e)
 		{
 			this.txtClipboardContent.Text = Clipboard.GetText();
+		}
+
+		private void txtFilter_TextChanged(object sender, EventArgs e)
+		{
+			timer1.Stop();
+			searchFilter = this.txtFilter.Text.ToLower();
+			timer1.Interval = 700;
+			timer1.Enabled = true;
+			timer1.Start();
+		}
+
+		private void btnClearFilter_Click(object sender, EventArgs e)
+		{
+			timer1.Stop();
+			searchFilter = string.Empty;
+			this.txtFilter.Text = string.Empty;
+			timer1.Interval = 700;
+			timer1.Enabled = true;
+			timer1.Start();
+		}
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			if (!ScriptTreeRebuilding)
+			{
+				timer1.Stop();
+				timer1.Enabled = false;
+				LoadScriptTree();
+			}
 		}
 	}
 }

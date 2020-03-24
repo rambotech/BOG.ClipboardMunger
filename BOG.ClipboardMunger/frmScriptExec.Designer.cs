@@ -45,12 +45,16 @@
 			this.tabstripMain = new System.Windows.Forms.TabControl();
 			this.tabpageClipboardContent = new System.Windows.Forms.TabPage();
 			this.txtClipboardContent = new System.Windows.Forms.TextBox();
-			this.tabpageArguments = new System.Windows.Forms.TabPage();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.tabpageScript = new System.Windows.Forms.TabPage();
+			this.tabstripScript = new System.Windows.Forms.TabControl();
+			this.tabArguments = new System.Windows.Forms.TabPage();
 			this.dgScriptArguments = new System.Windows.Forms.DataGridView();
 			this.ArgumentName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentValidator = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.tabpageExample = new System.Windows.Forms.TabPage();
 			this.trayContextMenu.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -66,7 +70,9 @@
 			this.splitContainer3.SuspendLayout();
 			this.tabstripMain.SuspendLayout();
 			this.tabpageClipboardContent.SuspendLayout();
-			this.tabpageArguments.SuspendLayout();
+			this.tabpageScript.SuspendLayout();
+			this.tabstripScript.SuspendLayout();
+			this.tabArguments.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgScriptArguments)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -158,6 +164,7 @@
 			this.btnClearFilter.TabIndex = 1;
 			this.btnClearFilter.Text = "X";
 			this.btnClearFilter.UseVisualStyleBackColor = true;
+			this.btnClearFilter.Click += new System.EventHandler(this.btnClearFilter_Click);
 			// 
 			// txtFilter
 			// 
@@ -196,14 +203,13 @@
 			// tabstripMain
 			// 
 			this.tabstripMain.Controls.Add(this.tabpageClipboardContent);
-			this.tabstripMain.Controls.Add(this.tabpageArguments);
+			this.tabstripMain.Controls.Add(this.tabpageScript);
 			this.tabstripMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabstripMain.Location = new System.Drawing.Point(0, 0);
 			this.tabstripMain.Name = "tabstripMain";
 			this.tabstripMain.SelectedIndex = 0;
 			this.tabstripMain.Size = new System.Drawing.Size(525, 371);
 			this.tabstripMain.TabIndex = 4;
-			this.tabstripMain.Visible = false;
 			// 
 			// tabpageClipboardContent
 			// 
@@ -226,16 +232,43 @@
 			this.txtClipboardContent.Size = new System.Drawing.Size(511, 339);
 			this.txtClipboardContent.TabIndex = 0;
 			// 
-			// tabpageArguments
+			// timer1
 			// 
-			this.tabpageArguments.Controls.Add(this.dgScriptArguments);
-			this.tabpageArguments.Location = new System.Drawing.Point(4, 22);
-			this.tabpageArguments.Name = "tabpageArguments";
-			this.tabpageArguments.Padding = new System.Windows.Forms.Padding(3);
-			this.tabpageArguments.Size = new System.Drawing.Size(522, 345);
-			this.tabpageArguments.TabIndex = 1;
-			this.tabpageArguments.Text = "Script Arguments";
-			this.tabpageArguments.UseVisualStyleBackColor = true;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
+			// tabpageScript
+			// 
+			this.tabpageScript.Controls.Add(this.tabstripScript);
+			this.tabpageScript.Location = new System.Drawing.Point(4, 22);
+			this.tabpageScript.Name = "tabpageScript";
+			this.tabpageScript.Padding = new System.Windows.Forms.Padding(3);
+			this.tabpageScript.Size = new System.Drawing.Size(517, 345);
+			this.tabpageScript.TabIndex = 1;
+			this.tabpageScript.Text = "Script";
+			this.tabpageScript.ToolTipText = "Any values needed for the munge process";
+			this.tabpageScript.UseVisualStyleBackColor = true;
+			// 
+			// tabstripScript
+			// 
+			this.tabstripScript.Controls.Add(this.tabArguments);
+			this.tabstripScript.Controls.Add(this.tabpageExample);
+			this.tabstripScript.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabstripScript.Location = new System.Drawing.Point(3, 3);
+			this.tabstripScript.Name = "tabstripScript";
+			this.tabstripScript.SelectedIndex = 0;
+			this.tabstripScript.Size = new System.Drawing.Size(511, 339);
+			this.tabstripScript.TabIndex = 1;
+			// 
+			// tabArguments
+			// 
+			this.tabArguments.Controls.Add(this.dgScriptArguments);
+			this.tabArguments.Location = new System.Drawing.Point(4, 22);
+			this.tabArguments.Name = "tabArguments";
+			this.tabArguments.Padding = new System.Windows.Forms.Padding(3);
+			this.tabArguments.Size = new System.Drawing.Size(503, 313);
+			this.tabArguments.TabIndex = 0;
+			this.tabArguments.Text = "Arguments";
+			this.tabArguments.UseVisualStyleBackColor = true;
 			// 
 			// dgScriptArguments
 			// 
@@ -248,8 +281,8 @@
 			this.dgScriptArguments.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dgScriptArguments.Location = new System.Drawing.Point(3, 3);
 			this.dgScriptArguments.Name = "dgScriptArguments";
-			this.dgScriptArguments.Size = new System.Drawing.Size(516, 339);
-			this.dgScriptArguments.TabIndex = 3;
+			this.dgScriptArguments.Size = new System.Drawing.Size(497, 307);
+			this.dgScriptArguments.TabIndex = 4;
 			// 
 			// ArgumentName
 			// 
@@ -273,6 +306,16 @@
 			this.ArgumentValidator.HeaderText = "ArgumentValidator";
 			this.ArgumentValidator.Name = "ArgumentValidator";
 			this.ArgumentValidator.ReadOnly = true;
+			// 
+			// tabpageExample
+			// 
+			this.tabpageExample.Location = new System.Drawing.Point(4, 22);
+			this.tabpageExample.Name = "tabpageExample";
+			this.tabpageExample.Padding = new System.Windows.Forms.Padding(3);
+			this.tabpageExample.Size = new System.Drawing.Size(503, 313);
+			this.tabpageExample.TabIndex = 1;
+			this.tabpageExample.Text = "Example";
+			this.tabpageExample.UseVisualStyleBackColor = true;
 			// 
 			// frmScriptExec
 			// 
@@ -304,7 +347,9 @@
 			this.tabstripMain.ResumeLayout(false);
 			this.tabpageClipboardContent.ResumeLayout(false);
 			this.tabpageClipboardContent.PerformLayout();
-			this.tabpageArguments.ResumeLayout(false);
+			this.tabpageScript.ResumeLayout(false);
+			this.tabstripScript.ResumeLayout(false);
+			this.tabArguments.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgScriptArguments)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -328,11 +373,15 @@
 		private System.Windows.Forms.TabControl tabstripMain;
 		private System.Windows.Forms.TabPage tabpageClipboardContent;
 		private System.Windows.Forms.TextBox txtClipboardContent;
-		private System.Windows.Forms.TabPage tabpageArguments;
+		private System.Windows.Forms.Timer timer1;
+		private System.Windows.Forms.TabPage tabpageScript;
+		private System.Windows.Forms.TabControl tabstripScript;
+		private System.Windows.Forms.TabPage tabArguments;
 		private System.Windows.Forms.DataGridView dgScriptArguments;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentName;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentValue;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentDescription;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentValidator;
+		private System.Windows.Forms.TabPage tabpageExample;
 	}
 }
