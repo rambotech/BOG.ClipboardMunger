@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,7 +49,14 @@
     <Compile Include="MethodLibrary\Base64Decode.cs" />
     <Compile Include="MethodLibrary\Base64Encode.cs" />
     <Compile Include="Interface\IClipboardMungerProvider.cs" />
+    <Compile Include="MethodLibrary\FilterByLine.cs" />
+    <Compile Include="MethodLibrary\HexView.cs" />
+    <Compile Include="MethodLibrary\JsonBeautify.cs" />
+    <Compile Include="MethodLibrary\JsonFromGrid.cs" />
+    <Compile Include="MethodLibrary\JsonMinimize.cs" />
+    <Compile Include="MethodLibrary\LinuxSlashes.cs" />
     <Compile Include="MethodLibrary\MakeGuid.cs" />
+    <Compile Include="MethodLibrary\WindowsSlashes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

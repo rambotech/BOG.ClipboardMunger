@@ -26,8 +26,6 @@ namespace BOG.ClipboardMunger
 
 		private string searchFilter = string.Empty;
 		private string selectedNodeKey = string.Empty;
-		private int ContextMenuScriptSelection = -1;
-		private int CurrentScriptSelectedIndex = -1;
 		private bool Terminating = false;
 
 		public frmScriptExec()
@@ -35,11 +33,15 @@ namespace BOG.ClipboardMunger
 			try
 			{
 				InitializeComponent();
-				this.notifyIcon.BalloonTipTitle = "Clipboard Munger";
-				this.notifyIcon.BalloonTipText = "Right-click for options";
+				this.notifyIcon1.BalloonTipTitle = "Clipboard Munger";
+				this.notifyIcon1.BalloonTipText = "Right-click for options";
 				BOG.Framework.AssemblyVersion a = new BOG.Framework.AssemblyVersion(System.Reflection.Assembly.GetEntryAssembly());
 				_MethodRetriever = new MethodRetriever();
+				this.trayContextMenu1.Items.Clear();
+				this.trayContextMenu1.Items.Add("&Restore GUI");
+				this.trayContextMenu1.Items.Add("-");
 				LoadScriptTree();
+				this.trayContextMenu1.Items.Add("E&xit");
 			}
 			catch (Exception err)
 			{
@@ -135,6 +137,7 @@ namespace BOG.ClipboardMunger
 		private void frmScriptExec_Activated(object sender, EventArgs e)
 		{
 			this.txtClipboardContent.Text = Clipboard.GetText();
+			this.toolStripStatusLabel1.Text = string.Format("{0:#,#} byte(s) currently on the clipboard", this.txtClipboardContent.Text.Length);
 		}
 
 		private void txtFilter_TextChanged(object sender, EventArgs e)
@@ -166,11 +169,6 @@ namespace BOG.ClipboardMunger
 			}
 		}
 
-		private void ValidateParameters()
-		{
-
-		}
-
 		private void btnMunge_Click(object sender, EventArgs e)
 		{
 			var o = _MethodRetriever.mungers[selectedNodeKey];
@@ -178,25 +176,30 @@ namespace BOG.ClipboardMunger
 			string argName = string.Empty;
 			string argValue = string.Empty;
 			string argValidator = string.Empty;
+			var IsScriptExecuted = true;
 			try
-			{ 
-				if (o.GetArguments().Count > 0)
+			{
+				var argSet = o.GetArguments();
+				foreach (var key in argSet.Keys)
 				{
-					foreach (DataGridViewRow row in this.dgScriptArguments.Rows)
+					var input = new InputBox(argSet[key]);
+					input.ShowDialog();
+					if (input.IsCancelled)
 					{
-						argName = (string)row.Cells[0].Value;
-						if (argName == null) continue;
-						argValue = (string)row.Cells[1].Value;
-						argValidator = (string)row.Cells[3].Value;
-						var regex = new Regex(argValidator);
-						if (!regex.IsMatch(argValue)) throw new InvalidDataException($"argument {argName} has an invalid value: {argValue}");
-						args.Add(argName, argValue);
+						IsScriptExecuted = false;
+						break;
 					}
+					args.Add(argSet[key].Name, input.ValueEntered);
 				}
 			}
 			catch (Exception err)
 			{
 				MessageBox.Show(DetailedException.WithUserContent(ref err), "Error with argument(s)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			if (!IsScriptExecuted)
+			{
+				MessageBox.Show("Cancelled", "Munger not run against clipboard", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 			try
@@ -210,6 +213,66 @@ namespace BOG.ClipboardMunger
 				MessageBox.Show(DetailedException.WithUserContent(ref err), "Error with argument(s)", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
+		}
+
+		private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+		{
+			Show();
+			WindowState = FormWindowState.Normal;
+		}
+
+		private void frmScriptExec_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (Terminating) return;
+
+			bool SubjectToCancellation = true;
+			if (SubjectToCancellation && e.CloseReason != CloseReason.UserClosing)
+			{
+				SubjectToCancellation = false;
+			}
+			if (SubjectToCancellation && MessageBox.Show("The application is normally minimized to the tray, but this action will shut it down.\r\nContinue anyway?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+			{
+				e.Cancel = true;
+			}
+			if (!e.Cancel)
+			{
+				e.Cancel = true;
+				this.notifyIcon1.Visible = false;
+				this.notifyIcon1.Dispose();
+				Terminating = true;
+				this.timerShutdown.Interval = 100;
+				this.timerShutdown.Enabled = true;
+				this.timerShutdown.Start();
+			}
+		}
+
+		private void timerShutdown_Tick(object sender, EventArgs e)
+		{
+			timerShutdown.Stop();
+			timerShutdown.Enabled = false;
+			if (Terminating)
+			{
+				this.Close();
+			}
+		}
+
+		private void trayContextMenu1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			if (e.ClickedItem.Text == "&Restore GUI")
+			{
+				Show();
+				WindowState = FormWindowState.Normal;
+			}
+			else if (e.ClickedItem.Text == "E&xit")
+			{
+				this.Close();
+			}
+		}
+
+		private void frmScriptExec_Resize(object sender, EventArgs e)
+		{
+			if (FormWindowState.Minimized == WindowState)
+				Hide();
 		}
 	}
 }

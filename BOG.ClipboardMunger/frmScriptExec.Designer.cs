@@ -30,11 +30,11 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmScriptExec));
-			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.trayContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+			this.trayContextMenu1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-			this.statusStrip = new System.Windows.Forms.StatusStrip();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -45,20 +45,21 @@
 			this.tabstripMain = new System.Windows.Forms.TabControl();
 			this.tabpageClipboardContent = new System.Windows.Forms.TabPage();
 			this.txtClipboardContent = new System.Windows.Forms.TextBox();
+			this.tabpageError = new System.Windows.Forms.TabPage();
+			this.txtError = new System.Windows.Forms.TextBox();
 			this.tabpageScript = new System.Windows.Forms.TabPage();
 			this.tabstripScript = new System.Windows.Forms.TabControl();
 			this.tabArguments = new System.Windows.Forms.TabPage();
 			this.dgScriptArguments = new System.Windows.Forms.DataGridView();
+			this.btnMunge = new System.Windows.Forms.Button();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.timerShutdown = new System.Windows.Forms.Timer(this.components);
 			this.ArgumentName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ArgumentValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ArgumentDefaultValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentValidator = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.btnMunge = new System.Windows.Forms.Button();
-			this.tabpageError = new System.Windows.Forms.TabPage();
-			this.txtError = new System.Windows.Forms.TextBox();
-			this.trayContextMenu.SuspendLayout();
-			this.statusStrip.SuspendLayout();
+			this.trayContextMenu1.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -73,25 +74,31 @@
 			this.splitContainer3.SuspendLayout();
 			this.tabstripMain.SuspendLayout();
 			this.tabpageClipboardContent.SuspendLayout();
+			this.tabpageError.SuspendLayout();
 			this.tabpageScript.SuspendLayout();
 			this.tabstripScript.SuspendLayout();
 			this.tabArguments.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgScriptArguments)).BeginInit();
-			this.tabpageError.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// notifyIcon
+			// notifyIcon1
 			// 
-			this.notifyIcon.Text = "Clipboard Munger";
-			this.notifyIcon.Visible = true;
+			this.notifyIcon1.BalloonTipText = "Right-click for options";
+			this.notifyIcon1.BalloonTipTitle = "Clipboard Munger";
+			this.notifyIcon1.ContextMenuStrip = this.trayContextMenu1;
+			this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+			this.notifyIcon1.Text = "Clipboard Munger";
+			this.notifyIcon1.Visible = true;
+			this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
 			// 
-			// trayContextMenu
+			// trayContextMenu1
 			// 
-			this.trayContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.trayContextMenu1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.toolStripMenuItem2});
-			this.trayContextMenu.Name = "trayContextMenu";
-			this.trayContextMenu.Size = new System.Drawing.Size(136, 32);
+			this.trayContextMenu1.Name = "trayContextMenu";
+			this.trayContextMenu1.Size = new System.Drawing.Size(136, 32);
+			this.trayContextMenu1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.trayContextMenu1_ItemClicked);
 			// 
 			// toolStripMenuItem1
 			// 
@@ -104,15 +111,15 @@
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
 			this.toolStripMenuItem2.Size = new System.Drawing.Size(132, 6);
 			// 
-			// statusStrip
+			// statusStrip1
 			// 
-			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-			this.statusStrip.Location = new System.Drawing.Point(0, 428);
-			this.statusStrip.Name = "statusStrip";
-			this.statusStrip.Size = new System.Drawing.Size(800, 22);
-			this.statusStrip.TabIndex = 1;
-			this.statusStrip.Text = "statusStrip1";
+			this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+			this.statusStrip1.TabIndex = 1;
+			this.statusStrip1.Text = "statusStrip1";
 			// 
 			// toolStripStatusLabel1
 			// 
@@ -234,12 +241,33 @@
 			// txtClipboardContent
 			// 
 			this.txtClipboardContent.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtClipboardContent.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtClipboardContent.Location = new System.Drawing.Point(3, 3);
 			this.txtClipboardContent.Multiline = true;
 			this.txtClipboardContent.Name = "txtClipboardContent";
 			this.txtClipboardContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.txtClipboardContent.Size = new System.Drawing.Size(511, 339);
 			this.txtClipboardContent.TabIndex = 0;
+			// 
+			// tabpageError
+			// 
+			this.tabpageError.Controls.Add(this.txtError);
+			this.tabpageError.Location = new System.Drawing.Point(4, 22);
+			this.tabpageError.Name = "tabpageError";
+			this.tabpageError.Size = new System.Drawing.Size(517, 345);
+			this.tabpageError.TabIndex = 2;
+			this.tabpageError.Text = "Error";
+			this.tabpageError.UseVisualStyleBackColor = true;
+			// 
+			// txtError
+			// 
+			this.txtError.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtError.Location = new System.Drawing.Point(0, 0);
+			this.txtError.Multiline = true;
+			this.txtError.Name = "txtError";
+			this.txtError.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.txtError.Size = new System.Drawing.Size(517, 345);
+			this.txtError.TabIndex = 1;
 			// 
 			// tabpageScript
 			// 
@@ -279,7 +307,7 @@
 			this.dgScriptArguments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dgScriptArguments.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ArgumentName,
-            this.ArgumentValue,
+            this.ArgumentDefaultValue,
             this.ArgumentDescription,
             this.ArgumentValidator});
 			this.dgScriptArguments.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -288,36 +316,10 @@
 			this.dgScriptArguments.Size = new System.Drawing.Size(497, 307);
 			this.dgScriptArguments.TabIndex = 4;
 			// 
-			// ArgumentName
-			// 
-			this.ArgumentName.HeaderText = "ArgumentName";
-			this.ArgumentName.Name = "ArgumentName";
-			this.ArgumentName.ReadOnly = true;
-			// 
-			// ArgumentValue
-			// 
-			this.ArgumentValue.HeaderText = "ArgumentValue";
-			this.ArgumentValue.Name = "ArgumentValue";
-			// 
-			// ArgumentDescription
-			// 
-			this.ArgumentDescription.HeaderText = "ArgumentDescription";
-			this.ArgumentDescription.Name = "ArgumentDescription";
-			this.ArgumentDescription.ReadOnly = true;
-			// 
-			// ArgumentValidator
-			// 
-			this.ArgumentValidator.HeaderText = "ArgumentValidator";
-			this.ArgumentValidator.Name = "ArgumentValidator";
-			this.ArgumentValidator.ReadOnly = true;
-			// 
-			// timer1
-			// 
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
 			// btnMunge
 			// 
 			this.btnMunge.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.btnMunge.Enabled = false;
 			this.btnMunge.Location = new System.Drawing.Point(0, 0);
 			this.btnMunge.Name = "btnMunge";
 			this.btnMunge.Size = new System.Drawing.Size(525, 53);
@@ -326,25 +328,36 @@
 			this.btnMunge.UseVisualStyleBackColor = true;
 			this.btnMunge.Click += new System.EventHandler(this.btnMunge_Click);
 			// 
-			// tabpageError
+			// timer1
 			// 
-			this.tabpageError.Controls.Add(this.txtError);
-			this.tabpageError.Location = new System.Drawing.Point(4, 22);
-			this.tabpageError.Name = "tabpageError";
-			this.tabpageError.Size = new System.Drawing.Size(517, 345);
-			this.tabpageError.TabIndex = 2;
-			this.tabpageError.Text = "Error";
-			this.tabpageError.UseVisualStyleBackColor = true;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
-			// txtError
+			// timerShutdown
 			// 
-			this.txtError.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtError.Location = new System.Drawing.Point(0, 0);
-			this.txtError.Multiline = true;
-			this.txtError.Name = "txtError";
-			this.txtError.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtError.Size = new System.Drawing.Size(517, 345);
-			this.txtError.TabIndex = 1;
+			this.timerShutdown.Tick += new System.EventHandler(this.timerShutdown_Tick);
+			// 
+			// ArgumentName
+			// 
+			this.ArgumentName.HeaderText = "Argument Name";
+			this.ArgumentName.Name = "ArgumentName";
+			this.ArgumentName.ReadOnly = true;
+			// 
+			// ArgumentDefaultValue
+			// 
+			this.ArgumentDefaultValue.HeaderText = "Default Value";
+			this.ArgumentDefaultValue.Name = "ArgumentDefaultValue";
+			// 
+			// ArgumentDescription
+			// 
+			this.ArgumentDescription.HeaderText = "Argument Description";
+			this.ArgumentDescription.Name = "ArgumentDescription";
+			this.ArgumentDescription.ReadOnly = true;
+			// 
+			// ArgumentValidator
+			// 
+			this.ArgumentValidator.HeaderText = "Argument Validator";
+			this.ArgumentValidator.Name = "ArgumentValidator";
+			this.ArgumentValidator.ReadOnly = true;
 			// 
 			// frmScriptExec
 			// 
@@ -352,15 +365,17 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.Controls.Add(this.splitContainer1);
-			this.Controls.Add(this.statusStrip);
+			this.Controls.Add(this.statusStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "frmScriptExec";
 			this.Text = "Clipboard Munger Utility";
 			this.Activated += new System.EventHandler(this.frmScriptExec_Activated);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmScriptExec_FormClosing);
 			this.Load += new System.EventHandler(this.ScriptExec_Load);
-			this.trayContextMenu.ResumeLayout(false);
-			this.statusStrip.ResumeLayout(false);
-			this.statusStrip.PerformLayout();
+			this.Resize += new System.EventHandler(this.frmScriptExec_Resize);
+			this.trayContextMenu1.ResumeLayout(false);
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -377,12 +392,12 @@
 			this.tabstripMain.ResumeLayout(false);
 			this.tabpageClipboardContent.ResumeLayout(false);
 			this.tabpageClipboardContent.PerformLayout();
+			this.tabpageError.ResumeLayout(false);
+			this.tabpageError.PerformLayout();
 			this.tabpageScript.ResumeLayout(false);
 			this.tabstripScript.ResumeLayout(false);
 			this.tabArguments.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgScriptArguments)).EndInit();
-			this.tabpageError.ResumeLayout(false);
-			this.tabpageError.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -390,11 +405,11 @@
 
 		#endregion
 
-		private System.Windows.Forms.NotifyIcon notifyIcon;
-		private System.Windows.Forms.ContextMenuStrip trayContextMenu;
+		private System.Windows.Forms.NotifyIcon notifyIcon1;
+		private System.Windows.Forms.ContextMenuStrip trayContextMenu1;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-		private System.Windows.Forms.StatusStrip statusStrip;
+		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.SplitContainer splitContainer2;
@@ -410,12 +425,13 @@
 		private System.Windows.Forms.TabControl tabstripScript;
 		private System.Windows.Forms.TabPage tabArguments;
 		private System.Windows.Forms.DataGridView dgScriptArguments;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentName;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentValue;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentDescription;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentValidator;
 		private System.Windows.Forms.Button btnMunge;
 		private System.Windows.Forms.TabPage tabpageError;
 		private System.Windows.Forms.TextBox txtError;
+		private System.Windows.Forms.Timer timerShutdown;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentName;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentDefaultValue;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentDescription;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentValidator;
 	}
 }

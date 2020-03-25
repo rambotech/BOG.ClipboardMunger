@@ -23,6 +23,7 @@ Standard scripts included are:
 - Double line spacing to single line spacing
 - SQL Script construction from lines of Tab Separated Values.  (i.e. copy directly from sheet to SSMS, and bypass a longer SQL import process)
 - JSON construction from lines of Tab Separated Values.
+- JSON Beautify or minimize.
 - SHA1 / MD5 hash value
 - JSON and XML reformat for readability.
 - String splits and joins.

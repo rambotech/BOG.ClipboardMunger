@@ -58,6 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputBox.Designer.cs">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="frmScriptExec.cs">
@@ -72,6 +78,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings1.settings</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="InputBox.resx">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -102,8 +111,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClipboardMungerScripts\cm_Base64 Decode.xml" />
-    <Content Include="ClipboardMungerScripts\cm_Base64 Encode.xml" />
     <Content Include="ClipboardMungerScripts\cm_CSharp Class Fill out %28auto property%29.xml" />
     <Content Include="ClipboardMungerScripts\cm_CSharp Class Fill out %28object-bias%29.xml" />
     <Content Include="ClipboardMungerScripts\cm_CSharp Class Fill out %28object-bias, object return%29.xml" />
@@ -116,24 +123,15 @@
     <Content Include="ClipboardMungerScripts\cm_E-02 to double.xml" />
     <Content Include="ClipboardMungerScripts\cm_Equal_Swap.xml" />
     <Content Include="ClipboardMungerScripts\cm_Escape%28%29.xml" />
-    <Content Include="ClipboardMungerScripts\cm_Filter for tab_crlf grid %28Keep%29.xml" />
-    <Content Include="ClipboardMungerScripts\cm_Filter with Line Number %28Escaped%29.xml" />
     <Content Include="ClipboardMungerScripts\cm_FirstCharacterOnly.xml" />
-    <Content Include="ClipboardMungerScripts\cm_FOR LINUX Backslashes to forward slashes.xml" />
-    <Content Include="ClipboardMungerScripts\cm_FOR WINDOWS forward slashes to Backslashes.xml" />
     <Content Include="ClipboardMungerScripts\cm_Formatted Date.xml" />
     <Content Include="ClipboardMungerScripts\cm_Grid Tab to Spaces.xml" />
     <Content Include="ClipboardMungerScripts\cm_Grid Trim.xml" />
-    <Content Include="ClipboardMungerScripts\cm_Hex View.xml" />
     <Content Include="ClipboardMungerScripts\cm_Hexify.xml" />
     <Content Include="ClipboardMungerScripts\cm_HtmlDecode.xml" />
     <Content Include="ClipboardMungerScripts\cm_HtmlEncode.xml" />
     <Content Include="ClipboardMungerScripts\cm_Join.xml" />
-    <Content Include="ClipboardMungerScripts\cm_JSON-it.xml" />
-    <Content Include="ClipboardMungerScripts\cm_JSON-minimize.xml" />
-    <Content Include="ClipboardMungerScripts\cm_JSON-readable.xml" />
     <Content Include="ClipboardMungerScripts\cm_Line Filter.xml" />
-    <Content Include="ClipboardMungerScripts\cm_Make a GUID.xml" />
     <Content Include="ClipboardMungerScripts\cm_MD5 hash.xml" />
     <Content Include="ClipboardMungerScripts\cm_Phoeneticized Password.xml" />
     <Content Include="ClipboardMungerScripts\cm_Pivot from 2-column tab_crlf grid.xml" />
