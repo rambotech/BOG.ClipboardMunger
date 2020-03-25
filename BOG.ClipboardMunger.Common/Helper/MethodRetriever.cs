@@ -28,7 +28,7 @@ namespace BOG.ClipboardMunger.Common.Helper
 						ClipboardMungerProviderBase o = (ClipboardMungerProviderBase)Activator.CreateInstance(t);
 						if (o.GroupName.Contains(":") || o.MethodName.Contains(":"))
 						{
-							throw new Exception($"Group name ({o.GroupName}) or Method name ({o.MethodName}) can not contain a colon.");
+							throw new Exception($"Group name ({o.GroupName}) or Method name ({o.MethodName}) can not contain a colon: {t.FullName}");
 						}
 						mungers.Add(o.GroupName + "::" + o.MethodName, o);
 					}

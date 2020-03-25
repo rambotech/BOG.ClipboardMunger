@@ -1,4 +1,5 @@
-﻿using BOG.ClipboardMunger.Common.Helper;
+﻿using BOG.ClipboardMunger.Common.Entity;
+using BOG.ClipboardMunger.Common.Helper;
 using BOG.ClipboardMunger.Common.Interface;
 using BOG.Framework;
 using System;
@@ -10,6 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,7 +25,7 @@ namespace BOG.ClipboardMunger
 		private StringDictionary _AppSettings = new StringDictionary();
 
 		private string searchFilter = string.Empty;
-
+		private string selectedNodeKey = string.Empty;
 		private int ContextMenuScriptSelection = -1;
 		private int CurrentScriptSelectedIndex = -1;
 		private bool Terminating = false;
@@ -92,6 +94,7 @@ namespace BOG.ClipboardMunger
 			{
 				this.toolStripStatusLabel1.Text = $"Total: {_MethodRetriever.mungers.Keys.Count}";
 			}
+			this.txtFilter.BackColor = methods.Count == 0 ? Color.LightCoral : Color.White;
 			ScriptTreeRebuilding = false;
 		}
 
@@ -104,13 +107,15 @@ namespace BOG.ClipboardMunger
 		{
 			if (e.Node.Nodes.Count > 0)
 			{
+				this.tabpageClipboardContent.Select();
 				this.tabstripScript.Visible = false;
+				this.btnMunge.Enabled = false;
 				this.tabpageScript.Text = "Select a script for use";
 				return;
 			}
-			var nodeKey = e.Node.Parent.Text + "::" + e.Node.Text;
+			selectedNodeKey = e.Node.Parent.Text + "::" + e.Node.Text;
 			this.dgScriptArguments.Rows.Clear();
-			foreach (var item in _MethodRetriever.mungers[nodeKey].GetArguments())
+			foreach (var item in _MethodRetriever.mungers[selectedNodeKey].GetArguments())
 			{
 				this.dgScriptArguments.Rows.Add(new object[]
 				{
@@ -122,6 +127,9 @@ namespace BOG.ClipboardMunger
 			}
 			this.tabpageScript.Text = $"Script for {e.Node.Text} ({e.Node.Parent.Text})";
 			this.tabstripScript.Visible = true;
+			this.tabstripScript.Show();
+			this.tabArguments.Select();
+			this.btnMunge.Enabled = true;
 		}
 
 		private void frmScriptExec_Activated(object sender, EventArgs e)
@@ -155,6 +163,52 @@ namespace BOG.ClipboardMunger
 				timer1.Stop();
 				timer1.Enabled = false;
 				LoadScriptTree();
+			}
+		}
+
+		private void ValidateParameters()
+		{
+
+		}
+
+		private void btnMunge_Click(object sender, EventArgs e)
+		{
+			var o = _MethodRetriever.mungers[selectedNodeKey];
+			var args = new Dictionary<string, string>();
+			string argName = string.Empty;
+			string argValue = string.Empty;
+			string argValidator = string.Empty;
+			try
+			{ 
+				if (o.GetArguments().Count > 0)
+				{
+					foreach (DataGridViewRow row in this.dgScriptArguments.Rows)
+					{
+						argName = (string)row.Cells[0].Value;
+						if (argName == null) continue;
+						argValue = (string)row.Cells[1].Value;
+						argValidator = (string)row.Cells[3].Value;
+						var regex = new Regex(argValidator);
+						if (!regex.IsMatch(argValue)) throw new InvalidDataException($"argument {argName} has an invalid value: {argValue}");
+						args.Add(argName, argValue);
+					}
+				}
+			}
+			catch (Exception err)
+			{
+				MessageBox.Show(DetailedException.WithUserContent(ref err), "Error with argument(s)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			try
+			{
+				this.txtClipboardContent.Text = o.MungeClipboard(this.txtClipboardContent.Text, args);
+				Clipboard.SetText(this.txtClipboardContent.Text);
+			}
+			catch (Exception err)
+			{
+				this.txtError.Text = DetailedException.WithUserContent(ref err);
+				MessageBox.Show(DetailedException.WithUserContent(ref err), "Error with argument(s)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
 			}
 		}
 	}

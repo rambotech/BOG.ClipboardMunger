@@ -45,7 +45,6 @@
 			this.tabstripMain = new System.Windows.Forms.TabControl();
 			this.tabpageClipboardContent = new System.Windows.Forms.TabPage();
 			this.txtClipboardContent = new System.Windows.Forms.TextBox();
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.tabpageScript = new System.Windows.Forms.TabPage();
 			this.tabstripScript = new System.Windows.Forms.TabControl();
 			this.tabArguments = new System.Windows.Forms.TabPage();
@@ -54,7 +53,10 @@
 			this.ArgumentValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentValidator = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.tabpageExample = new System.Windows.Forms.TabPage();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.btnMunge = new System.Windows.Forms.Button();
+			this.tabpageError = new System.Windows.Forms.TabPage();
+			this.txtError = new System.Windows.Forms.TextBox();
 			this.trayContextMenu.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -67,6 +69,7 @@
 			this.splitContainer2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
 			this.splitContainer3.Panel1.SuspendLayout();
+			this.splitContainer3.Panel2.SuspendLayout();
 			this.splitContainer3.SuspendLayout();
 			this.tabstripMain.SuspendLayout();
 			this.tabpageClipboardContent.SuspendLayout();
@@ -74,6 +77,7 @@
 			this.tabstripScript.SuspendLayout();
 			this.tabArguments.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgScriptArguments)).BeginInit();
+			this.tabpageError.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// notifyIcon
@@ -196,6 +200,10 @@
 			// splitContainer3.Panel1
 			// 
 			this.splitContainer3.Panel1.Controls.Add(this.tabstripMain);
+			// 
+			// splitContainer3.Panel2
+			// 
+			this.splitContainer3.Panel2.Controls.Add(this.btnMunge);
 			this.splitContainer3.Size = new System.Drawing.Size(525, 428);
 			this.splitContainer3.SplitterDistance = 371;
 			this.splitContainer3.TabIndex = 4;
@@ -203,6 +211,7 @@
 			// tabstripMain
 			// 
 			this.tabstripMain.Controls.Add(this.tabpageClipboardContent);
+			this.tabstripMain.Controls.Add(this.tabpageError);
 			this.tabstripMain.Controls.Add(this.tabpageScript);
 			this.tabstripMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabstripMain.Location = new System.Drawing.Point(0, 0);
@@ -232,10 +241,6 @@
 			this.txtClipboardContent.Size = new System.Drawing.Size(511, 339);
 			this.txtClipboardContent.TabIndex = 0;
 			// 
-			// timer1
-			// 
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
 			// tabpageScript
 			// 
 			this.tabpageScript.Controls.Add(this.tabstripScript);
@@ -251,7 +256,6 @@
 			// tabstripScript
 			// 
 			this.tabstripScript.Controls.Add(this.tabArguments);
-			this.tabstripScript.Controls.Add(this.tabpageExample);
 			this.tabstripScript.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabstripScript.Location = new System.Drawing.Point(3, 3);
 			this.tabstripScript.Name = "tabstripScript";
@@ -307,15 +311,40 @@
 			this.ArgumentValidator.Name = "ArgumentValidator";
 			this.ArgumentValidator.ReadOnly = true;
 			// 
-			// tabpageExample
+			// timer1
 			// 
-			this.tabpageExample.Location = new System.Drawing.Point(4, 22);
-			this.tabpageExample.Name = "tabpageExample";
-			this.tabpageExample.Padding = new System.Windows.Forms.Padding(3);
-			this.tabpageExample.Size = new System.Drawing.Size(503, 313);
-			this.tabpageExample.TabIndex = 1;
-			this.tabpageExample.Text = "Example";
-			this.tabpageExample.UseVisualStyleBackColor = true;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
+			// btnMunge
+			// 
+			this.btnMunge.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.btnMunge.Location = new System.Drawing.Point(0, 0);
+			this.btnMunge.Name = "btnMunge";
+			this.btnMunge.Size = new System.Drawing.Size(525, 53);
+			this.btnMunge.TabIndex = 0;
+			this.btnMunge.Text = "Munge";
+			this.btnMunge.UseVisualStyleBackColor = true;
+			this.btnMunge.Click += new System.EventHandler(this.btnMunge_Click);
+			// 
+			// tabpageError
+			// 
+			this.tabpageError.Controls.Add(this.txtError);
+			this.tabpageError.Location = new System.Drawing.Point(4, 22);
+			this.tabpageError.Name = "tabpageError";
+			this.tabpageError.Size = new System.Drawing.Size(517, 345);
+			this.tabpageError.TabIndex = 2;
+			this.tabpageError.Text = "Error";
+			this.tabpageError.UseVisualStyleBackColor = true;
+			// 
+			// txtError
+			// 
+			this.txtError.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtError.Location = new System.Drawing.Point(0, 0);
+			this.txtError.Multiline = true;
+			this.txtError.Name = "txtError";
+			this.txtError.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.txtError.Size = new System.Drawing.Size(517, 345);
+			this.txtError.TabIndex = 1;
 			// 
 			// frmScriptExec
 			// 
@@ -342,6 +371,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
 			this.splitContainer2.ResumeLayout(false);
 			this.splitContainer3.Panel1.ResumeLayout(false);
+			this.splitContainer3.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
 			this.splitContainer3.ResumeLayout(false);
 			this.tabstripMain.ResumeLayout(false);
@@ -351,6 +381,8 @@
 			this.tabstripScript.ResumeLayout(false);
 			this.tabArguments.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgScriptArguments)).EndInit();
+			this.tabpageError.ResumeLayout(false);
+			this.tabpageError.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -382,6 +414,8 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentValue;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentDescription;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentValidator;
-		private System.Windows.Forms.TabPage tabpageExample;
+		private System.Windows.Forms.Button btnMunge;
+		private System.Windows.Forms.TabPage tabpageError;
+		private System.Windows.Forms.TextBox txtError;
 	}
 }
