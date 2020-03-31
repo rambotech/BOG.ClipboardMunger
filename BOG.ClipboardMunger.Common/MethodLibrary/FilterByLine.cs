@@ -25,13 +25,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			{
 				Name = "Line ending",
 				DefaultValue = @"%0D%0A",
-				Description = "Enter the line break sequence (default is Windows CR+LF)",
+				Description = @"Enter the line break sequence (URL escaped, eg. Windows CR+LF \r\n as %0d%0a)",
 				ValidatorRegex = @"(%[0-9a-fA-F]{2})+"
 			});
 			base.SetArgument(new Argument
 			{
 				Name = "Use line numbers",
-				DefaultValue = @"false",
+				DefaultValue = "false",
 				Description = "Whether line numbers should prefix the matched lines.",
 				ValidatorRegex = @"true|TRUE|false|FALSE"
 			});

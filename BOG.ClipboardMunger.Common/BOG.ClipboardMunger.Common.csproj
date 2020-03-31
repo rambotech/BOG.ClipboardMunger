@@ -56,6 +56,7 @@
     <Compile Include="MethodLibrary\JsonMinimize.cs" />
     <Compile Include="MethodLibrary\LinuxSlashes.cs" />
     <Compile Include="MethodLibrary\MakeGuid.cs" />
+    <Compile Include="MethodLibrary\SplitByDelimiter.cs" />
     <Compile Include="MethodLibrary\WindowsSlashes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

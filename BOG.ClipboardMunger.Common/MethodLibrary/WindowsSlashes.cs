@@ -11,7 +11,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	public class WindowsSlashes : ClipboardMungerProviderBase, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Use Windows back slash"; }
-		public override string GroupName { get => "Refactor"; }
+		public override string GroupName { get => "Cross-Platform"; }
 		public override string Description { get; }
 
 		public WindowsSlashes()
