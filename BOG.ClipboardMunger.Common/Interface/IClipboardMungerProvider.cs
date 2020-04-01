@@ -8,6 +8,9 @@ namespace BOG.ClipboardMunger.Common.Interface
 		string MethodName { get; }
 		string GroupName { get; }
 		string Description { get; }
+
+		List<string> GetExampleNames();
+		Example GetExample(string exampleName);
 		string Munge(string clipboardSource);
 	}
 }

@@ -14,7 +14,7 @@ public class Script : Interfaces.IClipboard
 	{
 	    string DateTimeBase = string.Empty;
 	    DateTime dateTimeBase = DateTime.Now;
-	    if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("DateTime (leave empty for nnow/today)", "Enter the date", ref DateTimeBase))
+	    if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("DateTime (leave empty for now/today)", "Enter the date", ref DateTimeBase))
 	    {
 	            return clipboardSource;
 	    }

@@ -18,14 +18,32 @@ namespace BOG.ClipboardMunger.Common.Base
 		/// </summary>
 		public virtual string GroupName { get => throw new NotImplementedException("GroupName not defined"); }
 		public virtual string Description { get => "No description available"; }
+
 		protected Dictionary<string, Argument> Arguments = new Dictionary<string, Argument>();
 		protected Dictionary<string, Example> Examples = new Dictionary<string, Example>();
 		protected Dictionary<string, string> ArgumentValues = new Dictionary<string, string>();
 
+		/// <summary>
+		/// Inheriting class must override.  This is the method called to change the clipboard text.
+		/// No try/catch block needed: the caller in the Windows form handles any exceptions.
+		/// </summary>
+		/// <param name="clipboardSource"></param>
+		/// <returns></returns>
 		public virtual string Munge(string clipboardSource)
 		{
 			throw new NotImplementedException();
 		}
+
+		public List<string> GetExampleNames()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Example GetExample(string exampleName)
+		{
+			throw new NotImplementedException();
+		}
+
 
 		public void SetArgument(Argument argument)
 		{
@@ -48,18 +66,8 @@ namespace BOG.ClipboardMunger.Common.Base
 			}
 			return result;
 		}
-
-		public Dictionary<string, Example> GetExamples()
-		{
-			var result = new Dictionary<string, Example>();
-			foreach (var key in Examples.Keys)
-			{
-				result.Add(key, Examples[key]);
-			}
-			return result;
-		}
-
-		public string MungeExample(string source, Dictionary<string, string> dialogTestArguments)
+		
+		public string MungeClipboard(string source, Dictionary<string, string> argumentValues)
 		{
 			ArgumentValues.Clear();
 			foreach (var key in Arguments.Keys)
@@ -67,33 +75,12 @@ namespace BOG.ClipboardMunger.Common.Base
 				ArgumentValues[key] = string.Empty;
 			}
 
-			foreach (var key in dialogTestArguments.Keys)
+			foreach (var key in argumentValues.Keys)
 			{
 				if (Arguments.ContainsKey(key))
 				{
-					ValidateValue(Arguments[key].ValidatorRegex, Arguments[key].Name, dialogTestArguments[key]);
-					ArgumentValues[key] = dialogTestArguments[key];
-				}
-			}
-			var result = Munge(source);
-			ArgumentValues.Clear();
-			return result;
-		}
-
-		public string MungeClipboard(string source, Dictionary<string, string> dialogTestArguments)
-		{
-			ArgumentValues.Clear();
-			foreach (var key in Arguments.Keys)
-			{
-				ArgumentValues[key] = string.Empty;
-			}
-
-			foreach (var key in dialogTestArguments.Keys)
-			{
-				if (Arguments.ContainsKey(key))
-				{
-					ValidateValue(Arguments[key].ValidatorRegex, Arguments[key].Name, dialogTestArguments[key]);
-					ArgumentValues[key] = dialogTestArguments[key];
+					ValidateValue(Arguments[key].ValidatorRegex, Arguments[key].Name, argumentValues[key]);
+					ArgumentValues[key] = argumentValues[key];
 				}
 			}
 			var result = Munge(source);

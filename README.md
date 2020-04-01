@@ -1,8 +1,8 @@
 *** THIS IS STILL A WORK IN PROGRESS ***
 
 # BOG.ClipboardMunger
-A Windows tray utility with a collection of methods to take clipboard text content, and replace it with some change.  Very useful for software deveopers, and for people
-who need to do a lot of standard data "munging", or quick actions to transform text.
+A Windows tray utility with a collection of methods to take clipboard text content, and replace it with some change. Very useful for software deveopers, and for people
+who need to do a lot of standard quick actions to transform text.
 
 Contains a basic set of scripts I have developed and used extensively over time.
 
