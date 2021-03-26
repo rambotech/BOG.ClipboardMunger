@@ -11,6 +11,8 @@ namespace BOG.ClipboardMunger.Common.Entity
 	{
 		[CategoryAttribute("Admin"), DisplayNameAttribute("Name"), DescriptionAttribute("The primary key for the argument."), ReadOnly(false)]
 		public string Name { get; set; }
+		[CategoryAttribute("Admin"), DisplayNameAttribute("Title"), DescriptionAttribute("The argument title displayed in the dialog."), ReadOnly(false)]
+		public string Title { get; set; }
 		[CategoryAttribute("Admin"), DisplayNameAttribute("Description"), DescriptionAttribute("What the argument supplies."), ReadOnly(false)]
 		public string Description { get; set; }
 		[CategoryAttribute("Control"), DisplayNameAttribute("DefaultValue"), DescriptionAttribute("What the argument has if the operator or example provides no value."), ReadOnly(false)]

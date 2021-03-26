@@ -18,21 +18,24 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		{
 			base.SetArgument(new Argument
 			{
-				Name = "Split by delimiter",
+				Name = "Delimiter",
+				Title = "Split by delimiter",
 				DefaultValue = string.Empty,
 				Description = @"Enter the delimiter to use (URL escaped, eg. \t as %09, % as %25)",
 				ValidatorRegex = ".+"
 			});
 			base.SetArgument(new Argument
 			{
-				Name = "Remove empty entries",
+				Name = "AreEmptyRemoved",
+				Title = "Remove empty entries",
 				DefaultValue = "true",
 				Description = "Should empty entries be excluded from the output?",
 				ValidatorRegex = @"true|TRUE|false|FALSE"
 			});
 			base.SetArgument(new Argument
 			{
-				Name = "Line terminator",
+				Name = "LineTerminator",
+				Title = "Line terminator",
 				DefaultValue = @"%0D%0A",
 				Description = @"Enter the line break sequence to append to each extracted item (URL escaped, eg. Windows CR+LF \r\n as %0d%0a)",
 				ValidatorRegex = @"(%[0-9a-fA-F]{2})+"
@@ -41,12 +44,12 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 		public override string Munge(string clipboardSource)
 		{
-			var delimiter = System.Web.HttpUtility.UrlDecode(ArgumentValues["Split by delimiter"]);
-			var removeBlankLines = bool.Parse(ArgumentValues["Remove empty entries"]);
-			var lineTerminator = System.Web.HttpUtility.UrlDecode(ArgumentValues["Line terminator"]);
+			var delimiter = System.Web.HttpUtility.UrlDecode(ArgumentValues["Delimiter"]);
+			var removeBlankLines = bool.Parse(ArgumentValues["AreEmptyRemoved"]);
+			var lineTerminator = System.Web.HttpUtility.UrlDecode(ArgumentValues["LineTerminator"]);
 
 			return string.Join(
-				"\r\n",
+				lineTerminator,
 				clipboardSource.Split(
 				new string[] { delimiter },
 				removeBlankLines ? StringSplitOptions.RemoveEmptyEntries: StringSplitOptions.None));

@@ -17,20 +17,23 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			base.SetArgument(new Argument
 			{
 				Name = "Filter",
+				Title = "Text filter to qualify a line",
 				DefaultValue = string.Empty,
 				Description = "Enter a phrase which must exist in a line to keep it",
 				ValidatorRegex = ".+"
 			});
 			base.SetArgument(new Argument
 			{
-				Name = "Line ending",
+				Name = "LineTerminator",
+				Title = "Line ending",
 				DefaultValue = @"%0D%0A",
 				Description = @"Enter the line break sequence (URL escaped, eg. Windows CR+LF \r\n as %0d%0a)",
 				ValidatorRegex = @"(%[0-9a-fA-F]{2})+"
 			});
 			base.SetArgument(new Argument
 			{
-				Name = "Use line numbers",
+				Name = "AreLineNumbersPrefixed",
+				Title = "Use line numbers",
 				DefaultValue = "false",
 				Description = "Whether line numbers should prefix the matched lines.",
 				ValidatorRegex = @"true|TRUE|false|FALSE"
@@ -40,8 +43,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string Munge(string clipboardSource)
 		{
 			var filter = ArgumentValues["Filter"];
-			var lineEnding = System.Web.HttpUtility.UrlDecode(ArgumentValues["Line ending"]);
-			var useLineNumbers = bool.Parse(ArgumentValues["Use line numbers"]);
+			var lineEnding = System.Web.HttpUtility.UrlDecode(ArgumentValues["LineTerminator"]);
+			var useLineNumbers = bool.Parse(ArgumentValues["AreLineNumbersPrefixed"]);
 			StringBuilder result = new StringBuilder();
 			var lineIndex = 0;
 			foreach (string ThisLine in clipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.RemoveEmptyEntries))

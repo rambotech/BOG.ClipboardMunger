@@ -28,7 +28,7 @@ namespace BOG.ClipboardMunger
 
 		private void InputBox_Load(object sender, EventArgs e)
 		{
-			this.Text = _arg.Name;
+			this.Text = _arg.Title;
 			this.txtDescription.Text = _arg.Description;
 			this.txtValue.Text = _arg.DefaultValue;
 		}

@@ -4,9 +4,7 @@
 A Windows tray utility with a collection of methods to take clipboard text content, and replace it with some change. Very useful for software deveopers, and for people
 who need to do a lot of standard quick actions to transform text.
 
-Contains a basic set of scripts I have developed and used extensively over time.
-
-If you would like to add scripts of your own, add them to the project BOG.ClipboardMunger.Common project 
+The project contains a basic set of scripts I have developed and used extensively over time. If you would like to add scripts of your own, add them to the project BOG.ClipboardMunger.Common project 
 in the MethodLibrary folder, and implement the IClipboardMungerProvider interface.
 - Set the GroupName and MethodName properties to unique values (appears in the list of available scripts).
 - Use neither any dispose method, nor connectivity.  The script must simply be data-in/data-out (atomic).  Anything more complex should not go in here.

@@ -19,6 +19,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			base.SetArgument(new Argument
 			{
 				Name = "Format",
+				Title = "Format of the generated GUID",
 				DefaultValue = "N",
 				Description = "N=32 digits (default), D=with hyphens, B=hyphens+brackets, P=hyphens+parentheses",
 				ValidatorRegex = "N|D|B|P"
@@ -26,6 +27,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			base.SetArgument(new Argument
 			{
 				Name = "Case",
+				Title = "Casing of letters",				
 				DefaultValue = "L",
 				Description = "U=All Upper, L=All Lower (default)",
 				ValidatorRegex = "U|L"

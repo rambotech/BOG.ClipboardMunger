@@ -54,6 +54,9 @@ namespace BOG.ClipboardMunger
 		{
 			ScriptTreeRebuilding = true;
 			var methods = new List<string>();
+			this.trayContextMenu1.Items.Clear();
+			this.trayContextMenu1.Items.Add("&Restore GUI");
+			this.trayContextMenu1.Items.Add("-");
 			foreach (var itemKey in _MethodRetriever.mungers.Keys)
 			{
 				if (itemKey.ToLower().Contains(searchFilter))
@@ -97,6 +100,9 @@ namespace BOG.ClipboardMunger
 				this.toolStripStatusLabel1.Text = $"Total: {_MethodRetriever.mungers.Keys.Count}";
 			}
 			this.txtFilter.BackColor = methods.Count == 0 ? Color.LightCoral : Color.White;
+			this.trayContextMenu1.Items.Add("-");
+			this.trayContextMenu1.Items.Add("E&xit");
+
 			ScriptTreeRebuilding = false;
 		}
 
