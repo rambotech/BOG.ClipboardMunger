@@ -19,7 +19,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	// B
 	// A
 
-	public class Sorted : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class --{--{CLASS_NAME}--}-- : ClipboardMungerProviderBase, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Sorted"; }
 		public override string GroupName { get => "String-like"; }
@@ -27,6 +27,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 		public Sorted()
 		{
+			/*
+			--{ARGUMENT_SET_DEFINIITON}--
 			base.SetArgument(new Argument
 			{
 				Name = "Direction",
@@ -51,28 +53,20 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				Description = @"Enter the line break sequence to append to each extracted item (URL escaped, eg. Windows CR+LF \r\n as %0d%0a)",
 				ValidatorRegex = @"(%[0-9a-fA-F]{2})+"
 			});
+			*/
 		}
 
 		public override string Munge(string clipboardSource)
 		{
-			var isAscending = string.Compare("A", System.Web.HttpUtility.UrlDecode(ArgumentValues["Direction"]), true) == 0;
-			var uniqueValues = bool.Parse(ArgumentValues["UniqueValuesOnly"]);
-			var lineTerminator = System.Web.HttpUtility.UrlDecode(ArgumentValues["LineTerminator"]);
-			var Lines = new List<string>(clipboardSource.Split(new string[] { lineTerminator }, StringSplitOptions.None));
+			/*
+			   --ARGUMENT_SETUP_DEFINIITON--
+					var isAscending = string.Compare("A", System.Web.HttpUtility.UrlDecode(ArgumentValues["Direction"]), true) == 0;
+					var uniqueValues = bool.Parse(ArgumentValues["UniqueValuesOnly"]);
+					var lineTerminator = System.Web.HttpUtility.UrlDecode(ArgumentValues["LineTerminator"]);
+					var Lines = new List<string>(clipboardSource.Split(new string[] { lineTerminator }, StringSplitOptions.None));
+			*/
 
-			if (isAscending)
-			{
-				Lines= Lines.OrderBy(i => i).ToList();
-			} 
-			else
-			{
-				Lines = Lines.OrderByDescending(i => i).ToList();
-			}
-			if (uniqueValues)
-			{
-				Lines = Lines.Distinct().ToList(); 
-			}
-			return string.Join(lineTerminator, Lines);
+			--{--{CODE}--}--
 		}
 	}
 }

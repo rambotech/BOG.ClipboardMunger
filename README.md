@@ -38,7 +38,23 @@ Standard scripts included are:
     0020: 0d 0a 4c 69 6b 65 20 74 68 69 73 0d 0a           | ..Like this..   
 ```
 
+- A not-so-classic dehexify to take a hex sequence like
+
+```
+    00:ab:42:76:31:86:ad:67:5c:ce:9d:4e:a1:3e:97:
+    18:47:06:eb:04:8b:8c:f5:17:6a:99:ba:c9:3e:c0:
+    b5:9f:c2:e5:d1:e4:55:11:1e:2d:bb:78:f2:38:63:
+
+```
+
+and return its value as Base64 (in case the resulting string contains binary).
+
 ... and a lot more.
 
+Version History:
+2022-11-02: 1.1.0.0
+- Add Dehexify function
 
+2016: 1.0.0.0
+- New project for static classes instead of dynamic scripts in XML files.
 
