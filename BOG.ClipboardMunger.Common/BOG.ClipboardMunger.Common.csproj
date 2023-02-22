@@ -50,6 +50,7 @@
     <Compile Include="MethodLibrary\Base64Encode.cs" />
     <Compile Include="Interface\IClipboardMungerProvider.cs" />
     <Compile Include="MethodLibrary\ClassFillOut.cs" />
+    <Compile Include="MethodLibrary\DateAdd.cs" />
     <Compile Include="MethodLibrary\Dehex.cs" />
     <Compile Include="MethodLibrary\FilterByLine.cs" />
     <Compile Include="MethodLibrary\HexView.cs" />
@@ -58,9 +59,11 @@
     <Compile Include="MethodLibrary\JsonMinimize.cs" />
     <Compile Include="MethodLibrary\LinuxSlashes.cs" />
     <Compile Include="MethodLibrary\MakeGuid.cs" />
+    <Compile Include="MethodLibrary\PhoeneticizedPassword.cs" />
     <Compile Include="MethodLibrary\PrefixSuffix.cs" />
     <Compile Include="MethodLibrary\Sorted.cs" />
     <Compile Include="MethodLibrary\SplitByDelimiter.cs" />
+    <Compile Include="MethodLibrary\SqlInsertFromGrid.cs" />
     <Compile Include="MethodLibrary\WindowsSlashes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

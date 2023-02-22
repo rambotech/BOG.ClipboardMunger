@@ -15,6 +15,8 @@ namespace BOG.ClipboardMunger.Common.Entity
 		public string Title { get; set; }
 		[CategoryAttribute("Admin"), DisplayNameAttribute("Description"), DescriptionAttribute("What the argument supplies."), ReadOnly(false)]
 		public string Description { get; set; }
+		[CategoryAttribute("Admin"), DisplayNameAttribute("HelpUrl"), DescriptionAttribute("Optional URL to reference information."), ReadOnly(false)]
+		public string HelpUrl { get; set; } = string.Empty;
 		[CategoryAttribute("Control"), DisplayNameAttribute("DefaultValue"), DescriptionAttribute("What the argument has if the operator or example provides no value."), ReadOnly(false)]
 		public string DefaultValue { get; set; }
 		[CategoryAttribute("Control"), DisplayNameAttribute("ValidatorRegex"), DescriptionAttribute("(Optional): The regular expression used to ensure valid data."), ReadOnly(false)]

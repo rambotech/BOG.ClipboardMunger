@@ -31,6 +31,18 @@ namespace BOG.ClipboardMunger
 			this.Text = _arg.Title;
 			this.txtDescription.Text = _arg.Description;
 			this.txtValue.Text = _arg.DefaultValue;
+			this.linkHelp.Visible = ! string.IsNullOrWhiteSpace(_arg.HelpUrl);
+			if (this.linkHelp.Visible)
+			{
+				ToolTip t = new ToolTip();
+				t.Active = true;
+				t.AutoPopDelay = 4000;
+				t.InitialDelay = 600;
+				t.IsBalloon = true;
+				this.linkHelp.Tag = _arg.HelpUrl;
+				this.linkHelp.Text = "Hover here to preview site location, click to view it";
+				t.SetToolTip(linkHelp, _arg.HelpUrl);
+			}
 		}
 
 		private void btnOK_Click(object sender, EventArgs e)
@@ -52,6 +64,15 @@ namespace BOG.ClipboardMunger
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		private void linkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			// Specify that the link was visited.
+			this.linkHelp.LinkVisited = true;
+
+			// Navigate to a URL.
+			System.Diagnostics.Process.Start((string) this.linkHelp.Tag);
 		}
 	}
 }

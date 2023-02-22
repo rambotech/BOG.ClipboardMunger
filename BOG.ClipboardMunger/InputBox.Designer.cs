@@ -28,11 +28,14 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InputBox));
 			this.txtDescription = new System.Windows.Forms.TextBox();
 			this.txtValue = new System.Windows.Forms.TextBox();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.linkHelp = new System.Windows.Forms.LinkLabel();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.SuspendLayout();
 			// 
 			// txtDescription
@@ -84,6 +87,22 @@
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
+			// linkHelp
+			// 
+			this.linkHelp.AutoSize = true;
+			this.linkHelp.Location = new System.Drawing.Point(13, 158);
+			this.linkHelp.Name = "linkHelp";
+			this.linkHelp.Size = new System.Drawing.Size(171, 13);
+			this.linkHelp.TabIndex = 5;
+			this.linkHelp.TabStop = true;
+			this.linkHelp.Text = "Click here for reference information";
+			this.linkHelp.Visible = false;
+			this.linkHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkHelp_LinkClicked);
+			// 
+			// toolTip1
+			// 
+			this.toolTip1.IsBalloon = true;
+			// 
 			// InputBox
 			// 
 			this.AcceptButton = this.btnOK;
@@ -91,6 +110,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(650, 193);
+			this.Controls.Add(this.linkHelp);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.txtValue);
@@ -112,5 +132,7 @@
 		private System.Windows.Forms.TextBox txtValue;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancel;
+		private System.Windows.Forms.LinkLabel linkHelp;
+		private System.Windows.Forms.ToolTip toolTip1;
 	}
 }
