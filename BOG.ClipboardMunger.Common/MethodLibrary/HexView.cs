@@ -23,31 +23,31 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		{
 			StringBuilder s = new StringBuilder();
 			if (clipboardSource.Length > 0)
-		{
-				for (int iRow = 0; iRow <= ((clipboardSource.Length - 1) / 16); iRow++)
 			{
+				for (int iRow = 0; iRow <= ((clipboardSource.Length - 1) / 16); iRow++)
+				{
 					s.Append(String.Format("{0:x4}: ", iRow * 16));
 					for (int iCol = 0; iCol < 16; iCol++)
-				{
-						if (clipboardSource.Length > iRow * 16 + iCol)
 					{
+						if (clipboardSource.Length > iRow * 16 + iCol)
+						{
 							byte b = (byte)clipboardSource[iRow * 16 + iCol];
 							s.Append(String.Format("{0:x2} ", b));
 						}
-					else
+						else
 						{
 							s.Append("   ");  // 3 spaces
 						}
 					}
 					s.Append(" | ");
 					for (int iCol = 0; iCol < 16; iCol++)
-				{
-						if (clipboardSource.Length > iRow * 16 + iCol)
 					{
+						if (clipboardSource.Length > iRow * 16 + iCol)
+						{
 							byte b = (byte)clipboardSource[iRow * 16 + iCol];
 							s.Append((b < 32 || b > 128) ? '.' : (char)b);
 						}
-					else
+						else
 						{
 							s.Append(' ');  // 1 space
 						}

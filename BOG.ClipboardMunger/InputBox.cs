@@ -43,6 +43,7 @@ namespace BOG.ClipboardMunger
 				this.linkHelp.Text = "Hover here to preview site location, click to view it";
 				t.SetToolTip(linkHelp, _arg.HelpUrl);
 			}
+			this.CenterToScreen();
 		}
 
 		private void btnOK_Click(object sender, EventArgs e)

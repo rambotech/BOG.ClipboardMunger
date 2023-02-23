@@ -1,18 +1,9 @@
-﻿using BOG.ClipboardMunger.Common.Entity;
-using BOG.ClipboardMunger.Common.Helper;
-using BOG.ClipboardMunger.Common.Interface;
+﻿using BOG.ClipboardMunger.Common.Helper;
 using BOG.Framework;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BOG.ClipboardMunger
@@ -216,8 +207,9 @@ namespace BOG.ClipboardMunger
 			catch (Exception err)
 			{
 				this.txtError.Text = DetailedException.WithUserContent(ref err);
-				MessageBox.Show(DetailedException.WithUserContent(ref err), "Error with argument(s)", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
+				MessageBox.Show(err.Message, "Error tab has details", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				this.tabpageError.Focus();
+				this.txtError.Focus();
 			}
 		}
 

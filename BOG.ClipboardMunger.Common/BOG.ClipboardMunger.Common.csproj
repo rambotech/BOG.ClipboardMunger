@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,12 +48,19 @@
     <Compile Include="Entity\Example.cs" />
     <Compile Include="Helper\MethodRetriever.cs" />
     <Compile Include="MethodLibrary\Base64Decode.cs" />
+    <Compile Include="MethodLibrary\Join.cs" />
+    <Compile Include="MethodLibrary\HtmlDecode.cs" />
+    <Compile Include="MethodLibrary\HtmlEncode.cs" />
     <Compile Include="MethodLibrary\Base64Encode.cs" />
     <Compile Include="Interface\IClipboardMungerProvider.cs" />
     <Compile Include="MethodLibrary\ClassFillOut.cs" />
     <Compile Include="MethodLibrary\DateAdd.cs" />
     <Compile Include="MethodLibrary\Dehex.cs" />
     <Compile Include="MethodLibrary\FilterByLine.cs" />
+    <Compile Include="MethodLibrary\ExtractOffsetLength.cs" />
+    <Compile Include="MethodLibrary\Hexify.cs" />
+    <Compile Include="MethodLibrary\UrlDecode.cs" />
+    <Compile Include="MethodLibrary\UrlEncode.cs" />
     <Compile Include="MethodLibrary\HexView.cs" />
     <Compile Include="MethodLibrary\JsonBeautify.cs" />
     <Compile Include="MethodLibrary\JsonFromGrid.cs" />

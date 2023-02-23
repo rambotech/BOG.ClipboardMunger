@@ -15,7 +15,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	{
 		public override string MethodName { get => "Date/Time Offset"; }
 		public override string GroupName { get => "Time"; }
-		public override string Description { get => "Offset a date/time"; }
+		public override string Description { get => "Offset a date/time with Format value"; }
 
 		public DateAdd()
 		{
@@ -30,7 +30,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			base.SetArgument(new Argument
 			{
 				Name = "OffsetBy",
-				Title = "The measurement for the offset",
+				Title = "The measurement for the offset.",
 				DefaultValue = "D",
 				Description = "N = Minutes, H = Hours, D = Days, M = Months, Y = Years",
 				ValidatorRegex = "N|H|D|M|Y|n|h|d|m|y"
@@ -38,9 +38,9 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			base.SetArgument(new Argument
 			{
 				Name = "OffsetAmount",
-				Title = "The numeric value for the offset",
-				DefaultValue = "1",
-				Description = "Use negative numbers fof the past",
+				Title = "The numeric value for the offset.",
+				DefaultValue = "0",
+				Description = "Use negative numbers for the past. To only format the date/time, leave as 0.",
 				ValidatorRegex = @"\d+"
 			});
 			base.SetArgument(new Argument
@@ -95,7 +95,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			{
 				return result.ToString(outputFormat);
 			}
-			catch (Exception err) 
+			catch (Exception err)
 			{
 				throw new FormatException($"The value for argument OutputFormat specified is not valid for a date/time value: {outputFormat}", err);
 			}

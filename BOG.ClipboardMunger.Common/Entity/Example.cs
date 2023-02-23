@@ -11,6 +11,5 @@ namespace BOG.ClipboardMunger.Common.Entity
         public string Name { get; set; }
         public Dictionary<string, string> ArgumentValues { get; set; }
         public string Input { get; set; }
-        public string Output { get; set; }
     }
 }
