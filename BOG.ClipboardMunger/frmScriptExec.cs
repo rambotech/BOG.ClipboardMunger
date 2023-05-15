@@ -29,10 +29,7 @@ namespace BOG.ClipboardMunger
 				BOG.Framework.AssemblyVersion a = new BOG.Framework.AssemblyVersion(System.Reflection.Assembly.GetEntryAssembly());
 				_MethodRetriever = new MethodRetriever();
 				this.trayContextMenu1.Items.Clear();
-				this.trayContextMenu1.Items.Add("&Restore GUI");
-				this.trayContextMenu1.Items.Add("-");
 				LoadScriptTree();
-				this.trayContextMenu1.Items.Add("E&xit");
 			}
 			catch (Exception err)
 			{
@@ -48,6 +45,7 @@ namespace BOG.ClipboardMunger
 			this.trayContextMenu1.Items.Clear();
 			this.trayContextMenu1.Items.Add("&Restore GUI");
 			this.trayContextMenu1.Items.Add("-");
+
 			foreach (var itemKey in _MethodRetriever.mungers.Keys)
 			{
 				if (itemKey.ToLower().Contains(searchFilter))
@@ -75,7 +73,9 @@ namespace BOG.ClipboardMunger
 						groupNode = new TreeNode(groupName);
 					}
 					groupNode.Nodes.Add(values[1]);
+					this.trayContextMenu1.Items.Add(item);
 				}
+				this.trvScripts.ExpandAll();
 				if (groupNode != null)
 				{
 					this.trvScripts.Nodes.Add(groupNode);
