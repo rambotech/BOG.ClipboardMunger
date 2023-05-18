@@ -59,6 +59,9 @@
     <Compile Include="MethodLibrary\FilterByLine.cs" />
     <Compile Include="MethodLibrary\ExtractOffsetLength.cs" />
     <Compile Include="MethodLibrary\Hexify.cs" />
+    <Compile Include="MethodLibrary\StrFormattedDate.cs" />
+    <Compile Include="MethodLibrary\StrToLower.cs" />
+    <Compile Include="MethodLibrary\StrToUpper.cs" />
     <Compile Include="MethodLibrary\UrlDecode.cs" />
     <Compile Include="MethodLibrary\UrlEncode.cs" />
     <Compile Include="MethodLibrary\HexView.cs" />
@@ -73,6 +76,7 @@
     <Compile Include="MethodLibrary\SplitByDelimiter.cs" />
     <Compile Include="MethodLibrary\SqlInsertFromGrid.cs" />
     <Compile Include="MethodLibrary\WindowsSlashes.cs" />
+    <Compile Include="MethodLibrary\XmlReadable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

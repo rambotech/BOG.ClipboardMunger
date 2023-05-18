@@ -52,6 +52,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+2023-05-17: 1.1.1.0
+- Add a number of functions
+
 2022-11-02: 1.1.0.0
 - Add Dehexify function
 
