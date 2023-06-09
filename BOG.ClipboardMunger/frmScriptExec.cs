@@ -24,6 +24,10 @@ namespace BOG.ClipboardMunger
 			try
 			{
 				InitializeComponent();
+
+				var info = new BOG.Framework.AssemblyVersion(true);
+				this.Text = this.Text + $" ({info.Version}, {info.BuildDate})";
+
 				this.notifyIcon1.BalloonTipTitle = "Clipboard Munger";
 				this.notifyIcon1.BalloonTipText = "Right-click for options";
 				BOG.Framework.AssemblyVersion a = new BOG.Framework.AssemblyVersion(System.Reflection.Assembly.GetEntryAssembly());
@@ -168,6 +172,7 @@ namespace BOG.ClipboardMunger
 
 		private void btnMunge_Click(object sender, EventArgs e)
 		{
+			this.txtError.Text = String.Empty;
 			var o = _MethodRetriever.mungers[selectedNodeKey];
 			var args = new Dictionary<string, string>();
 			string argName = string.Empty;
