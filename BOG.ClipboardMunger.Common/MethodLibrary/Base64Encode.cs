@@ -16,13 +16,23 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 		public Base64Encode()
 		{
-
+			base.SetArgument(new Argument
+			{
+				Name = "LineBreaks",
+				Title = "Use Line Breaks?",
+				DefaultValue = "false",
+				Description = "Leave as false for single line output",
+				ValidatorRegex = @"true|TRUE|false|FALSE"
+			});
 		}
 
 		public override string Munge(string clipboardSource)
 		{
+			var useLineBreaks = bool.Parse(this.ArgumentValues["LineBreaks"]);
 			byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(clipboardSource);
-			return System.Convert.ToBase64String(toEncodeAsBytes);
+			return System.Convert.ToBase64String(
+				toEncodeAsBytes, 
+				useLineBreaks ? Base64FormattingOptions.InsertLineBreaks: Base64FormattingOptions.None);
 		}
 	}
 }

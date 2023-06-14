@@ -52,6 +52,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+2023-06-02: 1.1.2.2
+- migrated more string methods
+
 2023-06-02: 1.1.2.1
 - Add a migrated function
 - Show version in the window title

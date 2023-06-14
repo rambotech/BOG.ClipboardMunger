@@ -60,6 +60,8 @@
     <Compile Include="MethodLibrary\ExtractOffsetLength.cs" />
     <Compile Include="MethodLibrary\Hexify.cs" />
     <Compile Include="MethodLibrary\StrFormattedDate.cs" />
+    <Compile Include="MethodLibrary\StrToCSharpString.cs" />
+    <Compile Include="MethodLibrary\StrToEscapedString.cs" />
     <Compile Include="MethodLibrary\StrToLower.cs" />
     <Compile Include="MethodLibrary\StrToUpper.cs" />
     <Compile Include="MethodLibrary\UrlDecode.cs" />
