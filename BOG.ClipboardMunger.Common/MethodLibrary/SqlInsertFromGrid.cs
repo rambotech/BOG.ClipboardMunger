@@ -11,8 +11,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
 	public class SqlInsertFromGrid : ClipboardMungerProviderBase, IClipboardMungerProvider
 	{
-		public override string MethodName { get => "SqlInsertFromGrid"; }
-		public override string GroupName { get => "String-Magic"; }
+		public override string MethodName { get => "Sql INSERT From Grid"; }
+		public override string GroupName { get => "SQL"; }
 		public override string Description { get; }
 
 		public SqlInsertFromGrid()
