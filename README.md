@@ -55,6 +55,7 @@ Version History:
 2023-06-02: 1.1.2.3
 - migrated more string methods:
   - UniqueLines, SqlUpdateFromGrid
+- now supports examples
 
 2023-06-02: 1.1.2.2
 - migrated more string methods

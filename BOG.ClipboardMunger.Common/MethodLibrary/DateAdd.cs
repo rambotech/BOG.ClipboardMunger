@@ -52,6 +52,51 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				HelpUrl = "https://blog.stevex.net/string-formatting-in-csharp/",
 				ValidatorRegex = ".+"
 			});
+
+			base.Examples.Add("Now Exclude Time", new Example
+			{
+				Name = "Now Exclude Time",
+				ArgumentValues = new Dictionary<string, string>
+				{
+					{"DateTimeBase", "{now}" },
+					{"OffsetBy", "N" },
+					{"OffsetAmount", "0" },
+					{"OutputFormat", "D" }
+				}
+			});
+			base.Examples.Add("Now ISO-8166", new Example
+			{
+				Name = "Now ISO-8166",
+				ArgumentValues = new Dictionary<string, string>
+				{
+					{"DateTimeBase", "{now}" },
+					{"OffsetBy", "N" },
+					{"OffsetAmount", "0" },
+					{"OutputFormat", "s" }
+				}
+			});
+			base.Examples.Add("Now + 392 days in ISO-8166", new Example
+			{
+				Name = "Now + 392 days in ISO-8166",
+				ArgumentValues = new Dictionary<string, string>
+				{
+					{"DateTimeBase", "{now}" },
+					{"OffsetBy", "D" },
+					{"OffsetAmount", "392" },
+					{"OutputFormat", "s" }
+				}
+			});
+			base.Examples.Add("33792 minutes ago from 1/1/2024 in Euro format", new Example
+			{
+				Name = "33792 minutes ago from 1/1/2024 in Euro format",
+				ArgumentValues = new Dictionary<string, string>
+				{
+					{"DateTimeBase", "{now}" },
+					{"OffsetBy", "N" },
+					{"OffsetAmount", "-33792" },
+					{"OutputFormat", "dd.MM.yyyy HH:mm:ss" }
+				}
+			});
 		}
 
 		public override string Munge(string clipboardSource)
@@ -68,7 +113,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			catch
 			{
 				dateTimeBase = DateTime.Now;
-				//MessageBox.Show("Using current date/time", "Date/Time Parsing error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			DateTime result;
 			switch (offsetBy)
