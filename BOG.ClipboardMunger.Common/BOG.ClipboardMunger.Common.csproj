@@ -59,6 +59,7 @@
     <Compile Include="MethodLibrary\FilterByLine.cs" />
     <Compile Include="MethodLibrary\ExtractOffsetLength.cs" />
     <Compile Include="MethodLibrary\Hexify.cs" />
+    <Compile Include="MethodLibrary\ReformattedLine.cs" />
     <Compile Include="MethodLibrary\SqlUpdateFromGrid.cs" />
     <Compile Include="MethodLibrary\StrFormattedDate.cs" />
     <Compile Include="MethodLibrary\StrToCSharpString.cs" />
