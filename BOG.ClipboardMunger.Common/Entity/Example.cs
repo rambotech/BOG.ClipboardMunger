@@ -9,7 +9,7 @@ namespace BOG.ClipboardMunger.Common.Entity
     public class Example
     {
         public string Name { get; set; }
-        public Dictionary<string, string> ArgumentValues { get; set; }
+        public Dictionary<string, string> ArgumentValues { get; set; } = new Dictionary<string, string>();
         public string Input { get; set; }
     }
 }

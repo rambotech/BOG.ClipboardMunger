@@ -113,11 +113,16 @@ namespace BOG.ClipboardMunger
 				this.tabpageClipboardContent.Select();
 				this.tabstripScript.Visible = false;
 				this.btnMunge.Enabled = false;
+				this.cbxExampleList.Enabled = false;
 				this.tabpageScript.Text = "Select a script for use";
 				return;
 			}
 			selectedNodeKey = e.Node.Parent.Text + "::" + e.Node.Text;
 			this.dgScriptArguments.Rows.Clear();
+			this.cbxExampleList.Items.Clear();
+			this.txtTestInput.Text = string.Empty;
+			this.txtTestOutput.Text = string.Empty;
+			this.dgvArgValues.Rows.Clear();
 			foreach (var item in _MethodRetriever.mungers[selectedNodeKey].GetArguments())
 			{
 				this.dgScriptArguments.Rows.Add(new object[]
@@ -127,7 +132,18 @@ namespace BOG.ClipboardMunger
 					item.Value.Description,
 					item.Value.ValidatorRegex
 				});
+				this.dgvArgValues.Rows.Add(new object[]
+				{
+					item.Value.Name,
+					""
+				});
 			}
+			foreach (var exampleName in _MethodRetriever.mungers[selectedNodeKey].GetExampleNames())
+			{
+				this.cbxExampleList.Items.Add(exampleName);
+			}
+			this.cbxExampleList.Enabled = this.cbxExampleList.Items.Count > 0;
+
 			this.tabpageScript.Text = $"Script for {e.Node.Text} ({e.Node.Parent.Text})";
 			this.tabstripScript.Visible = true;
 			this.tabstripScript.Show();
@@ -276,6 +292,36 @@ namespace BOG.ClipboardMunger
 		{
 			if (FormWindowState.Minimized == WindowState)
 				Hide();
+		}
+
+		private void cbxExampleList_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			try
+			{
+				var selectedTest = cbxExampleList.SelectedItem.ToString();
+				var thisExample = _MethodRetriever.mungers[selectedNodeKey].GetExample(selectedTest);
+				this.txtTestInput.Text = thisExample.Input;
+				this.dgvArgValues.Rows.Clear();
+				if (thisExample.ArgumentValues?.Count > 0)
+				{
+					foreach (var argItem in thisExample.ArgumentValues.Keys)
+					{
+						this.dgvArgValues.Rows.Add(new object[]
+						{
+						argItem,
+						thisExample.ArgumentValues[argItem]
+						});
+					}
+				}
+				this.txtTestOutput.Text = _MethodRetriever.mungers[selectedNodeKey].MungeClipboard(
+					thisExample.Input,
+					thisExample.ArgumentValues
+				);
+			}
+			catch (Exception err)
+			{
+				MessageBox.Show(DetailedException.WithUserContent(ref err), "Error executing example", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 	}
 }

@@ -36,14 +36,20 @@ namespace BOG.ClipboardMunger.Common.Base
 
 		public List<string> GetExampleNames()
 		{
-			throw new NotImplementedException();
+			return Examples.Keys.ToList();
 		}
 
 		public Example GetExample(string exampleName)
 		{
-			throw new NotImplementedException();
+			if (Examples.ContainsKey(exampleName))
+			{
+				return Examples[exampleName];
+			}
+			else
+			{
+				return null;
+			}
 		}
-
 
 		public void SetArgument(Argument argument)
 		{
@@ -66,7 +72,7 @@ namespace BOG.ClipboardMunger.Common.Base
 			}
 			return result;
 		}
-		
+
 		public string MungeClipboard(string source, Dictionary<string, string> argumentValues)
 		{
 			ArgumentValues.Clear();

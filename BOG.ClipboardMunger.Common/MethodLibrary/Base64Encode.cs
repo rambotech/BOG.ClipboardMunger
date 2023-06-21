@@ -24,6 +24,20 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				Description = "Leave as false for single line output",
 				ValidatorRegex = @"true|TRUE|false|FALSE"
 			});
+
+			base.Examples.Add("Single Line", new Example
+			{
+				Input = "The quick brown fox jumped over the lazy dogs back ... into the road where a car was coming... and ... squish!",
+				ArgumentValues = new Dictionary<string, string> { { "LineBreaks", "false" } },
+				Name = "One Continuous Line"
+			});
+
+			base.Examples.Add("Multiple Lines", new Example
+			{
+				Input = "The quick brown fox jumped over the lazy dogs back ... into the road where a car was coming... and ... squish!",
+				ArgumentValues = new Dictionary<string, string> { { "LineBreaks", "true" } },
+				Name = "With Line Breaks"
+			});
 		}
 
 		public override string Munge(string clipboardSource)

@@ -51,13 +51,26 @@
 			this.tabstripScript = new System.Windows.Forms.TabControl();
 			this.tabArguments = new System.Windows.Forms.TabPage();
 			this.dgScriptArguments = new System.Windows.Forms.DataGridView();
-			this.btnMunge = new System.Windows.Forms.Button();
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.timerShutdown = new System.Windows.Forms.Timer(this.components);
 			this.ArgumentName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentDefaultValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentValidator = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.btnMunge = new System.Windows.Forms.Button();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.timerShutdown = new System.Windows.Forms.Timer(this.components);
+			this.tabExamples = new System.Windows.Forms.TabPage();
+			this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+			this.lblExampleSelection = new System.Windows.Forms.Label();
+			this.cbxExampleList = new System.Windows.Forms.ComboBox();
+			this.tabTests = new System.Windows.Forms.TabControl();
+			this.tabTestInput = new System.Windows.Forms.TabPage();
+			this.tabTestOutput = new System.Windows.Forms.TabPage();
+			this.txtTestInput = new System.Windows.Forms.TextBox();
+			this.txtTestOutput = new System.Windows.Forms.TextBox();
+			this.tabArgValues = new System.Windows.Forms.TabPage();
+			this.dgvArgValues = new System.Windows.Forms.DataGridView();
+			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.trayContextMenu1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -79,6 +92,16 @@
 			this.tabstripScript.SuspendLayout();
 			this.tabArguments.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgScriptArguments)).BeginInit();
+			this.tabExamples.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+			this.splitContainer4.Panel1.SuspendLayout();
+			this.splitContainer4.Panel2.SuspendLayout();
+			this.splitContainer4.SuspendLayout();
+			this.tabTests.SuspendLayout();
+			this.tabTestInput.SuspendLayout();
+			this.tabTestOutput.SuspendLayout();
+			this.tabArgValues.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dgvArgValues)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// notifyIcon1
@@ -115,9 +138,9 @@
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 678);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(1234, 22);
 			this.statusStrip1.TabIndex = 1;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -141,8 +164,8 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
-			this.splitContainer1.Size = new System.Drawing.Size(800, 428);
-			this.splitContainer1.SplitterDistance = 271;
+			this.splitContainer1.Size = new System.Drawing.Size(1234, 678);
+			this.splitContainer1.SplitterDistance = 418;
 			this.splitContainer1.TabIndex = 2;
 			// 
 			// splitContainer2
@@ -161,15 +184,15 @@
 			// splitContainer2.Panel2
 			// 
 			this.splitContainer2.Panel2.Controls.Add(this.trvScripts);
-			this.splitContainer2.Size = new System.Drawing.Size(271, 428);
-			this.splitContainer2.SplitterDistance = 26;
+			this.splitContainer2.Size = new System.Drawing.Size(418, 678);
+			this.splitContainer2.SplitterDistance = 41;
 			this.splitContainer2.TabIndex = 1;
 			// 
 			// btnClearFilter
 			// 
 			this.btnClearFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnClearFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnClearFilter.Location = new System.Drawing.Point(241, 3);
+			this.btnClearFilter.Location = new System.Drawing.Point(388, 3);
 			this.btnClearFilter.Name = "btnClearFilter";
 			this.btnClearFilter.Size = new System.Drawing.Size(22, 19);
 			this.btnClearFilter.TabIndex = 1;
@@ -183,7 +206,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtFilter.Location = new System.Drawing.Point(12, 3);
 			this.txtFilter.Name = "txtFilter";
-			this.txtFilter.Size = new System.Drawing.Size(222, 20);
+			this.txtFilter.Size = new System.Drawing.Size(369, 20);
 			this.txtFilter.TabIndex = 0;
 			this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
 			// 
@@ -192,7 +215,7 @@
 			this.trvScripts.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.trvScripts.Location = new System.Drawing.Point(0, 0);
 			this.trvScripts.Name = "trvScripts";
-			this.trvScripts.Size = new System.Drawing.Size(271, 398);
+			this.trvScripts.Size = new System.Drawing.Size(418, 633);
 			this.trvScripts.TabIndex = 1;
 			this.trvScripts.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvScripts_NodeMouseClick);
 			// 
@@ -211,8 +234,8 @@
 			// splitContainer3.Panel2
 			// 
 			this.splitContainer3.Panel2.Controls.Add(this.btnMunge);
-			this.splitContainer3.Size = new System.Drawing.Size(525, 428);
-			this.splitContainer3.SplitterDistance = 371;
+			this.splitContainer3.Size = new System.Drawing.Size(812, 678);
+			this.splitContainer3.SplitterDistance = 587;
 			this.splitContainer3.TabIndex = 4;
 			// 
 			// tabstripMain
@@ -224,7 +247,7 @@
 			this.tabstripMain.Location = new System.Drawing.Point(0, 0);
 			this.tabstripMain.Name = "tabstripMain";
 			this.tabstripMain.SelectedIndex = 0;
-			this.tabstripMain.Size = new System.Drawing.Size(525, 371);
+			this.tabstripMain.Size = new System.Drawing.Size(812, 587);
 			this.tabstripMain.TabIndex = 4;
 			// 
 			// tabpageClipboardContent
@@ -233,7 +256,7 @@
 			this.tabpageClipboardContent.Location = new System.Drawing.Point(4, 22);
 			this.tabpageClipboardContent.Name = "tabpageClipboardContent";
 			this.tabpageClipboardContent.Padding = new System.Windows.Forms.Padding(3);
-			this.tabpageClipboardContent.Size = new System.Drawing.Size(517, 345);
+			this.tabpageClipboardContent.Size = new System.Drawing.Size(804, 561);
 			this.tabpageClipboardContent.TabIndex = 0;
 			this.tabpageClipboardContent.Text = "Clipboard Content";
 			this.tabpageClipboardContent.UseVisualStyleBackColor = true;
@@ -246,7 +269,7 @@
 			this.txtClipboardContent.Multiline = true;
 			this.txtClipboardContent.Name = "txtClipboardContent";
 			this.txtClipboardContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtClipboardContent.Size = new System.Drawing.Size(511, 339);
+			this.txtClipboardContent.Size = new System.Drawing.Size(798, 555);
 			this.txtClipboardContent.TabIndex = 0;
 			// 
 			// tabpageError
@@ -254,7 +277,7 @@
 			this.tabpageError.Controls.Add(this.txtError);
 			this.tabpageError.Location = new System.Drawing.Point(4, 22);
 			this.tabpageError.Name = "tabpageError";
-			this.tabpageError.Size = new System.Drawing.Size(517, 345);
+			this.tabpageError.Size = new System.Drawing.Size(804, 561);
 			this.tabpageError.TabIndex = 2;
 			this.tabpageError.Text = "Error";
 			this.tabpageError.UseVisualStyleBackColor = true;
@@ -266,7 +289,7 @@
 			this.txtError.Multiline = true;
 			this.txtError.Name = "txtError";
 			this.txtError.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtError.Size = new System.Drawing.Size(517, 345);
+			this.txtError.Size = new System.Drawing.Size(804, 561);
 			this.txtError.TabIndex = 1;
 			// 
 			// tabpageScript
@@ -275,7 +298,7 @@
 			this.tabpageScript.Location = new System.Drawing.Point(4, 22);
 			this.tabpageScript.Name = "tabpageScript";
 			this.tabpageScript.Padding = new System.Windows.Forms.Padding(3);
-			this.tabpageScript.Size = new System.Drawing.Size(517, 345);
+			this.tabpageScript.Size = new System.Drawing.Size(804, 561);
 			this.tabpageScript.TabIndex = 1;
 			this.tabpageScript.Text = "Script";
 			this.tabpageScript.ToolTipText = "Any values needed for the munge process";
@@ -284,11 +307,12 @@
 			// tabstripScript
 			// 
 			this.tabstripScript.Controls.Add(this.tabArguments);
+			this.tabstripScript.Controls.Add(this.tabExamples);
 			this.tabstripScript.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabstripScript.Location = new System.Drawing.Point(3, 3);
 			this.tabstripScript.Name = "tabstripScript";
 			this.tabstripScript.SelectedIndex = 0;
-			this.tabstripScript.Size = new System.Drawing.Size(511, 339);
+			this.tabstripScript.Size = new System.Drawing.Size(798, 555);
 			this.tabstripScript.TabIndex = 1;
 			// 
 			// tabArguments
@@ -297,7 +321,7 @@
 			this.tabArguments.Location = new System.Drawing.Point(4, 22);
 			this.tabArguments.Name = "tabArguments";
 			this.tabArguments.Padding = new System.Windows.Forms.Padding(3);
-			this.tabArguments.Size = new System.Drawing.Size(503, 313);
+			this.tabArguments.Size = new System.Drawing.Size(790, 529);
 			this.tabArguments.TabIndex = 0;
 			this.tabArguments.Text = "Arguments";
 			this.tabArguments.UseVisualStyleBackColor = true;
@@ -313,28 +337,8 @@
 			this.dgScriptArguments.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dgScriptArguments.Location = new System.Drawing.Point(3, 3);
 			this.dgScriptArguments.Name = "dgScriptArguments";
-			this.dgScriptArguments.Size = new System.Drawing.Size(497, 307);
+			this.dgScriptArguments.Size = new System.Drawing.Size(784, 523);
 			this.dgScriptArguments.TabIndex = 4;
-			// 
-			// btnMunge
-			// 
-			this.btnMunge.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnMunge.Enabled = false;
-			this.btnMunge.Location = new System.Drawing.Point(0, 0);
-			this.btnMunge.Name = "btnMunge";
-			this.btnMunge.Size = new System.Drawing.Size(525, 53);
-			this.btnMunge.TabIndex = 0;
-			this.btnMunge.Text = "Munge";
-			this.btnMunge.UseVisualStyleBackColor = true;
-			this.btnMunge.Click += new System.EventHandler(this.btnMunge_Click);
-			// 
-			// timer1
-			// 
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
-			// timerShutdown
-			// 
-			this.timerShutdown.Tick += new System.EventHandler(this.timerShutdown_Tick);
 			// 
 			// ArgumentName
 			// 
@@ -359,11 +363,169 @@
 			this.ArgumentValidator.Name = "ArgumentValidator";
 			this.ArgumentValidator.ReadOnly = true;
 			// 
+			// btnMunge
+			// 
+			this.btnMunge.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.btnMunge.Enabled = false;
+			this.btnMunge.Location = new System.Drawing.Point(0, 0);
+			this.btnMunge.Name = "btnMunge";
+			this.btnMunge.Size = new System.Drawing.Size(812, 87);
+			this.btnMunge.TabIndex = 0;
+			this.btnMunge.Text = "Munge";
+			this.btnMunge.UseVisualStyleBackColor = true;
+			this.btnMunge.Click += new System.EventHandler(this.btnMunge_Click);
+			// 
+			// timer1
+			// 
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
+			// timerShutdown
+			// 
+			this.timerShutdown.Tick += new System.EventHandler(this.timerShutdown_Tick);
+			// 
+			// tabExamples
+			// 
+			this.tabExamples.Controls.Add(this.splitContainer4);
+			this.tabExamples.Location = new System.Drawing.Point(4, 22);
+			this.tabExamples.Name = "tabExamples";
+			this.tabExamples.Size = new System.Drawing.Size(790, 529);
+			this.tabExamples.TabIndex = 1;
+			this.tabExamples.Text = "Examples";
+			this.tabExamples.UseVisualStyleBackColor = true;
+			// 
+			// splitContainer4
+			// 
+			this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer4.IsSplitterFixed = true;
+			this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer4.Name = "splitContainer4";
+			this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer4.Panel1
+			// 
+			this.splitContainer4.Panel1.Controls.Add(this.cbxExampleList);
+			this.splitContainer4.Panel1.Controls.Add(this.lblExampleSelection);
+			// 
+			// splitContainer4.Panel2
+			// 
+			this.splitContainer4.Panel2.Controls.Add(this.tabTests);
+			this.splitContainer4.Size = new System.Drawing.Size(790, 529);
+			this.splitContainer4.SplitterDistance = 32;
+			this.splitContainer4.TabIndex = 0;
+			// 
+			// lblExampleSelection
+			// 
+			this.lblExampleSelection.AutoSize = true;
+			this.lblExampleSelection.Location = new System.Drawing.Point(14, 10);
+			this.lblExampleSelection.Name = "lblExampleSelection";
+			this.lblExampleSelection.Size = new System.Drawing.Size(86, 13);
+			this.lblExampleSelection.TabIndex = 0;
+			this.lblExampleSelection.Text = "Choose Example";
+			// 
+			// cbxExampleList
+			// 
+			this.cbxExampleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbxExampleList.FormattingEnabled = true;
+			this.cbxExampleList.Location = new System.Drawing.Point(106, 6);
+			this.cbxExampleList.Name = "cbxExampleList";
+			this.cbxExampleList.Size = new System.Drawing.Size(667, 21);
+			this.cbxExampleList.TabIndex = 1;
+			this.cbxExampleList.SelectedIndexChanged += new System.EventHandler(this.cbxExampleList_SelectedIndexChanged);
+			// 
+			// tabTests
+			// 
+			this.tabTests.Controls.Add(this.tabTestInput);
+			this.tabTests.Controls.Add(this.tabTestOutput);
+			this.tabTests.Controls.Add(this.tabArgValues);
+			this.tabTests.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabTests.Location = new System.Drawing.Point(0, 0);
+			this.tabTests.Name = "tabTests";
+			this.tabTests.SelectedIndex = 0;
+			this.tabTests.Size = new System.Drawing.Size(790, 493);
+			this.tabTests.TabIndex = 0;
+			// 
+			// tabTestInput
+			// 
+			this.tabTestInput.Controls.Add(this.txtTestInput);
+			this.tabTestInput.Location = new System.Drawing.Point(4, 22);
+			this.tabTestInput.Name = "tabTestInput";
+			this.tabTestInput.Padding = new System.Windows.Forms.Padding(3);
+			this.tabTestInput.Size = new System.Drawing.Size(782, 467);
+			this.tabTestInput.TabIndex = 0;
+			this.tabTestInput.Text = "Test Input";
+			this.tabTestInput.UseVisualStyleBackColor = true;
+			// 
+			// tabTestOutput
+			// 
+			this.tabTestOutput.Controls.Add(this.txtTestOutput);
+			this.tabTestOutput.Location = new System.Drawing.Point(4, 22);
+			this.tabTestOutput.Name = "tabTestOutput";
+			this.tabTestOutput.Padding = new System.Windows.Forms.Padding(3);
+			this.tabTestOutput.Size = new System.Drawing.Size(782, 467);
+			this.tabTestOutput.TabIndex = 1;
+			this.tabTestOutput.Text = "Test Output";
+			this.tabTestOutput.UseVisualStyleBackColor = true;
+			// 
+			// txtTestInput
+			// 
+			this.txtTestInput.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtTestInput.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtTestInput.Location = new System.Drawing.Point(3, 3);
+			this.txtTestInput.Multiline = true;
+			this.txtTestInput.Name = "txtTestInput";
+			this.txtTestInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.txtTestInput.Size = new System.Drawing.Size(776, 461);
+			this.txtTestInput.TabIndex = 1;
+			// 
+			// txtTestOutput
+			// 
+			this.txtTestOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtTestOutput.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtTestOutput.Location = new System.Drawing.Point(3, 3);
+			this.txtTestOutput.Multiline = true;
+			this.txtTestOutput.Name = "txtTestOutput";
+			this.txtTestOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.txtTestOutput.Size = new System.Drawing.Size(776, 461);
+			this.txtTestOutput.TabIndex = 2;
+			// 
+			// tabArgValues
+			// 
+			this.tabArgValues.Controls.Add(this.dgvArgValues);
+			this.tabArgValues.Location = new System.Drawing.Point(4, 22);
+			this.tabArgValues.Name = "tabArgValues";
+			this.tabArgValues.Size = new System.Drawing.Size(782, 467);
+			this.tabArgValues.TabIndex = 2;
+			this.tabArgValues.Text = "Argument Values";
+			this.tabArgValues.UseVisualStyleBackColor = true;
+			// 
+			// dgvArgValues
+			// 
+			this.dgvArgValues.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvArgValues.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2});
+			this.dgvArgValues.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dgvArgValues.Location = new System.Drawing.Point(0, 0);
+			this.dgvArgValues.Name = "dgvArgValues";
+			this.dgvArgValues.Size = new System.Drawing.Size(782, 467);
+			this.dgvArgValues.TabIndex = 5;
+			// 
+			// dataGridViewTextBoxColumn1
+			// 
+			this.dataGridViewTextBoxColumn1.HeaderText = "Argument Name";
+			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+			this.dataGridViewTextBoxColumn1.ReadOnly = true;
+			// 
+			// dataGridViewTextBoxColumn2
+			// 
+			this.dataGridViewTextBoxColumn2.HeaderText = "Test Value";
+			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+			// 
 			// frmScriptExec
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.ClientSize = new System.Drawing.Size(1234, 700);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.statusStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -398,6 +560,19 @@
 			this.tabstripScript.ResumeLayout(false);
 			this.tabArguments.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgScriptArguments)).EndInit();
+			this.tabExamples.ResumeLayout(false);
+			this.splitContainer4.Panel1.ResumeLayout(false);
+			this.splitContainer4.Panel1.PerformLayout();
+			this.splitContainer4.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+			this.splitContainer4.ResumeLayout(false);
+			this.tabTests.ResumeLayout(false);
+			this.tabTestInput.ResumeLayout(false);
+			this.tabTestInput.PerformLayout();
+			this.tabTestOutput.ResumeLayout(false);
+			this.tabTestOutput.PerformLayout();
+			this.tabArgValues.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dgvArgValues)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -433,5 +608,18 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentDefaultValue;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentDescription;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentValidator;
+		private System.Windows.Forms.TabPage tabExamples;
+		private System.Windows.Forms.SplitContainer splitContainer4;
+		private System.Windows.Forms.Label lblExampleSelection;
+		private System.Windows.Forms.ComboBox cbxExampleList;
+		private System.Windows.Forms.TabControl tabTests;
+		private System.Windows.Forms.TabPage tabTestInput;
+		private System.Windows.Forms.TabPage tabTestOutput;
+		private System.Windows.Forms.TextBox txtTestInput;
+		private System.Windows.Forms.TextBox txtTestOutput;
+		private System.Windows.Forms.TabPage tabArgValues;
+		private System.Windows.Forms.DataGridView dgvArgValues;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
 	}
 }

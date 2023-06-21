@@ -16,7 +16,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 		public Base64Decode()
 		{
-
+			base.Examples.Add("Example 1",
+				new Example
+				{
+					Name = "Simple",
+					Input = "aHR0cDovL3d3dy5teXNlcnZlci5jb20/QXJndW1lbnQ9NDQmTGlzdD0yDQoNCk5ldyBMaW5lK0Fub3RoZXIgTmV3IExpbmU="
+				}
+			);
 		}
 
 		public override string Munge(string clipboardSource)
