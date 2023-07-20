@@ -30,6 +30,12 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				ArgumentValues = new Dictionary<string, string> { { "FormatString", "this.{0} = that.{0}" } },
 				Name = "Data Mapping Use"
 			});
+			base.Examples.Add("Complex Format", new Example
+			{
+				Input = "Bob\r\nTed\r\nAlice\r\nKaren",
+				ArgumentValues = new Dictionary<string, string> { { "FormatString", "%22{0}%22: that.{0}" } },
+				Name = "Data Mapping Use"
+			});
 		}
 
 		public override string Munge(string clipboardSource)
