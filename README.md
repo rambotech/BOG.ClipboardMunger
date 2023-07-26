@@ -52,6 +52,10 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+2023-07-23: 1.1.2.4
+- Add GridPadFixed
+- SqlInsertFromGrid. refactor for multi-VALUE lines (wip)
+
 2023-06-02: 1.1.2.3
 - migrated more string methods:
   - UniqueLines, SqlUpdateFromGrid

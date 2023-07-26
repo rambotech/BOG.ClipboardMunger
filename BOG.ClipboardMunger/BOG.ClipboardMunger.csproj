@@ -195,6 +195,7 @@
     <Content Include="ClipboardMungerScripts\cm_UnHexify.xml" />
     <Content Include="ClipboardMungerScripts\cm_Unique Entries %28With Count%29.xml" />
     <Content Include="ClipboardMungerScripts\cm_Unique Entries.xml" />
+    <Content Include="ClipboardMungerScripts\cm_UrlDecode - Copy.xml" />
     <Content Include="ClipboardMungerScripts\cm_UrlDecode.xml" />
     <Content Include="ClipboardMungerScripts\cm_UrlEncode %28All%29.xml" />
     <Content Include="ClipboardMungerScripts\cm_UrlEncode.xml" />

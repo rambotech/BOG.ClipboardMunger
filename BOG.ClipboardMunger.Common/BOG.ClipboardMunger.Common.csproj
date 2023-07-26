@@ -48,6 +48,7 @@
     <Compile Include="Entity\Example.cs" />
     <Compile Include="Helper\MethodRetriever.cs" />
     <Compile Include="MethodLibrary\Base64Decode.cs" />
+    <Compile Include="MethodLibrary\GridPadFixed.cs" />
     <Compile Include="MethodLibrary\Join.cs" />
     <Compile Include="MethodLibrary\HtmlDecode.cs" />
     <Compile Include="MethodLibrary\HtmlEncode.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="MethodLibrary\ExtractOffsetLength.cs" />
     <Compile Include="MethodLibrary\Hexify.cs" />
     <Compile Include="MethodLibrary\ReformattedLine.cs" />
+    <Compile Include="MethodLibrary\ReverseLines.cs" />
     <Compile Include="MethodLibrary\SqlUpdateFromGrid.cs" />
     <Compile Include="MethodLibrary\StrFormattedDate.cs" />
     <Compile Include="MethodLibrary\StrToCSharpString.cs" />
