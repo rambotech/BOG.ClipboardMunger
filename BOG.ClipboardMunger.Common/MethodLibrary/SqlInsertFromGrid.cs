@@ -72,7 +72,10 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			result.AppendLine(string.Format("BEGIN TRAN", tableName));
 			result.AppendLine();
 			result.AppendLine(string.Format("BEGIN TRY", tableName));
-			result.AppendLine();
+			if (maxValuesPerInsert == 1)
+			{
+				result.AppendLine();
+			}
 
 			var ValueLinesCreated = 0;
 			foreach (string ThisLine in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
@@ -80,7 +83,11 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				if (LineIndex == 0)
 				{
 					ColumnIndex = 0;
-					InsertHeader = string.Format("\tINSERT INTO [{0}] (", tableName);
+					if (maxValuesPerInsert > 1)
+					{
+						InsertHeader += "\r\n";
+					}
+					InsertHeader += string.Format("\tINSERT INTO [{0}] (", tableName);
 					foreach (string ColumnName in ThisLine.Split(new char[] { '\t' }))
 					{
 						if (ColumnIndex > 0)
@@ -90,19 +97,19 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 						InsertHeader += "[" + ColumnName + "]";
 						ColumnIndex++;
 					}
-					InsertHeader += ")\r\nVALUES";
+					InsertHeader += "\r\n\t) VALUES\r\n";
 					ColumnCount = ColumnIndex;
 				}
 				else
 				{
 					string InsertLine = string.Empty;
-					if (maxValuesPerInsert == 1 || ValueLinesCreated == 0)
+					if (ValueLinesCreated == 0)
 					{
-						InsertLine = InsertHeader + " (\r\n";
+						InsertLine = InsertHeader + "\t  (";
 					}
 					else if (maxValuesPerInsert > 1)
 					{
-						InsertLine += "\r\n\t(";
+						InsertLine += "\t  ,(";
 					}
 
 					ColumnIndex = 0;
@@ -114,48 +121,19 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 						}
 						if (ColumnValue == "NULL")
 						{
-							if (maxValuesPerInsert == 1)
-							{
-								InsertLine += "\t\t" + ColumnValue;
-							}
-							else
-							{
-								InsertLine += ColumnValue;
-							}
+							InsertLine += ColumnValue;
 						}
 						else
 						{
-							if (maxValuesPerInsert == 1)
-							{
-								InsertLine += "\t\t'" + ColumnValue.Replace("'", "''") + "'";
-							}
-							else
-							{
-								InsertLine += ColumnValue.Replace("'", "''") + "'";
-							}
+							InsertLine += "'" + ColumnValue.Replace("'", "''") + "'";
 						}
 						ColumnIndex++;
 					}
 					if (ColumnIndex == ColumnCount)
 					{
-						if (maxValuesPerInsert == 1)
-						{
-							InsertLine += "\r\n\t)";
-						}
-						else
-						{
-							if (maxValuesPerInsert - ValueLinesCreated == 1)
-							{
-								InsertLine += "\r\n\t)";
-							}
-							else
-							{
-								InsertLine += "\r\n\t),";
-							}
-						}
+						InsertLine += ")";
 						ValueLinesCreated++;
 						result.AppendLine(InsertLine);
-						result.AppendLine();
 					}
 					else
 					{
@@ -168,6 +146,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				LineIndex++;
 			}
 
+			result.AppendLine();
 			result.AppendLine("\tCOMMIT /* Success if at this point */");
 			result.AppendLine("\tPRINT 'Successful... committed'");
 			result.AppendLine("END TRY");
