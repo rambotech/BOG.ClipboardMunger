@@ -38,12 +38,12 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var FormattedAs= HttpUtility.UrlDecode(this.ArgumentValues["FormatString"]);
 
 			StringBuilder output = new StringBuilder();
-			foreach (string s in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+			foreach (string s in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				output.AppendLine(string.Format(FormattedAs, s));
 			}

@@ -43,7 +43,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var databaseName = System.Web.HttpUtility.UrlDecode(ArgumentValues["databaseName"]);
 			var tableName = System.Web.HttpUtility.UrlDecode(ArgumentValues["tableName"]);
@@ -62,7 +62,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			result.AppendLine(string.Format("BEGIN TRY", tableName));
 			result.AppendLine();
 
-			string[] Lines = clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+			string[] Lines = base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 			string[] HeaderColumnNames = Lines[0].Split(new char[] { '\t' });
 			if (HeaderColumnNames.Length <= ColumnsInPrimaryKey)
 			{

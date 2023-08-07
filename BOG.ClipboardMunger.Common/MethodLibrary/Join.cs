@@ -32,7 +32,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var delimiter = ArgumentValues["Delimiter"];
 			var LinesBeforeAddingLineBreak = int.Parse(ArgumentValues["LineBreakCount"]);
@@ -40,13 +40,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			StringBuilder s = new StringBuilder();
 			if (LinesBeforeAddingLineBreak == 0)
 			{
-				s.Append(string.Join(System.Web.HttpUtility.UrlDecode(delimiter), clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.None)));
+				s.Append(string.Join(System.Web.HttpUtility.UrlDecode(delimiter), base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.None)));
 			}
 			else
 			{
 				int LineIndex = 0;
 				StringBuilder LineSet = new StringBuilder();
-				foreach (string line in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.None))
+				foreach (string line in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.None))
 				{
 					LineIndex++;
 					LineSet.AppendLine(line);

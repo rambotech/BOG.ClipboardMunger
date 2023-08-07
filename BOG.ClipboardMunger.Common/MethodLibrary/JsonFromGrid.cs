@@ -61,16 +61,16 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			return result.ToString();
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			StringBuilder result = new StringBuilder();
 			int LineIndex = 0;
 			Dictionary<int, string> DataIndex = new Dictionary<int, string>();
 			result.AppendLine("[");
 
-			if (clipboardSource.Length > 0)
+			if (base.ClipboardSource.Length > 0)
 			{
-				foreach (string ThisLine in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+				foreach (string ThisLine in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
 				{
 					if (string.IsNullOrEmpty(ThisLine)) continue;
 					LineIndex++;

@@ -20,18 +20,18 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		{
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			StringBuilder s = new StringBuilder();
 			bool InNode = false;
 			bool InText = true;
 			bool IsEndNode = false;
 
-			if (clipboardSource.Length > 0)
+			if (base.ClipboardSource.Length > 0)
 			{
-				for (int Index = 0; Index < clipboardSource.Length; Index++)
+				for (int Index = 0; Index < base.ClipboardSource.Length; Index++)
 				{
-					switch (clipboardSource[Index])
+					switch (base.ClipboardSource[Index])
 					{
 						case ' ':
 							break;
@@ -58,7 +58,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 							InText = !InNode;
 							break;
 					}
-					s.Append(clipboardSource[Index]);
+					s.Append(base.ClipboardSource[Index]);
 				}
 			}
 			return s.ToString();

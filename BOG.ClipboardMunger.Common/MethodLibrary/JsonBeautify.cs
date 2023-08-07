@@ -16,11 +16,11 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		{
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			StringBuilder result = new StringBuilder();
 
-			if (clipboardSource.Length > 0)
+			if (base.ClipboardSource.Length > 0)
 			{
 				bool inQuote = false;
 				bool nextIsEscaped = false;
@@ -28,9 +28,9 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				int indentLevel = 0;
 				char prevChar = '\x00';
 
-				for (int index = 0; index < clipboardSource.Length; index++)
+				for (int index = 0; index < base.ClipboardSource.Length; index++)
 				{
-					char thisChar = clipboardSource[index];
+					char thisChar = base.ClipboardSource[index];
 					string prefix = string.Empty;
 					string suffix = string.Empty;
 

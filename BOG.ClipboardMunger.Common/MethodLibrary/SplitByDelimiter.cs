@@ -42,7 +42,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var delimiter = System.Web.HttpUtility.UrlDecode(ArgumentValues["Delimiter"]);
 			var removeBlankLines = bool.Parse(ArgumentValues["AreEmptyRemoved"]);
@@ -50,7 +50,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 			return string.Join(
 				lineTerminator,
-				clipboardSource.Split(
+				base.ClipboardSource.Split(
 				new string[] { delimiter },
 				removeBlankLines ? StringSplitOptions.RemoveEmptyEntries: StringSplitOptions.None));
 		}

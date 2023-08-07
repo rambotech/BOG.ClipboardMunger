@@ -52,6 +52,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+2023-08-06: 1.1.2.6
+- Bug fix: prevent argument from erasing clipboard source.
+
 2023-07-23: 1.1.2.5
 - SqlInsertFromGrid. output cleanup
 

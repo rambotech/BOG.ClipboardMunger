@@ -32,14 +32,14 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			int startingOffset = int.Parse(ArgumentValues["StartOffset"]);
 			int length = int.Parse(ArgumentValues["Length"]);
 
 			StringBuilder result = new StringBuilder();
 
-			foreach (string line in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.None))
+			foreach (string line in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.None))
 			{
 				string columnValue = "";
 				if (line.Length >= startingOffset + length)

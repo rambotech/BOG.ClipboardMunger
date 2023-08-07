@@ -27,14 +27,14 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var showCounts = bool.Parse(ArgumentValues["ShowCounts"]);
 
 			StringBuilder output = new StringBuilder();
 			Dictionary<string, int> Unique = new Dictionary<string, int>();
 			var total = 0;
-			foreach (string s in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+			foreach (string s in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				var key = s.ToLower();
 				if (!Unique.ContainsKey(key))

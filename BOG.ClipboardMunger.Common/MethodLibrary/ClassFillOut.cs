@@ -85,7 +85,7 @@ ZGVkIGFmdGVyIHRoZSBhdXRvIGdlbmVyYXRlZCBjb2RlLg0KICAgcmV0dXJuICJUZXN0IjsNCn0=
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			StringBuilder output = new StringBuilder();
 			Dictionary<int, string[]> Property = new Dictionary<int, string[]>();
@@ -95,7 +95,7 @@ ZGVkIGFmdGVyIHRoZSBhdXRvIGdlbmVyYXRlZCBjb2RlLg0KICAgcmV0dXJuICJUZXN0IjsNCn0=
 			string ClassName = string.Empty;
 			string ClassImplements = string.Empty;
 
-			foreach (string l in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+			foreach (string l in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				string s = l.Trim();
 				while (s.Length > 0 && s[0] == '\t') s = s.Length == 1 ? string.Empty : s.Substring(1);

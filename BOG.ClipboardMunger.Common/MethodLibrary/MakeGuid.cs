@@ -34,7 +34,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			string YourGUID = System.Guid.NewGuid().ToString(ArgumentValues["Format"]);
 			if (ArgumentValues["Case"].ToUpper() == "U") YourGUID = YourGUID.ToUpper();

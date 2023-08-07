@@ -23,13 +23,15 @@ namespace BOG.ClipboardMunger.Common.Base
 		protected Dictionary<string, Example> Examples = new Dictionary<string, Example>();
 		protected Dictionary<string, string> ArgumentValues = new Dictionary<string, string>();
 
+		public string ClipboardSource { get; set; }
+
 		/// <summary>
 		/// Inheriting class must override.  This is the method called to change the clipboard text.
 		/// No try/catch block needed: the caller in the Windows form handles any exceptions.
 		/// </summary>
-		/// <param name="clipboardSource"></param>
+		/// <param name="base.ClipboardSource"></param>
 		/// <returns></returns>
-		public virtual string Munge(string clipboardSource)
+		public virtual string Munge()
 		{
 			throw new NotImplementedException();
 		}
@@ -73,7 +75,7 @@ namespace BOG.ClipboardMunger.Common.Base
 			return result;
 		}
 
-		public string MungeClipboard(string source, Dictionary<string, string> argumentValues)
+		public string MungeClipboard(Dictionary<string, string> argumentValues)
 		{
 			ArgumentValues.Clear();
 			foreach (var key in Arguments.Keys)
@@ -89,7 +91,7 @@ namespace BOG.ClipboardMunger.Common.Base
 					ArgumentValues[key] = argumentValues[key];
 				}
 			}
-			var result = Munge(source);
+			var result = Munge();
 			ArgumentValues.Clear();
 			return result;
 		}

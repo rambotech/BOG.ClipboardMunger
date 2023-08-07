@@ -21,16 +21,16 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var s = new StringBuilder();
-			if (clipboardSource.Length > 0)
+			if (base.ClipboardSource.Length > 0)
 			{
 				var value = 0;
 				var offset = 0;
-				for (int colIndex = 0; colIndex < clipboardSource.Length; colIndex++)
+				for (int colIndex = 0; colIndex < base.ClipboardSource.Length; colIndex++)
 				{
-					var digitValue = "0123456789ABCDEFabcdef".IndexOf(clipboardSource[colIndex]);
+					var digitValue = "0123456789ABCDEFabcdef".IndexOf(base.ClipboardSource[colIndex]);
 					if (digitValue >= 0)
 					{
 						if (digitValue > 15) digitValue -= 6;

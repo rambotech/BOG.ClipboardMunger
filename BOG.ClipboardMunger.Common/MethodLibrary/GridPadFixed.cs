@@ -27,13 +27,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var lineEnding = System.Web.HttpUtility.UrlDecode(ArgumentValues["LineTerminator"]);
 
 			StringBuilder result = new StringBuilder();
 
-			var lines = clipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.RemoveEmptyEntries);
+			var lines = base.ClipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.RemoveEmptyEntries);
 			if (lines.Length == 1)
 			{
 				throw new Exception("Parsing failure: only see 1 line of text.  Requires a header line, and data lines.  Check that line termination value is correct.");

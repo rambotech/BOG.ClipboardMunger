@@ -40,10 +40,10 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var useLineBreaks = bool.Parse(this.ArgumentValues["LineBreaks"]);
-			byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(clipboardSource);
+			byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(base.ClipboardSource);
 			return System.Convert.ToBase64String(
 				toEncodeAsBytes, 
 				useLineBreaks ? Base64FormattingOptions.InsertLineBreaks: Base64FormattingOptions.None);

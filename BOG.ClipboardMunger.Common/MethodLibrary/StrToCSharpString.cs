@@ -26,13 +26,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			return Result;
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			const string CSharpPrefix = "\"";
 			const string CSharpAppend = " \" + \"\\r\\n\" +";
 			const string CSharpEndsWith = " \" + \"\\r\\n\"";
 			StringBuilder Result = new StringBuilder();
-			string clipboardCleaned = clipboardSource.Trim();
+			string clipboardCleaned = base.ClipboardSource.Trim();
 
 			if (clipboardCleaned.IndexOf(CSharpEndsWith) > -1)
 			{

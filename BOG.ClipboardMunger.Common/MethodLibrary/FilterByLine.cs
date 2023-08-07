@@ -40,14 +40,14 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var filter = ArgumentValues["Filter"];
 			var lineEnding = System.Web.HttpUtility.UrlDecode(ArgumentValues["LineTerminator"]);
 			var useLineNumbers = bool.Parse(ArgumentValues["AreLineNumbersPrefixed"]);
 			StringBuilder result = new StringBuilder();
 			var lineIndex = 0;
-			foreach (string ThisLine in clipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.RemoveEmptyEntries))
+			foreach (string ThisLine in base.ClipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				lineIndex++;
 				if (ThisLine.IndexOf(filter) >= 0)

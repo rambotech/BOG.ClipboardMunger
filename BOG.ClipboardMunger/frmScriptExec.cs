@@ -190,6 +190,8 @@ namespace BOG.ClipboardMunger
 		{
 			this.txtError.Text = String.Empty;
 			var o = _MethodRetriever.mungers[selectedNodeKey];
+			o.ClipboardSource = this.txtClipboardContent.Text;
+
 			var args = new Dictionary<string, string>();
 			string argName = string.Empty;
 			string argValue = string.Empty;
@@ -222,7 +224,7 @@ namespace BOG.ClipboardMunger
 			}
 			try
 			{
-				this.txtClipboardContent.Text = o.MungeClipboard(this.txtClipboardContent.Text, args);
+				this.txtClipboardContent.Text = o.MungeClipboard(args);
 				Clipboard.SetText(this.txtClipboardContent.Text);
 			}
 			catch (Exception err)
@@ -314,7 +316,6 @@ namespace BOG.ClipboardMunger
 					}
 				}
 				this.txtTestOutput.Text = _MethodRetriever.mungers[selectedNodeKey].MungeClipboard(
-					thisExample.Input,
 					thisExample.ArgumentValues
 				);
 			}

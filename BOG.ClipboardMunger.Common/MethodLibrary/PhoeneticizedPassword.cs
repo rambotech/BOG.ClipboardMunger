@@ -18,7 +18,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		{
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			Dictionary<char, string> Phoenetic = new Dictionary<char, string>();
 
@@ -119,9 +119,9 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			Phoenetic.Add('~', "Tilde");
 
 			StringBuilder output = new StringBuilder();
-			for (int Index = 0; Index < clipboardSource.Length; Index++)
+			for (int Index = 0; Index < base.ClipboardSource.Length; Index++)
 			{
-				char ToTranslate = clipboardSource[Index];
+				char ToTranslate = base.ClipboardSource[Index];
 				if (Phoenetic.ContainsKey(ToTranslate))
 				{
 					output.Append(Phoenetic[ToTranslate]);

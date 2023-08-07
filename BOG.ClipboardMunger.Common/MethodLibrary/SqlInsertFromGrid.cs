@@ -43,7 +43,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var databaseName = System.Web.HttpUtility.UrlDecode(ArgumentValues["databaseName"]);
 			var tableName = System.Web.HttpUtility.UrlDecode(ArgumentValues["tableName"]);
@@ -78,7 +78,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			}
 
 			var ValueLinesCreated = 0;
-			foreach (string ThisLine in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+			foreach (string ThisLine in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				if (LineIndex == 0)
 				{

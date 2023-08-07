@@ -25,9 +25,9 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			);
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
-			byte[] encodedDataAsBytes = System.Convert.FromBase64String(clipboardSource);
+			byte[] encodedDataAsBytes = System.Convert.FromBase64String(base.ClipboardSource);
 			return System.Text.ASCIIEncoding.ASCII.GetString(encodedDataAsBytes);
 		}
 	}

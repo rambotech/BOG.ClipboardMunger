@@ -35,13 +35,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			if (bool.Parse(ArgumentValues["DateTimeNow"]))
 			{
 				return DateTime.Now.ToString(ArgumentValues["Format"]);
 			}
-			return DateTime.Parse(clipboardSource).ToString(ArgumentValues["Format"]);
+			return DateTime.Parse(base.ClipboardSource).ToString(ArgumentValues["Format"]);
 		}
 	}
 }

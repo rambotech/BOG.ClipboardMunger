@@ -18,12 +18,12 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		{
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			StringBuilder result = new StringBuilder();
-			for (int i = 0; i < clipboardSource.Length; i++)
+			for (int i = 0; i < base.ClipboardSource.Length; i++)
 			{
-				string test = clipboardSource.Substring(i, 1);
+				string test = base.ClipboardSource.Substring(i, 1);
 				if (test == "\\")
 				{
 					result.Append("\\\\");

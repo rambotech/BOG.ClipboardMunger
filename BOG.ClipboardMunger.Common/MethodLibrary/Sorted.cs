@@ -53,12 +53,12 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var isAscending = string.Compare("A", System.Web.HttpUtility.UrlDecode(ArgumentValues["Direction"]), true) == 0;
 			var uniqueValues = bool.Parse(ArgumentValues["UniqueValuesOnly"]);
 			var lineTerminator = System.Web.HttpUtility.UrlDecode(ArgumentValues["LineTerminator"]);
-			var Lines = new List<string>(clipboardSource.Split(new string[] { lineTerminator }, StringSplitOptions.None));
+			var Lines = new List<string>(base.ClipboardSource.Split(new string[] { lineTerminator }, StringSplitOptions.None));
 
 			if (isAscending)
 			{

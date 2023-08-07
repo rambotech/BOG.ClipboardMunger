@@ -34,7 +34,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge(string clipboardSource)
+		public override string Munge()
 		{
 			var result = new StringBuilder();
 
@@ -43,28 +43,28 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 			var lineEnding = "\r\n";
 			var lines = new string[] { string.Empty };
-			if (clipboardSource.IndexOf(lineEnding) >= 0)
+			if (base.ClipboardSource.IndexOf(lineEnding) >= 0)
 			{
-				lines = clipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.None);
+				lines = base.ClipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.None);
 			}
 			else
 			{
 				lineEnding = "\n";
-				if (clipboardSource.IndexOf(lineEnding) >= 0)
+				if (base.ClipboardSource.IndexOf(lineEnding) >= 0)
 				{
-					lines = clipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.None);
+					lines = base.ClipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.None);
 				}
 				else
 				{
 					lineEnding = "\r";
-					if (clipboardSource.IndexOf(lineEnding) >= 0)
+					if (base.ClipboardSource.IndexOf(lineEnding) >= 0)
 					{
-						lines = clipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.None);
+						lines = base.ClipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.None);
 					}
 					else
 					{
 						lineEnding = string.Empty;
-						lines = new string[] { clipboardSource };
+						lines = new string[] { base.ClipboardSource };
 					}
 				}
 			}
@@ -94,22 +94,22 @@ using System.Web;
 
 public class Script : Interfaces.IClipboard
 {
-        public string Munge(string clipboardSource)
+        public string Munge(string base.ClipboardSource)
         {
                 string Prefix = string.Empty;
                 string Suffix = string.Empty;
                 if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Prefix", "Enter the text to prefix to the beginning of each line", ref Prefix))
                 {
-                        return clipboardSource;
+                        return base.ClipboardSource;
                 }
                 if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Suffix", "Enter the text to suffix to the end of each line", ref Suffix))
                 {
-                        return clipboardSource;
+                        return base.ClipboardSource;
                 }
 				
 				StringBuilder result = new StringBuilder();
 				int LineIndex = 0;
-				foreach (string Line in clipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+				foreach (string Line in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
 				{
 					LineIndex++;
 					result.AppendLine(
