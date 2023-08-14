@@ -50,7 +50,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			foreach (string ThisLine in base.ClipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				lineIndex++;
-				if (ThisLine.IndexOf(filter) == 0)
+				if (ThisLine.IndexOf(filter) == -1)
 				{
 					if (useLineNumbers)
 					{
