@@ -1,5 +1,5 @@
 ClipboardMunger
-(c) 2009-2010, John J. Schultz, all rights reserved.
+(c) 2009-2023, John J. Schultz, all rights reserved.
 
 ** LEGAL STUFF **
 

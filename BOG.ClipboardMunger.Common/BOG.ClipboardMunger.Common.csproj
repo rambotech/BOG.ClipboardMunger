@@ -57,10 +57,11 @@
     <Compile Include="MethodLibrary\ClassFillOut.cs" />
     <Compile Include="MethodLibrary\DateAdd.cs" />
     <Compile Include="MethodLibrary\Dehex.cs" />
-    <Compile Include="MethodLibrary\FilterByLine.cs" />
+    <Compile Include="MethodLibrary\KeepMatching.cs" />
     <Compile Include="MethodLibrary\ExtractOffsetLength.cs" />
     <Compile Include="MethodLibrary\Hexify.cs" />
     <Compile Include="MethodLibrary\ReformattedLine.cs" />
+    <Compile Include="MethodLibrary\RemoveMatching.cs" />
     <Compile Include="MethodLibrary\ReverseLines.cs" />
     <Compile Include="MethodLibrary\SqlUpdateFromGrid.cs" />
     <Compile Include="MethodLibrary\StrFormattedDate.cs" />

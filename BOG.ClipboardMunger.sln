@@ -11,6 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4ED9A35A-C2CE-4CF5-9652-D7AA429EA411}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Overview.txt = Docs\Overview.txt
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOG.ClipboardMunger", "BOG.ClipboardMunger\BOG.ClipboardMunger.csproj", "{AD40B279-79A4-4AA8-BD86-A3EEC36AC1A0}"
 EndProject

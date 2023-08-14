@@ -6,13 +6,13 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class FilterByLine : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class KeepMatching : ClipboardMungerProviderBase, IClipboardMungerProvider
 	{
-		public override string MethodName { get => "Extract line content text block"; }
+		public override string MethodName { get => "Remove all lines with no matching text"; }
 		public override string GroupName { get => "Filtering"; }
 		public override string Description { get; }
 
-		public FilterByLine()
+		public KeepMatching()
 		{
 			base.SetArgument(new Argument
 			{

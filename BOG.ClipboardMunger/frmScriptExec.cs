@@ -225,7 +225,14 @@ namespace BOG.ClipboardMunger
 			try
 			{
 				this.txtClipboardContent.Text = o.MungeClipboard(args);
-				Clipboard.SetText(this.txtClipboardContent.Text);
+				if (!string.IsNullOrEmpty(this.txtClipboardContent.Text))
+				{
+					Clipboard.SetText(this.txtClipboardContent.Text);
+				}
+				else
+				{
+					Clipboard.Clear();
+				}
 			}
 			catch (Exception err)
 			{
