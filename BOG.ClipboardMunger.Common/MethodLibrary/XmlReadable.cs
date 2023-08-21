@@ -1,12 +1,6 @@
 ﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Interface;
-using BOG.ClipboardMunger.Common.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -20,18 +14,18 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		{
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			StringBuilder s = new StringBuilder();
 			bool InNode = false;
 			bool InText = true;
 			bool IsEndNode = false;
 
-			if (base.ClipboardSource.Length > 0)
+			if (textToMunge.Length > 0)
 			{
-				for (int Index = 0; Index < base.ClipboardSource.Length; Index++)
+				for (int Index = 0; Index < textToMunge.Length; Index++)
 				{
-					switch (base.ClipboardSource[Index])
+					switch (textToMunge[Index])
 					{
 						case ' ':
 							break;
@@ -58,7 +52,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 							InText = !InNode;
 							break;
 					}
-					s.Append(base.ClipboardSource[Index]);
+					s.Append(textToMunge[Index]);
 				}
 			}
 			return s.ToString();

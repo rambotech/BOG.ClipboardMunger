@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using BOG.ClipboardMunger.Common.Base;
-using BOG.ClipboardMunger.Common.Entity;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Interface;
+using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -18,12 +14,12 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		{
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			StringBuilder result = new StringBuilder();
-			for (int i = 0; i < base.ClipboardSource.Length; i++)
+			for (int i = 0; i < textToMunge.Length; i++)
 			{
-				string test = base.ClipboardSource.Substring(i, 1);
+				string test = textToMunge.Substring(i, 1);
 				if (test == "\\")
 				{
 					result.Append("\\\\");

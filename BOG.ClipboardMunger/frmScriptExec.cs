@@ -10,6 +10,8 @@ namespace BOG.ClipboardMunger
 {
 	public partial class frmScriptExec : Form
 	{
+		private AssemblyVersion info = new BOG.Framework.AssemblyVersion(true);
+		private string RootFormTitle;
 		private string SelectedScriptName = string.Empty;
 		private bool ScriptTreeRebuilding = false;
 		private MethodRetriever _MethodRetriever = null;
@@ -25,8 +27,7 @@ namespace BOG.ClipboardMunger
 			{
 				InitializeComponent();
 
-				var info = new BOG.Framework.AssemblyVersion(true);
-				this.Text = this.Text + $" ({info.Version}, {info.BuildDate})";
+				RootFormTitle = this.Text + $" ({info.Version}, {info.BuildDate})";
 
 				this.notifyIcon1.BalloonTipTitle = "Clipboard Munger";
 				this.notifyIcon1.BalloonTipText = "Right-click for options";
@@ -101,23 +102,21 @@ namespace BOG.ClipboardMunger
 			ScriptTreeRebuilding = false;
 		}
 
-		private void ScriptExec_Load(object sender, EventArgs e)
-		{
-
-		}
-
 		private void trvScripts_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			if (e.Node.Nodes.Count > 0)
 			{
+				this.Text = RootFormTitle;
 				this.tabpageClipboardContent.Select();
 				this.tabstripScript.Visible = false;
 				this.btnMunge.Enabled = false;
 				this.cbxExampleList.Enabled = false;
-				this.tabpageScript.Text = "Select a script for use";
+				this.tabpageScript.Text = "Arguments";
 				return;
 			}
 			selectedNodeKey = e.Node.Parent.Text + "::" + e.Node.Text;
+			this.Text = RootFormTitle + $" - {selectedNodeKey}";
+
 			this.dgScriptArguments.Rows.Clear();
 			this.cbxExampleList.Items.Clear();
 			this.txtTestInput.Text = string.Empty;
@@ -144,7 +143,7 @@ namespace BOG.ClipboardMunger
 			}
 			this.cbxExampleList.Enabled = this.cbxExampleList.Items.Count > 0;
 
-			this.tabpageScript.Text = $"Script for {e.Node.Text} ({e.Node.Parent.Text})";
+			this.tabpageScript.Text = $"Arguments for {e.Node.Text} ({e.Node.Parent.Text})";
 			this.tabstripScript.Visible = true;
 			this.tabstripScript.Show();
 			this.tabArguments.Select();
@@ -323,13 +322,67 @@ namespace BOG.ClipboardMunger
 					}
 				}
 				this.txtTestOutput.Text = _MethodRetriever.mungers[selectedNodeKey].MungeClipboard(
-					thisExample.ArgumentValues
+					thisExample.ArgumentValues,
+					thisExample.Input
 				);
 			}
 			catch (Exception err)
 			{
 				MessageBox.Show(DetailedException.WithUserContent(ref err), "Error executing example", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+		}
+
+		private void trvScripts_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			if (e.Node.Nodes.Count > 0)
+			{
+				this.Text = RootFormTitle;
+				this.tabstripScript.Visible = false;
+				this.btnMunge.Enabled = false;
+				this.cbxExampleList.Enabled = false;
+				this.tabpageScript.Text = "Arguments";
+				return;
+			}
+			selectedNodeKey = e.Node.Parent.Text + "::" + e.Node.Text;
+			this.Text = RootFormTitle + $" - {selectedNodeKey}";
+
+			this.dgScriptArguments.Rows.Clear();
+			this.cbxExampleList.Items.Clear();
+			this.txtTestInput.Text = string.Empty;
+			this.txtTestOutput.Text = string.Empty;
+			this.dgvArgValues.Rows.Clear();
+			foreach (var item in _MethodRetriever.mungers[selectedNodeKey].GetArguments())
+			{
+				this.dgScriptArguments.Rows.Add(new object[]
+				{
+					item.Value.Name,
+					item.Value.DefaultValue,
+					item.Value.Description,
+					item.Value.ValidatorRegex
+				});
+				this.dgvArgValues.Rows.Add(new object[]
+				{
+					item.Value.Name
+				});
+			}
+			foreach (var exampleName in _MethodRetriever.mungers[selectedNodeKey].GetExampleNames())
+			{
+				this.cbxExampleList.Items.Add(exampleName);
+			}
+			if (this.cbxExampleList.Items.Count == 0)
+			{
+				this.cbxExampleList.Enabled = false;
+			}
+			else
+			{
+				this.cbxExampleList.Enabled = true;
+				this.cbxExampleList.SelectedIndex = 0;
+			}
+
+			this.tabpageScript.Text = $"Arguments for {e.Node.Text} ({e.Node.Parent.Text})";
+			this.tabstripScript.Visible = true;
+			this.tabstripScript.Show();
+			this.btnMunge.Enabled = true;
 		}
 	}
 }

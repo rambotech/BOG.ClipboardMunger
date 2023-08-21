@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using BOG.ClipboardMunger.Common.Base;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
+using System.Collections.Generic;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -27,14 +24,35 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			base.SetArgument(new Argument
 			{
 				Name = "Case",
-				Title = "Casing of letters",				
+				Title = "Casing of letters",
 				DefaultValue = "L",
 				Description = "U=All Upper, L=All Lower (default)",
 				ValidatorRegex = "U|L"
 			});
+
+			base.Examples.Add("Example 1", new Example
+			{
+				Name = "Format as 32 hex digits, upper case",
+				Input = "",
+				ArgumentValues = new Dictionary<string, string>
+				{
+					{"Format", "N" },
+					{"Case", "U" }
+				}
+			});
+			base.Examples.Add("Example 2", new Example
+			{
+				Name = "Format as 32 hex digits, hyphens, lower case",
+				Input = "",
+				ArgumentValues = new Dictionary<string, string>
+				{
+					{"Format", "D" },
+					{"Case", "L" }
+				}
+			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			string YourGUID = System.Guid.NewGuid().ToString(ArgumentValues["Format"]);
 			if (ArgumentValues["Case"].ToUpper() == "U") YourGUID = YourGUID.ToUpper();

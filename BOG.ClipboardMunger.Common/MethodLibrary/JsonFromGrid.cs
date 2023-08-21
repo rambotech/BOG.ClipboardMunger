@@ -1,5 +1,4 @@
 ﻿using BOG.ClipboardMunger.Common.Base;
-using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
 using System;
 using System.Collections.Generic;
@@ -61,16 +60,16 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			return result.ToString();
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			StringBuilder result = new StringBuilder();
 			int LineIndex = 0;
 			Dictionary<int, string> DataIndex = new Dictionary<int, string>();
 			result.AppendLine("[");
 
-			if (base.ClipboardSource.Length > 0)
+			if (textToMunge.Length > 0)
 			{
-				foreach (string ThisLine in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+				foreach (string ThisLine in textToMunge.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
 				{
 					if (string.IsNullOrEmpty(ThisLine)) continue;
 					LineIndex++;

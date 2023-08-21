@@ -1,7 +1,5 @@
 ﻿using BOG.ClipboardMunger.Common.Base;
-using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
-using System;
 using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
@@ -16,19 +14,19 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		{
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			StringBuilder result = new StringBuilder();
 
-			if (base.ClipboardSource.Length > 0)
+			if (textToMunge.Length > 0)
 			{
 				bool inQuote = false;
 				int EscapeBypass = 0;
-				for (int index = 0; index < base.ClipboardSource.Length; index++)
+				for (int index = 0; index < textToMunge.Length; index++)
 				{
 					if (EscapeBypass > 0) EscapeBypass--;
 
-					char thisChar = base.ClipboardSource[index];
+					char thisChar = textToMunge[index];
 					if (!inQuote)
 					{
 						// drop the whitespace characters

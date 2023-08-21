@@ -1,10 +1,10 @@
-﻿using System;
+﻿using BOG.ClipboardMunger.Common.Base;
+using BOG.ClipboardMunger.Common.Entity;
+using BOG.ClipboardMunger.Common.Interface;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
-using BOG.ClipboardMunger.Common.Base;
-using BOG.ClipboardMunger.Common.Entity;
-using BOG.ClipboardMunger.Common.Interface;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -38,12 +38,12 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
-			var FormattedAs= HttpUtility.UrlDecode(this.ArgumentValues["FormatString"]);
+			var FormattedAs = HttpUtility.UrlDecode(this.ArgumentValues["FormatString"]);
 
 			StringBuilder output = new StringBuilder();
-			foreach (string s in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+			foreach (string s in textToMunge.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				output.AppendLine(string.Format(FormattedAs, s));
 			}

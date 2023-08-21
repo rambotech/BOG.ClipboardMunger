@@ -55,22 +55,23 @@
 			this.ArgumentDefaultValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ArgumentValidator = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.btnMunge = new System.Windows.Forms.Button();
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.timerShutdown = new System.Windows.Forms.Timer(this.components);
 			this.tabExamples = new System.Windows.Forms.TabPage();
 			this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-			this.lblExampleSelection = new System.Windows.Forms.Label();
 			this.cbxExampleList = new System.Windows.Forms.ComboBox();
+			this.lblExampleSelection = new System.Windows.Forms.Label();
 			this.tabTests = new System.Windows.Forms.TabControl();
 			this.tabTestInput = new System.Windows.Forms.TabPage();
-			this.tabTestOutput = new System.Windows.Forms.TabPage();
 			this.txtTestInput = new System.Windows.Forms.TextBox();
+			this.tabTestOutput = new System.Windows.Forms.TabPage();
 			this.txtTestOutput = new System.Windows.Forms.TextBox();
 			this.tabArgValues = new System.Windows.Forms.TabPage();
 			this.dgvArgValues = new System.Windows.Forms.DataGridView();
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.lblSelectScript = new System.Windows.Forms.Label();
+			this.btnMunge = new System.Windows.Forms.Button();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.timerShutdown = new System.Windows.Forms.Timer(this.components);
 			this.trayContextMenu1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -217,7 +218,7 @@
 			this.trvScripts.Name = "trvScripts";
 			this.trvScripts.Size = new System.Drawing.Size(418, 633);
 			this.trvScripts.TabIndex = 1;
-			this.trvScripts.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvScripts_NodeMouseClick);
+			this.trvScripts.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvScripts_AfterSelect);
 			// 
 			// splitContainer3
 			// 
@@ -295,12 +296,13 @@
 			// tabpageScript
 			// 
 			this.tabpageScript.Controls.Add(this.tabstripScript);
+			this.tabpageScript.Controls.Add(this.lblSelectScript);
 			this.tabpageScript.Location = new System.Drawing.Point(4, 22);
 			this.tabpageScript.Name = "tabpageScript";
 			this.tabpageScript.Padding = new System.Windows.Forms.Padding(3);
 			this.tabpageScript.Size = new System.Drawing.Size(804, 561);
 			this.tabpageScript.TabIndex = 1;
-			this.tabpageScript.Text = "Script";
+			this.tabpageScript.Text = "Arguments";
 			this.tabpageScript.ToolTipText = "Any values needed for the munge process";
 			this.tabpageScript.UseVisualStyleBackColor = true;
 			// 
@@ -314,6 +316,7 @@
 			this.tabstripScript.SelectedIndex = 0;
 			this.tabstripScript.Size = new System.Drawing.Size(798, 555);
 			this.tabstripScript.TabIndex = 1;
+			this.tabstripScript.Visible = false;
 			// 
 			// tabArguments
 			// 
@@ -363,26 +366,6 @@
 			this.ArgumentValidator.Name = "ArgumentValidator";
 			this.ArgumentValidator.ReadOnly = true;
 			// 
-			// btnMunge
-			// 
-			this.btnMunge.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnMunge.Enabled = false;
-			this.btnMunge.Location = new System.Drawing.Point(0, 0);
-			this.btnMunge.Name = "btnMunge";
-			this.btnMunge.Size = new System.Drawing.Size(812, 87);
-			this.btnMunge.TabIndex = 0;
-			this.btnMunge.Text = "Munge";
-			this.btnMunge.UseVisualStyleBackColor = true;
-			this.btnMunge.Click += new System.EventHandler(this.btnMunge_Click);
-			// 
-			// timer1
-			// 
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
-			// timerShutdown
-			// 
-			this.timerShutdown.Tick += new System.EventHandler(this.timerShutdown_Tick);
-			// 
 			// tabExamples
 			// 
 			this.tabExamples.Controls.Add(this.splitContainer4);
@@ -413,6 +396,16 @@
 			this.splitContainer4.SplitterDistance = 32;
 			this.splitContainer4.TabIndex = 0;
 			// 
+			// cbxExampleList
+			// 
+			this.cbxExampleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbxExampleList.FormattingEnabled = true;
+			this.cbxExampleList.Location = new System.Drawing.Point(106, 6);
+			this.cbxExampleList.Name = "cbxExampleList";
+			this.cbxExampleList.Size = new System.Drawing.Size(677, 21);
+			this.cbxExampleList.TabIndex = 1;
+			this.cbxExampleList.SelectedIndexChanged += new System.EventHandler(this.cbxExampleList_SelectedIndexChanged);
+			// 
 			// lblExampleSelection
 			// 
 			this.lblExampleSelection.AutoSize = true;
@@ -421,16 +414,6 @@
 			this.lblExampleSelection.Size = new System.Drawing.Size(86, 13);
 			this.lblExampleSelection.TabIndex = 0;
 			this.lblExampleSelection.Text = "Choose Example";
-			// 
-			// cbxExampleList
-			// 
-			this.cbxExampleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbxExampleList.FormattingEnabled = true;
-			this.cbxExampleList.Location = new System.Drawing.Point(106, 6);
-			this.cbxExampleList.Name = "cbxExampleList";
-			this.cbxExampleList.Size = new System.Drawing.Size(667, 21);
-			this.cbxExampleList.TabIndex = 1;
-			this.cbxExampleList.SelectedIndexChanged += new System.EventHandler(this.cbxExampleList_SelectedIndexChanged);
 			// 
 			// tabTests
 			// 
@@ -455,17 +438,6 @@
 			this.tabTestInput.Text = "Test Input";
 			this.tabTestInput.UseVisualStyleBackColor = true;
 			// 
-			// tabTestOutput
-			// 
-			this.tabTestOutput.Controls.Add(this.txtTestOutput);
-			this.tabTestOutput.Location = new System.Drawing.Point(4, 22);
-			this.tabTestOutput.Name = "tabTestOutput";
-			this.tabTestOutput.Padding = new System.Windows.Forms.Padding(3);
-			this.tabTestOutput.Size = new System.Drawing.Size(782, 467);
-			this.tabTestOutput.TabIndex = 1;
-			this.tabTestOutput.Text = "Test Output";
-			this.tabTestOutput.UseVisualStyleBackColor = true;
-			// 
 			// txtTestInput
 			// 
 			this.txtTestInput.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -476,6 +448,17 @@
 			this.txtTestInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.txtTestInput.Size = new System.Drawing.Size(776, 461);
 			this.txtTestInput.TabIndex = 1;
+			// 
+			// tabTestOutput
+			// 
+			this.tabTestOutput.Controls.Add(this.txtTestOutput);
+			this.tabTestOutput.Location = new System.Drawing.Point(4, 22);
+			this.tabTestOutput.Name = "tabTestOutput";
+			this.tabTestOutput.Padding = new System.Windows.Forms.Padding(3);
+			this.tabTestOutput.Size = new System.Drawing.Size(782, 467);
+			this.tabTestOutput.TabIndex = 1;
+			this.tabTestOutput.Text = "Test Output";
+			this.tabTestOutput.UseVisualStyleBackColor = true;
 			// 
 			// txtTestOutput
 			// 
@@ -521,6 +504,36 @@
 			this.dataGridViewTextBoxColumn2.HeaderText = "Test Value";
 			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
 			// 
+			// lblSelectScript
+			// 
+			this.lblSelectScript.AutoSize = true;
+			this.lblSelectScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblSelectScript.Location = new System.Drawing.Point(191, 270);
+			this.lblSelectScript.Name = "lblSelectScript";
+			this.lblSelectScript.Size = new System.Drawing.Size(423, 20);
+			this.lblSelectScript.TabIndex = 6;
+			this.lblSelectScript.Text = "Please select a munger function from the left panel.";
+			// 
+			// btnMunge
+			// 
+			this.btnMunge.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.btnMunge.Enabled = false;
+			this.btnMunge.Location = new System.Drawing.Point(0, 0);
+			this.btnMunge.Name = "btnMunge";
+			this.btnMunge.Size = new System.Drawing.Size(812, 87);
+			this.btnMunge.TabIndex = 0;
+			this.btnMunge.Text = "Munge";
+			this.btnMunge.UseVisualStyleBackColor = true;
+			this.btnMunge.Click += new System.EventHandler(this.btnMunge_Click);
+			// 
+			// timer1
+			// 
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
+			// timerShutdown
+			// 
+			this.timerShutdown.Tick += new System.EventHandler(this.timerShutdown_Tick);
+			// 
 			// frmScriptExec
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -532,8 +545,6 @@
 			this.Name = "frmScriptExec";
 			this.Text = "Clipboard Munger Utility";
 			this.Activated += new System.EventHandler(this.frmScriptExec_Activated);
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmScriptExec_FormClosing);
-			this.Load += new System.EventHandler(this.ScriptExec_Load);
 			this.Resize += new System.EventHandler(this.frmScriptExec_Resize);
 			this.trayContextMenu1.ResumeLayout(false);
 			this.statusStrip1.ResumeLayout(false);
@@ -557,6 +568,7 @@
 			this.tabpageError.ResumeLayout(false);
 			this.tabpageError.PerformLayout();
 			this.tabpageScript.ResumeLayout(false);
+			this.tabpageScript.PerformLayout();
 			this.tabstripScript.ResumeLayout(false);
 			this.tabArguments.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgScriptArguments)).EndInit();
@@ -621,5 +633,6 @@
 		private System.Windows.Forms.DataGridView dgvArgValues;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+		private System.Windows.Forms.Label lblSelectScript;
 	}
 }

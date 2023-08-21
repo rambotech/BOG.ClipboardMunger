@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using BOG.ClipboardMunger.Common.Base;
-using BOG.ClipboardMunger.Common.Entity;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Interface;
-using BOG.Framework;
 using BOG.Framework.Extensions;
+using System;
+using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -21,16 +17,16 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			var s = new StringBuilder();
-			if (base.ClipboardSource.Length > 0)
+			if (textToMunge.Length > 0)
 			{
 				var value = 0;
 				var offset = 0;
-				for (int colIndex = 0; colIndex < base.ClipboardSource.Length; colIndex++)
+				for (int colIndex = 0; colIndex < textToMunge.Length; colIndex++)
 				{
-					var digitValue = "0123456789ABCDEFabcdef".IndexOf(base.ClipboardSource[colIndex]);
+					var digitValue = "0123456789ABCDEFabcdef".IndexOf(textToMunge[colIndex]);
 					if (digitValue >= 0)
 					{
 						if (digitValue > 15) digitValue -= 6;
@@ -38,7 +34,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 						value += digitValue;
 						if (++offset == 2)
 						{
-							s.Append((char) value);
+							s.Append((char)value);
 							value = 0;
 							offset = 0;
 						}

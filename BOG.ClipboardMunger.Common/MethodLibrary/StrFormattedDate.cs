@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using System.Windows.Forms;
-using BOG.ClipboardMunger.Common.Base;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
+using System;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -35,13 +31,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			if (bool.Parse(ArgumentValues["DateTimeNow"]))
 			{
 				return DateTime.Now.ToString(ArgumentValues["Format"]);
 			}
-			return DateTime.Parse(base.ClipboardSource).ToString(ArgumentValues["Format"]);
+			return DateTime.Parse(textToMunge).ToString(ArgumentValues["Format"]);
 		}
 	}
 }

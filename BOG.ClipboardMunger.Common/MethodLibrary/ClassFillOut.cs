@@ -1,11 +1,10 @@
-﻿using System;
+﻿using BOG.ClipboardMunger.Common.Base;
+using BOG.ClipboardMunger.Common.Entity;
+using BOG.ClipboardMunger.Common.Interface;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
-using BOG.ClipboardMunger.Common.Base;
-using BOG.ClipboardMunger.Common.Entity;
-using BOG.ClipboardMunger.Common.Interface;
-using BOG.Framework;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -85,7 +84,7 @@ ZGVkIGFmdGVyIHRoZSBhdXRvIGdlbmVyYXRlZCBjb2RlLg0KICAgcmV0dXJuICJUZXN0IjsNCn0=
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			StringBuilder output = new StringBuilder();
 			Dictionary<int, string[]> Property = new Dictionary<int, string[]>();
@@ -95,7 +94,7 @@ ZGVkIGFmdGVyIHRoZSBhdXRvIGdlbmVyYXRlZCBjb2RlLg0KICAgcmV0dXJuICJUZXN0IjsNCn0=
 			string ClassName = string.Empty;
 			string ClassImplements = string.Empty;
 
-			foreach (string l in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+			foreach (string l in textToMunge.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				string s = l.Trim();
 				while (s.Length > 0 && s[0] == '\t') s = s.Length == 1 ? string.Empty : s.Substring(1);

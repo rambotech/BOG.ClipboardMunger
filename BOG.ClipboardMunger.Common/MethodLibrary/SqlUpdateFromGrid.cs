@@ -2,10 +2,7 @@
 using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -43,7 +40,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			var databaseName = System.Web.HttpUtility.UrlDecode(ArgumentValues["databaseName"]);
 			var tableName = System.Web.HttpUtility.UrlDecode(ArgumentValues["tableName"]);
@@ -62,7 +59,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			result.AppendLine(string.Format("BEGIN TRY", tableName));
 			result.AppendLine();
 
-			string[] Lines = base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+			string[] Lines = textToMunge.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 			string[] HeaderColumnNames = Lines[0].Split(new char[] { '\t' });
 			if (HeaderColumnNames.Length <= ColumnsInPrimaryKey)
 			{

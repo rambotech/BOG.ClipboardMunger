@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using BOG.ClipboardMunger.Common.Base;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
+using System;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -42,7 +39,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			var delimiter = System.Web.HttpUtility.UrlDecode(ArgumentValues["Delimiter"]);
 			var removeBlankLines = bool.Parse(ArgumentValues["AreEmptyRemoved"]);
@@ -50,9 +47,9 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 			return string.Join(
 				lineTerminator,
-				base.ClipboardSource.Split(
+				textToMunge.Split(
 				new string[] { delimiter },
-				removeBlankLines ? StringSplitOptions.RemoveEmptyEntries: StringSplitOptions.None));
+				removeBlankLines ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None));
 		}
 	}
 }

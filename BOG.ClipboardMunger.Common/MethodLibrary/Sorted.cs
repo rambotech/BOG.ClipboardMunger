@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using BOG.ClipboardMunger.Common.Base;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -53,24 +51,24 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			var isAscending = string.Compare("A", System.Web.HttpUtility.UrlDecode(ArgumentValues["Direction"]), true) == 0;
 			var uniqueValues = bool.Parse(ArgumentValues["UniqueValuesOnly"]);
 			var lineTerminator = System.Web.HttpUtility.UrlDecode(ArgumentValues["LineTerminator"]);
-			var Lines = new List<string>(base.ClipboardSource.Split(new string[] { lineTerminator }, StringSplitOptions.None));
+			var Lines = new List<string>(textToMunge.Split(new string[] { lineTerminator }, StringSplitOptions.None));
 
 			if (isAscending)
 			{
-				Lines= Lines.OrderBy(i => i).ToList();
-			} 
+				Lines = Lines.OrderBy(i => i).ToList();
+			}
 			else
 			{
 				Lines = Lines.OrderByDescending(i => i).ToList();
 			}
 			if (uniqueValues)
 			{
-				Lines = Lines.Distinct().ToList(); 
+				Lines = Lines.Distinct().ToList();
 			}
 			return string.Join(lineTerminator, Lines);
 		}

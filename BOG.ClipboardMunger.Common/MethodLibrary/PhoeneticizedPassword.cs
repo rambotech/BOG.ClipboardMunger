@@ -1,10 +1,7 @@
-﻿using System;
+﻿using BOG.ClipboardMunger.Common.Base;
+using BOG.ClipboardMunger.Common.Interface;
 using System.Collections.Generic;
 using System.Text;
-using System.Web;
-using BOG.ClipboardMunger.Common.Base;
-using BOG.ClipboardMunger.Common.Entity;
-using BOG.ClipboardMunger.Common.Interface;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -18,7 +15,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		{
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			Dictionary<char, string> Phoenetic = new Dictionary<char, string>();
 
@@ -119,9 +116,9 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			Phoenetic.Add('~', "Tilde");
 
 			StringBuilder output = new StringBuilder();
-			for (int Index = 0; Index < base.ClipboardSource.Length; Index++)
+			for (int Index = 0; Index < textToMunge.Length; Index++)
 			{
-				char ToTranslate = base.ClipboardSource[Index];
+				char ToTranslate = textToMunge[Index];
 				if (Phoenetic.ContainsKey(ToTranslate))
 				{
 					output.Append(Phoenetic[ToTranslate]);

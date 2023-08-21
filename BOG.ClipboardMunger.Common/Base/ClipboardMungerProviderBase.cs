@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace BOG.ClipboardMunger.Common.Base
 {
@@ -23,15 +24,16 @@ namespace BOG.ClipboardMunger.Common.Base
 		protected Dictionary<string, Example> Examples = new Dictionary<string, Example>();
 		protected Dictionary<string, string> ArgumentValues = new Dictionary<string, string>();
 
-		public string ClipboardSource { get; set; }
+		public string ClipboardSource { get; set; } = Clipboard.GetText();
 
 		/// <summary>
-		/// Inheriting class must override.  This is the method called to change the clipboard text.
+		/// Inheriting class must override.  This is the method called to change the clipboard or example text.
 		/// No try/catch block needed: the caller in the Windows form handles any exceptions.
+		/// Caller should use base.ClipboardSource as the argument when not executing an example.
 		/// </summary>
-		/// <param name="base.ClipboardSource"></param>
+		/// <param name="textToMunge"></param>
 		/// <returns></returns>
-		public virtual string Munge()
+		public virtual string Munge(string textToMunge)
 		{
 			throw new NotImplementedException();
 		}
@@ -77,6 +79,11 @@ namespace BOG.ClipboardMunger.Common.Base
 
 		public string MungeClipboard(Dictionary<string, string> argumentValues)
 		{
+			return MungeClipboard(argumentValues, this.ClipboardSource);
+		}
+
+		public string MungeClipboard(Dictionary<string, string> argumentValues, string textToMunge)
+		{
 			ArgumentValues.Clear();
 			foreach (var key in Arguments.Keys)
 			{
@@ -91,7 +98,7 @@ namespace BOG.ClipboardMunger.Common.Base
 					ArgumentValues[key] = argumentValues[key];
 				}
 			}
-			var result = Munge();
+			var result = Munge(textToMunge);
 			ArgumentValues.Clear();
 			return result;
 		}

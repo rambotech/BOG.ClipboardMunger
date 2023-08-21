@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using System.Windows.Forms;
-using BOG.ClipboardMunger.Common.Base;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
-using BOG.Framework;
-using BOG.Framework.Extensions;
+using System;
+using System.Collections.Generic;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -99,7 +94,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			DateTime dateTimeBase;
 

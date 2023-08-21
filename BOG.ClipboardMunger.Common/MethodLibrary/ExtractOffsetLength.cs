@@ -32,14 +32,14 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			int startingOffset = int.Parse(ArgumentValues["StartOffset"]);
 			int length = int.Parse(ArgumentValues["Length"]);
 
 			StringBuilder result = new StringBuilder();
 
-			foreach (string line in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.None))
+			foreach (string line in textToMunge.Split(new string[] { "\r\n" }, StringSplitOptions.None))
 			{
 				string columnValue = "";
 				if (line.Length >= startingOffset + length)

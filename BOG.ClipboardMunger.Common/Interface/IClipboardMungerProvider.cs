@@ -13,6 +13,6 @@ namespace BOG.ClipboardMunger.Common.Interface
 
 		List<string> GetExampleNames();
 		Example GetExample(string exampleName);
-		string Munge();
+		string Munge(string textToMunge);
 	}
 }

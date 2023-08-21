@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using BOG.ClipboardMunger.Common.Base;
-using BOG.ClipboardMunger.Common.Entity;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Interface;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
@@ -19,9 +14,9 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
-			return base.ClipboardSource.Replace(@"\", @"/");
+			return textToMunge.Replace(@"\", @"/");
 		}
 	}
 }

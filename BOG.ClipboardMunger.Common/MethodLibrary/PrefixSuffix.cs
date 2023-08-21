@@ -3,8 +3,6 @@ using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
 using System;
 using System.Text;
-using System.Web;
-using System.Windows.Forms;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -34,7 +32,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			var result = new StringBuilder();
 
@@ -43,28 +41,28 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 			var lineEnding = "\r\n";
 			var lines = new string[] { string.Empty };
-			if (base.ClipboardSource.IndexOf(lineEnding) >= 0)
+			if (textToMunge.IndexOf(lineEnding) >= 0)
 			{
-				lines = base.ClipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.None);
+				lines = textToMunge.Split(new string[] { lineEnding }, StringSplitOptions.None);
 			}
 			else
 			{
 				lineEnding = "\n";
-				if (base.ClipboardSource.IndexOf(lineEnding) >= 0)
+				if (textToMunge.IndexOf(lineEnding) >= 0)
 				{
-					lines = base.ClipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.None);
+					lines = textToMunge.Split(new string[] { lineEnding }, StringSplitOptions.None);
 				}
 				else
 				{
 					lineEnding = "\r";
-					if (base.ClipboardSource.IndexOf(lineEnding) >= 0)
+					if (textToMunge.IndexOf(lineEnding) >= 0)
 					{
-						lines = base.ClipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.None);
+						lines = textToMunge.Split(new string[] { lineEnding }, StringSplitOptions.None);
 					}
 					else
 					{
 						lineEnding = string.Empty;
-						lines = new string[] { base.ClipboardSource };
+						lines = new string[] { textToMunge };
 					}
 				}
 			}
@@ -94,22 +92,22 @@ using System.Web;
 
 public class Script : Interfaces.IClipboard
 {
-        public string Munge(string base.ClipboardSource)
+        public string Munge(string textToMunge)
         {
                 string Prefix = string.Empty;
                 string Suffix = string.Empty;
                 if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Prefix", "Enter the text to prefix to the beginning of each line", ref Prefix))
                 {
-                        return base.ClipboardSource;
+                        return textToMunge;
                 }
                 if (DialogResult.OK != BOG.Framework.FormEx.InputBox ("Suffix", "Enter the text to suffix to the end of each line", ref Suffix))
                 {
-                        return base.ClipboardSource;
+                        return textToMunge;
                 }
 				
 				StringBuilder result = new StringBuilder();
 				int LineIndex = 0;
-				foreach (string Line in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+				foreach (string Line in textToMunge.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
 				{
 					LineIndex++;
 					result.AppendLine(

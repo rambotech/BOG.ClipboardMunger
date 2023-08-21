@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using BOG.ClipboardMunger.Common.Base;
-using BOG.ClipboardMunger.Common.Entity;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Interface;
+using System;
+using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -26,13 +23,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			return Result;
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			const string CSharpPrefix = "\"";
 			const string CSharpAppend = " \" + \"\\r\\n\" +";
 			const string CSharpEndsWith = " \" + \"\\r\\n\"";
 			StringBuilder Result = new StringBuilder();
-			string clipboardCleaned = base.ClipboardSource.Trim();
+			string clipboardCleaned = textToMunge.Trim();
 
 			if (clipboardCleaned.IndexOf(CSharpEndsWith) > -1)
 			{

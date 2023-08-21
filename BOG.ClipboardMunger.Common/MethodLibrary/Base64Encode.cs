@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using BOG.ClipboardMunger.Common.Base;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
+using System;
+using System.Collections.Generic;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -40,13 +38,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			var useLineBreaks = bool.Parse(this.ArgumentValues["LineBreaks"]);
-			byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(base.ClipboardSource);
+			byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(textToMunge);
 			return System.Convert.ToBase64String(
-				toEncodeAsBytes, 
-				useLineBreaks ? Base64FormattingOptions.InsertLineBreaks: Base64FormattingOptions.None);
+				toEncodeAsBytes,
+				useLineBreaks ? Base64FormattingOptions.InsertLineBreaks : Base64FormattingOptions.None);
 		}
 	}
 }

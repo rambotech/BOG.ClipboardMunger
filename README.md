@@ -52,6 +52,11 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+2023-08-20: 1.1.2.7
+- Bug fix: example handling
+- Added some examples
+
+Version History:
 2023-08-06: 1.1.2.6
 - Bug fix: prevent argument from erasing clipboard source.
 

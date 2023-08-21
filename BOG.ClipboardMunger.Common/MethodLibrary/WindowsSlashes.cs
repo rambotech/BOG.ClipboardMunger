@@ -19,9 +19,9 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
-			return base.ClipboardSource.Replace(@"/", @"\");
+			return textToMunge.Replace(@"/", @"\");
 		}
 	}
 }

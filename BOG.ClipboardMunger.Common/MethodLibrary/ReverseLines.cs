@@ -3,9 +3,7 @@ using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -26,13 +24,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			var ignoreBlankLines = bool.Parse(ArgumentValues["IgnoreBlankLines"]);
 
 			StringBuilder output = new StringBuilder();
 			Stack<string> stack = new Stack<string>();
-			foreach (string s in base.ClipboardSource.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+			foreach (string s in textToMunge.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
 			{
 				if (ignoreBlankLines && string.IsNullOrWhiteSpace(s)) continue;
 				stack.Push(s);

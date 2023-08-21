@@ -15,13 +15,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			StringBuilder s = new StringBuilder();
 			int Index = 0;
-			while (Index < base.ClipboardSource.Length)
+			while (Index < textToMunge.Length)
 			{
-				s.Append(string.Format("{0:x2}", (int)base.ClipboardSource[Index++]));
+				s.Append(string.Format("{0:x2}", (int)textToMunge[Index++]));
 			}
 			return s.ToString();
 		}

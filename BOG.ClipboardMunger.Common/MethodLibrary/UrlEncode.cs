@@ -19,9 +19,9 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
-			return System.Web.HttpUtility.UrlDecode(base.ClipboardSource);
+			return System.Web.HttpUtility.UrlDecode(textToMunge);
 		}
 	}
 }

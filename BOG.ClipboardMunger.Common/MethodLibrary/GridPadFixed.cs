@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using System.Windows.Forms;
-using BOG.ClipboardMunger.Common.Base;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -27,13 +25,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
 			var lineEnding = System.Web.HttpUtility.UrlDecode(ArgumentValues["LineTerminator"]);
 
 			StringBuilder result = new StringBuilder();
 
-			var lines = base.ClipboardSource.Split(new string[] { lineEnding }, StringSplitOptions.RemoveEmptyEntries);
+			var lines = textToMunge.Split(new string[] { lineEnding }, StringSplitOptions.RemoveEmptyEntries);
 			if (lines.Length == 1)
 			{
 				throw new Exception("Parsing failure: only see 1 line of text.  Requires a header line, and data lines.  Check that line termination value is correct.");

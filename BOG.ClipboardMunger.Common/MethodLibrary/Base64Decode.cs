@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using BOG.ClipboardMunger.Common.Base;
+﻿using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
+using System.Collections.Generic;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -22,12 +19,12 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 					Name = "Simple",
 					Input = "aHR0cDovL3d3dy5teXNlcnZlci5jb20/QXJndW1lbnQ9NDQmTGlzdD0yDQoNCk5ldyBMaW5lK0Fub3RoZXIgTmV3IExpbmU="
 				}
-			);
+			); ;
 		}
 
-		public override string Munge()
+		public override string Munge(string textToMunge)
 		{
-			byte[] encodedDataAsBytes = System.Convert.FromBase64String(base.ClipboardSource);
+			byte[] encodedDataAsBytes = System.Convert.FromBase64String(textToMunge);
 			return System.Text.ASCIIEncoding.ASCII.GetString(encodedDataAsBytes);
 		}
 	}
