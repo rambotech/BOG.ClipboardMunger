@@ -50,6 +50,10 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+2023-08-20: 1.1.2.8
+- Added String as JSON
+
+Version History:
 2023-08-20: 1.1.2.7
 - Bug fix: example handling
 - Added some examples

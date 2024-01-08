@@ -65,6 +65,7 @@
     <Compile Include="MethodLibrary\ReverseLines.cs" />
     <Compile Include="MethodLibrary\SqlUpdateFromGrid.cs" />
     <Compile Include="MethodLibrary\StrFormattedDate.cs" />
+    <Compile Include="MethodLibrary\StringAsJson.cs" />
     <Compile Include="MethodLibrary\StrToCSharpString.cs" />
     <Compile Include="MethodLibrary\StrToEscapedString.cs" />
     <Compile Include="MethodLibrary\StrToLower.cs" />
