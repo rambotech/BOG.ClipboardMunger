@@ -50,6 +50,10 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+2023-08-20: 1.1.2.9
+- Added HashMD5, HashSHA1, HashSHA256, HashSHA384, HashSHA512
+- Added EqualSwap
+
 2023-08-20: 1.1.2.8
 - Added String as JSON
 

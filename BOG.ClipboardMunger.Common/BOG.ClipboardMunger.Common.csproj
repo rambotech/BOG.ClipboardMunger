@@ -47,8 +47,15 @@
     <Compile Include="Entity\Argument.cs" />
     <Compile Include="Entity\Example.cs" />
     <Compile Include="Helper\MethodRetriever.cs" />
+    <Compile Include="Helper\StringStream.cs" />
     <Compile Include="MethodLibrary\Base64Decode.cs" />
+    <Compile Include="MethodLibrary\EqualSwap.cs" />
     <Compile Include="MethodLibrary\GridPadFixed.cs" />
+    <Compile Include="MethodLibrary\HashMD5.cs" />
+    <Compile Include="MethodLibrary\HashSHA1.cs" />
+    <Compile Include="MethodLibrary\HashSHA256.cs" />
+    <Compile Include="MethodLibrary\HashSHA384.cs" />
+    <Compile Include="MethodLibrary\HashSHA512.cs" />
     <Compile Include="MethodLibrary\Join.cs" />
     <Compile Include="MethodLibrary\HtmlDecode.cs" />
     <Compile Include="MethodLibrary\HtmlEncode.cs" />
@@ -86,6 +93,7 @@
     <Compile Include="MethodLibrary\SqlInsertFromGrid.cs" />
     <Compile Include="MethodLibrary\WindowsSlashes.cs" />
     <Compile Include="MethodLibrary\XmlReadable.cs" />
+    <Compile Include="MethodLibrary\XSLtoXML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
