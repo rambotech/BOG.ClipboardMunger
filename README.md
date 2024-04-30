@@ -50,9 +50,11 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+2024-04-20: 1.1.2.11
+- Fixed regex in Prefix / Suffix to allow empty string value.
+
 2024-04-20: 1.1.2.10
 - Added JsonFromLines with example
-- Fixed regex in Prefix / Suffix to allow empty string value.
 
 2023-08-20: 1.1.2.9
 - Added HashMD5, HashSHA1, HashSHA256, HashSHA384, HashSHA512
