@@ -19,8 +19,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			{
 				Name = "databaseName",
 				Title = "Database Name",
-				DefaultValue = "MyDatabaseName",
-				Description = @"The database name for the USE statement",
+				DefaultValue = "MyDatabase",
+				Description = @"The database name for the USE statement: DON'T WRAP IN SQUARE BRACKETS",
 				ValidatorRegex = ".+"
 			});
 			base.SetArgument(new Argument
@@ -28,32 +28,72 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				Name = "tableName",
 				Title = "Table Name",
 				DefaultValue = "MyTableName",
-				Description = @"The table name for the inserted rows",
-				ValidatorRegex = ".+"
-			});
+				Description = @"The table name for the inserted rows: DON'T WRAP IN SQUARE BRACKETS",
+                ValidatorRegex = ".+"
+            });
 			base.SetArgument(new Argument
 			{
-				Name = "maxValuesPerInsert",
-				Title = "Value objects per insert",
-				DefaultValue = "1",
-				Description = @"More than one value (row) can be used per insert in later versions.  Range 1 to 100 (highest recommended)",
-				ValidatorRegex = @"\d+"
-			});
-		}
+				Name = "includeTransaction",
+				Title = "Include transaction markers",
+                DefaultValue = "false",
+                Description = "Whether to include COMMIT / ROLLBACK.",
+                ValidatorRegex = @"true|TRUE|false|FALSE"
+            });
+            base.SetArgument(new Argument
+            {
+                Name = "includeErrorHandling",
+                Title = "Include error handling",
+                DefaultValue = "false",
+                Description = "Whether to include TRY / CATCH.",
+                ValidatorRegex = @"true|TRUE|false|FALSE"
+            });
+            base.SetArgument(new Argument
+            {
+                Name = "maxValuesPerInsert",
+                Title = "Value objects per insert",
+                DefaultValue = "1",
+                Description = @"More than one value (row) can be used per insert in later versions.  Range 1 to 200 (highest recommended)",
+                ValidatorRegex = @"\d+"
+            });
+            base.SetArgument(new Argument
+            {
+                Name = "maxLineLength",
+                Title = "Maximum Line length for multiple inserts (minimum 40, 0 for no limit)",
+                DefaultValue = "80",
+                Description = @"Only useful for multi-value insert: insert line break if line length will exceed this number.",
+                ValidatorRegex = @"\d+"
+            });
+        }
 
-		public override string Munge(string textToMunge)
+        public override string Munge(string textToMunge)
 		{
 			var databaseName = System.Web.HttpUtility.UrlDecode(ArgumentValues["databaseName"]);
 			var tableName = System.Web.HttpUtility.UrlDecode(ArgumentValues["tableName"]);
-			var maxValuesPerInsert = int.Parse(System.Web.HttpUtility.UrlDecode(ArgumentValues["maxValuesPerInsert"]));
+			var includeTransaction = bool.Parse(System.Web.HttpUtility.UrlDecode(ArgumentValues["includeTransaction"]));
+            var includeErrorHandling = bool.Parse(System.Web.HttpUtility.UrlDecode(ArgumentValues["includeErrorHandling"]));
+            var maxValuesPerInsert = int.Parse(System.Web.HttpUtility.UrlDecode(ArgumentValues["maxValuesPerInsert"]));
+            var maxLineLength = int.Parse(System.Web.HttpUtility.UrlDecode(ArgumentValues["maxLineLength"]));
 
-			int orgValueCount = maxValuesPerInsert;
-			maxValuesPerInsert = (maxValuesPerInsert < 0) ? 1 : ((maxValuesPerInsert > 100) ? 100 : maxValuesPerInsert);
+			// Guard
+            int orgValueCount = maxValuesPerInsert;
+			maxValuesPerInsert = (maxValuesPerInsert < 0) ? 1 : ((maxValuesPerInsert > 200) ? 200 : maxValuesPerInsert);
 			if (maxValuesPerInsert != orgValueCount)
 			{
 				MessageBox.Show($"The value has been adjusted to {maxValuesPerInsert} for {orgValueCount} due to limits", "Value count range adjustment", MessageBoxButtons.OK);
 			}
-			StringBuilder result = new StringBuilder();
+
+            int orgMaxLineLength = maxLineLength;
+            maxLineLength = (maxLineLength < 40) ? 40 : ((maxLineLength > 140) ? 140 : maxLineLength);
+            if (maxLineLength != orgMaxLineLength)
+            {
+                MessageBox.Show($"The value has been adjusted to {maxLineLength} for {orgMaxLineLength} due to limits", "Max line length range adjustment", MessageBoxButtons.OK);
+            }
+
+			if (databaseName.Contains(" ")) databaseName = "[" + databaseName + "]";
+            if (tableName.Contains(" ")) tableName = "[" + tableName + "]";
+
+            // Process
+            StringBuilder result = new StringBuilder();
 			int LineIndex = 0;
 			int ColumnIndex = 0;
 			int ColumnCount = 0;
@@ -61,15 +101,15 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 			if (databaseName != string.Empty)
 			{
-				result.AppendLine(string.Format("USE [{0}]", databaseName));
+				result.AppendLine(string.Format("USE {0}", databaseName));
 				result.AppendLine("GO");
 				result.AppendLine();
 			}
 
 			result.AppendLine(string.Format("-- SET IDENTITY_INSERT {0} ON;", tableName));
-			result.AppendLine(string.Format("BEGIN TRAN", tableName));
-			result.AppendLine();
-			result.AppendLine(string.Format("BEGIN TRY", tableName));
+			if (includeTransaction) result.AppendLine(string.Format("BEGIN TRAN", tableName));
+            if (includeTransaction) result.AppendLine();
+            if (includeErrorHandling) result.AppendLine(string.Format("BEGIN TRY", tableName));
 			if (maxValuesPerInsert == 1)
 			{
 				result.AppendLine();
@@ -85,7 +125,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 					{
 						InsertHeader += "\r\n";
 					}
-					InsertHeader += string.Format("\tINSERT INTO [{0}] (", tableName);
+					InsertHeader += string.Format("\tINSERT INTO {0} (", tableName);
 					foreach (string ColumnName in ThisLine.Split(new char[] { '\t' }))
 					{
 						if (ColumnIndex > 0)
@@ -144,13 +184,13 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				LineIndex++;
 			}
 
-			result.AppendLine();
-			result.AppendLine("\tCOMMIT /* Success if at this point */");
-			result.AppendLine("\tPRINT 'Successful... committed'");
-			result.AppendLine("END TRY");
-			result.AppendLine();
+            if (includeTransaction) result.AppendLine();
+            if (includeTransaction) result.AppendLine("\tCOMMIT /* Success if at this point */");
+            if (includeTransaction) result.AppendLine("\tPRINT 'Successful... committed'");
+            if (includeErrorHandling) result.AppendLine("END TRY");
+            if (includeErrorHandling) result.AppendLine();
 			result.AppendLine("BEGIN CATCH");
-			result.AppendLine("\tROLLBACK");
+            if (includeTransaction) result.AppendLine("\tROLLBACK");
 			result.AppendLine("\tPRINT 'Failure... rollback'");
 			result.AppendLine("END CATCH");
 			result.AppendLine();

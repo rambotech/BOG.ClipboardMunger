@@ -10,7 +10,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	public class GridPadFixed : ClipboardMungerProviderBase, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Grid to Fixed Width Display"; }
-		public override string GroupName { get => "Rectify"; }
+		public override string GroupName { get => "Wizardry"; }
 		public override string Description { get; }
 
 		public GridPadFixed()

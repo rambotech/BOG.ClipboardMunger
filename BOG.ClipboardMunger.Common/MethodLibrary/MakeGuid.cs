@@ -33,7 +33,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			base.Examples.Add("Example 1", new Example
 			{
 				Name = "Format as 32 hex digits, upper case",
-				Input = "",
+				Input = string.Empty,
 				ArgumentValues = new Dictionary<string, string>
 				{
 					{"Format", "N" },

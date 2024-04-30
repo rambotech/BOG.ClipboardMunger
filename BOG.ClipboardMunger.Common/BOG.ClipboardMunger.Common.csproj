@@ -64,6 +64,7 @@
     <Compile Include="MethodLibrary\ClassFillOut.cs" />
     <Compile Include="MethodLibrary\DateAdd.cs" />
     <Compile Include="MethodLibrary\Dehex.cs" />
+    <Compile Include="MethodLibrary\JsonFromLines.cs" />
     <Compile Include="MethodLibrary\KeepMatching.cs" />
     <Compile Include="MethodLibrary\ExtractOffsetLength.cs" />
     <Compile Include="MethodLibrary\Hexify.cs" />
@@ -99,6 +100,9 @@
   <ItemGroup>
     <PackageReference Include="BOG.Framework">
       <Version>2.1.4</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

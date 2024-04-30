@@ -7,7 +7,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	public class JsonMinimize : ClipboardMungerProviderBase, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "JSON minimize"; }
-		public override string GroupName { get => "Rectify"; }
+		public override string GroupName { get => "Wizardry"; }
 		public override string Description { get; }
 
 		public JsonMinimize()

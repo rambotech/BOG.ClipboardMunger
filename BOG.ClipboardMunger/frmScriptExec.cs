@@ -124,20 +124,20 @@ namespace BOG.ClipboardMunger
 			this.dgvArgValues.Rows.Clear();
 			foreach (var item in _MethodRetriever.mungers[selectedNodeKey].GetArguments())
 			{
-				this.dgScriptArguments.Rows.Add(new object[]
+                this.dgScriptArguments.Rows.Add(new object[]
 				{
-					item.Value.Name,
+                    item.Value.Name,
 					item.Value.DefaultValue,
 					item.Value.Description,
 					item.Value.ValidatorRegex
-				});
-				this.dgvArgValues.Rows.Add(new object[]
+                });
+                this.dgvArgValues.Rows.Add(new object[]
 				{
 					item.Value.Name,
-					""
+					string.Empty
 				});
-			}
-			foreach (var exampleName in _MethodRetriever.mungers[selectedNodeKey].GetExampleNames())
+            }
+            foreach (var exampleName in _MethodRetriever.mungers[selectedNodeKey].GetExampleNames())
 			{
 				this.cbxExampleList.Items.Add(exampleName);
 			}

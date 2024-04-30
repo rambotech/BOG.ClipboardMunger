@@ -8,7 +8,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	public class JsonBeautify : ClipboardMungerProviderBase, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "JSON readable"; }
-		public override string GroupName { get => "Rectify"; }
+		public override string GroupName { get => "Wizardry"; }
 		public override string Description { get; }
 
 		public JsonBeautify()

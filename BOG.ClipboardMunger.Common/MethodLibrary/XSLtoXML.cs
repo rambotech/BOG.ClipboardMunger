@@ -25,16 +25,16 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             {
                 Name = "XML",
                 Title = "The XML document or full file name of source file to read",
-                DefaultValue = "",
-                Description = "",
+                DefaultValue = string.Empty,
+                Description = string.Empty,
                 ValidatorRegex = @".+"
             });
             base.SetArgument(new Argument
             {
                 Name = "XSL",
                 Title = "The XSL style-sheet document or full file name of source file to read",
-                DefaultValue = "",
-                Description = "",
+                DefaultValue = string.Empty,
+                Description = string.Empty,
                 ValidatorRegex = @".+"
             });
         }

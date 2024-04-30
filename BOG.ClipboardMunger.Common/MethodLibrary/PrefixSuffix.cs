@@ -18,17 +18,17 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			{
 				Name = "Prefix",
 				Title = "The prepended value",
-				DefaultValue = "",
+				DefaultValue = string.Empty,
 				Description = "URLEncode when needed, e.g.: 100%25",
-				ValidatorRegex = @".+"
+				ValidatorRegex = @".*"
 			});
 			base.SetArgument(new Argument
 			{
 				Name = "Suffix",
 				Title = "The appended value",
-				DefaultValue = "",
+				DefaultValue = string.Empty,
 				Description = "URLEncode when needed, e.g.: \"%0d%0a",
-				ValidatorRegex = @".+"
+				ValidatorRegex = @".*"
 			});
 		}
 

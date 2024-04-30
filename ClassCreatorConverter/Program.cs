@@ -7,8 +7,6 @@ namespace ClassCreatorConverter
 	{
 		static void Main(string[] args)
 		{
-			//string SourcePath = @"";
-			//string TargetPath = @"";
 			Console.WriteLine("Hello World!");
 		}
 

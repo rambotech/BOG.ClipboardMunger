@@ -27,7 +27,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				Name = "Length",
 				Title = "The number of characters to extract from the start",
 				DefaultValue = "0",
-				Description = "",
+				Description = string.Empty,
 				ValidatorRegex = @"\d+"
 			});
 		}
@@ -41,7 +41,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 			foreach (string line in textToMunge.Split(new string[] { "\r\n" }, StringSplitOptions.None))
 			{
-				string columnValue = "";
+				string columnValue = string.Empty;
 				if (line.Length >= startingOffset + length)
 				{
 					columnValue = line.Substring(startingOffset, length);

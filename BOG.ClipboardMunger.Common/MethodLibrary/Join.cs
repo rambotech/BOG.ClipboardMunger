@@ -20,7 +20,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				Title = "Char/String to use for the delimiter",
 				DefaultValue = @"\x09",
 				Description = "use '\x09' for tab, ',' for comma, etc",
-				ValidatorRegex = ".+"
+				ValidatorRegex = ".*"
 			});
 			base.SetArgument(new Argument
 			{
