@@ -23,8 +23,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "String-like"; }
 		public override string Description { get => "Ascending or Descending, w/optional dupe removal"; }
 
-		public Sorted()
-		{
+		public Sorted() : base()
+        {
 			base.SetArgument(new Argument
 			{
 				Name = "Direction",

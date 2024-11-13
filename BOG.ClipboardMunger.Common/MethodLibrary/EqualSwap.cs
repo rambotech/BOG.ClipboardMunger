@@ -13,7 +13,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
         public override string GroupName { get => "String-Magic"; }
         public override string Description { get => "Swap values on each side of the equal sign"; }
 
-        public EqualSwap()
+        public EqualSwap() : base()
         {
             base.Examples.Add("Single Line", new Example
             {

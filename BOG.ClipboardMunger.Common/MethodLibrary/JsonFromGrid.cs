@@ -12,8 +12,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Wizardry"; }
 		public override string Description { get; }
 
-		public JsonFromGrid()
-		{
+		public JsonFromGrid() : base()
+        {
 		}
 
 		private string C_EncodedString(string source)

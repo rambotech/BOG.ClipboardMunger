@@ -12,8 +12,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "SQL"; }
 		public override string Description { get; }
 
-		public SqlUpdateFromGrid()
-		{
+		public SqlUpdateFromGrid() : base()
+        {
 			base.SetArgument(new Argument
 			{
 				Name = "databaseName",

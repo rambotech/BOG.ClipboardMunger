@@ -12,8 +12,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "String-like"; }
 		public override string Description { get => "Pre-pend/Append values to each line: prepend/append values support URLencoded characters."; }
 
-		public PrefixSuffix()
-		{
+		public PrefixSuffix() : base()
+        {
 			base.SetArgument(new Argument
 			{
 				Name = "Prefix",

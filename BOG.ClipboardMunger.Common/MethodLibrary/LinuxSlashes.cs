@@ -9,8 +9,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Cross-Platform"; }
 		public override string Description { get; }
 
-		public LinuxSlashes()
-		{
+		public LinuxSlashes() : base()
+        {
 
 		}
 

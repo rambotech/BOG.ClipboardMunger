@@ -11,8 +11,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "String-Magic"; }
 		public override string Description { get => "Changes a password to a phoenetic string, e.g. \"Ab\" => \"ALPHA bravo\".  Covers ASCII 32 to 126"; }
 
-		public PhoeneticizedPassword()
-		{
+		public PhoeneticizedPassword() : base()
+        {
 		}
 
 		public override string Munge(string textToMunge)

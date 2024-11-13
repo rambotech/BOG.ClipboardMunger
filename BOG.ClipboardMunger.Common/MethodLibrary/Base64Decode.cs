@@ -11,8 +11,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Encoding"; }
 		public override string Description { get; }
 
-		public Base64Decode()
-		{
+		public Base64Decode() : base()
+        {
 			base.Examples.Add("Example 1",
 				new Example
 				{

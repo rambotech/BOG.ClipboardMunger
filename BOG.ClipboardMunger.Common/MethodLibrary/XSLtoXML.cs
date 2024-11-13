@@ -19,7 +19,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
         public override string GroupName { get => "Transform"; }
         public override string Description { get => "XML and XSL from clipboard or filename specified on clipboard, when prompted."; }
 
-        public XSLtoXML()
+        public XSLtoXML() : base()
         {
             base.SetArgument(new Argument
             {

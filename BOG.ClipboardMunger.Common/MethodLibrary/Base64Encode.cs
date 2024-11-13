@@ -12,8 +12,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Encoding"; }
 		public override string Description { get; }
 
-		public Base64Encode()
-		{
+		public Base64Encode() : base()
+        {
 			base.SetArgument(new Argument
 			{
 				Name = "LineBreaks",

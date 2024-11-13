@@ -11,8 +11,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Miscellaneous"; }
 		public override string Description { get; }
 
-		public MakeGuid()
-		{
+		public MakeGuid() : base()
+        {
 			base.SetArgument(new Argument
 			{
 				Name = "Format",

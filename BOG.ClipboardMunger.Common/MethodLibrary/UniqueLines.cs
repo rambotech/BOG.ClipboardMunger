@@ -15,8 +15,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "String-like"; }
 		public override string Description { get; }
 
-		public UniqueLines()
-		{
+		public UniqueLines() : base()
+        {
 			base.SetArgument(new Argument
 			{
 				Name = "ShowCounts",

@@ -12,8 +12,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Filtering"; }
 		public override string Description { get; }
 
-		public RemoveMatching()
-		{
+		public RemoveMatching() : base()
+        {
 			base.SetArgument(new Argument
 			{
 				Name = "Filter",

@@ -26,8 +26,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Wizardry"; }
 		public override string Description { get; }
 
-		public ClassFillOut()
-		{
+		public ClassFillOut() : base()
+        {
 			base.Examples.Add("Simple", new Example
 			{
 				Input = BOG.Framework.Extensions.StringEx.Base64DecodeString(

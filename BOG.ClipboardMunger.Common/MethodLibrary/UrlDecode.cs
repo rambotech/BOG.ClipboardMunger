@@ -14,8 +14,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Encoding"; }
 		public override string Description { get; }
 
-		public UrlEncode()
-		{
+		public UrlEncode() : base()
+        {
 
 		}
 

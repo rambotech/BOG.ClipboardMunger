@@ -9,7 +9,7 @@ namespace BOG.ClipboardMunger.Common.Interface
 		string GroupName { get; }
 		string Description { get; }
 
-		string ClipboardSource{ get; }
+		string ClipboardSource{ get; set;  }
 
 		List<string> GetExampleNames();
 		Example GetExample(string exampleName);

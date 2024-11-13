@@ -11,8 +11,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "String-like"; }
 		public override string Description { get; }
 
-		public StrToCSharpString()
-		{
+		public StrToCSharpString() : base()
+        {
 		}
 
 		private string TrueTrim(string x)

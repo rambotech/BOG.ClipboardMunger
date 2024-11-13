@@ -13,8 +13,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Wizardry"; }
 		public override string Description { get; }
 
-		public GridPadFixed()
-		{
+		public GridPadFixed() : base()
+        {
 			base.SetArgument(new Argument
 			{
 				Name = "LineTerminator",

@@ -11,8 +11,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "String-like"; }
 		public override string Description { get; }
 
-		public SplitByDelimiter()
-		{
+		public SplitByDelimiter() : base()
+        {
 			base.SetArgument(new Argument
 			{
 				Name = "Delimiter",

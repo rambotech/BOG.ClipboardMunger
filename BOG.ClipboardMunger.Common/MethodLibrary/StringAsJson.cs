@@ -12,7 +12,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
         public override string GroupName { get => "String-like"; }
         public override string Description { get => "For geting the encoded value of a string"; }
 
-        public StringAsJson()
+        public StringAsJson() : base()
         {
         }
 

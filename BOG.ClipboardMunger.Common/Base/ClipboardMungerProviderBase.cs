@@ -24,7 +24,12 @@ namespace BOG.ClipboardMunger.Common.Base
         protected Dictionary<string, Example> Examples = new Dictionary<string, Example>();
         protected Dictionary<string, string> ArgumentValues = new Dictionary<string, string>();
 
-        public string ClipboardSource { get; set; } = Clipboard.GetText();
+        public string ClipboardSource { get; set; }
+
+        public ClipboardMungerProviderBase() 
+        {
+            ClipboardSource = Clipboard.GetText();
+        }
 
         /// <summary>
         /// Inheriting class must override.  This is the method called to change the clipboard or example text.

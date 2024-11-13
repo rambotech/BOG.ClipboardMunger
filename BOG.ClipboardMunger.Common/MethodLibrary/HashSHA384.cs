@@ -12,7 +12,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
         public override string GroupName { get => "Encoding"; }
         public override string Description { get => "Return the SHA384 hash value of the clipboard content"; }
 
-        public HashSHA384()
+        public HashSHA384() : base()
         {
             base.SetArgument(new Argument
             {

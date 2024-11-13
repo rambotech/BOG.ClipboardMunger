@@ -14,8 +14,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "String-like"; }
 		public override string Description { get => "takes each line as {0} input for string.Format method call."; }
 
-		public ReformattedLine()
-		{
+		public ReformattedLine() : base()
+        {
 			base.SetArgument(new Argument
 			{
 				Name = "FormatString",

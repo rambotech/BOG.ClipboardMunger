@@ -12,8 +12,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string MethodName { get => "Reverse Lines"; }
 		public override string GroupName { get => "String-like"; }
 		public override string Description { get; }
-		public ReverseLines()
-		{
+		public ReverseLines() : base()
+        {
 			base.SetArgument(new Argument
 			{
 				Name = "IgnoreBlankLines",

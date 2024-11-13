@@ -50,6 +50,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+2024-04-20: 1.1.2.12
+- persist clipboard content after method selection and launch, so that next clipboard copy can be used for argument(s).
+
 2024-04-20: 1.1.2.11
 - Fixed regex in Prefix / Suffix to allow empty string value.
 

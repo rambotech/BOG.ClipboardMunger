@@ -10,8 +10,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "String-like"; }
 		public override string Description { get; }
 
-		public StrToEscapedString()
-		{
+		public StrToEscapedString() : base()
+        {
 		}
 
 		public override string Munge(string textToMunge)
