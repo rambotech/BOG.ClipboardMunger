@@ -12,7 +12,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Time"; }
 		public override string Description { get => "Offset a date/time with Format value"; }
 
-		public DateAdd() : base()
+		public DateAdd() 
         {
 			base.SetArgument(new Argument
 			{

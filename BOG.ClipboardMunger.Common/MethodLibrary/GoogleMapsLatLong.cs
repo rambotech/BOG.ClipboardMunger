@@ -21,7 +21,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
         // https://www.google.com/maps/place/Spokane,+WA/@47.6726729,-117.6187703,36914m/data=!3m2!1e3!4b1!4m6!3m5!1s0x549e185c30bbe7e5:0xddfcc9d60b84d9b1!8m2!3d47.6579711!4d-117.4235318!16zL20vMDEwdjhr?entry=ttu&g_ep=EgoyMDI0MDgyNi4wIKXMDSoASAFQAw%3D%3D
         private const string GoogleMapsUrlValidateRegex = @"https://www\.google\.com/maps/place/.+@[\-]?[\d]{1,3}\.[\d]+,[\-]?[\d]{1,3}\.[\d]+,.+";
 
-        public GoogleMapsLatLong() : base()
+        public GoogleMapsLatLong() 
         {
             base.Examples.Add("Seattle", new Example
             {

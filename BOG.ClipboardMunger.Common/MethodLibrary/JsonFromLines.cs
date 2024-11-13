@@ -16,7 +16,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
         public override string GroupName { get => "Wizardry"; }
         public override string Description { get => "One property name per line, blank separator, propertiy value per line, blank separater, ... lines+++ ..."; }
 
-        public JsonFromLines() : base()
+        public JsonFromLines() 
         {
             base.SetArgument(new Argument
             {

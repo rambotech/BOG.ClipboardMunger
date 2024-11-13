@@ -12,7 +12,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Encoding"; }
 		public override string Description { get; }
 
-		public Base64Encode() : base()
+		public Base64Encode() 
         {
 			base.SetArgument(new Argument
 			{

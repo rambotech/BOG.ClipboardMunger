@@ -11,7 +11,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "String-like"; }
 		public override string Description { get; }
 
-		public StrFormattedDate() : base()
+		public StrFormattedDate() 
         {
 			base.SetArgument(new Argument
 			{

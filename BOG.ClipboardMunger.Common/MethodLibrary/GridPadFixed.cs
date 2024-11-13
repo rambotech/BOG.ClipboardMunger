@@ -13,7 +13,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Wizardry"; }
 		public override string Description { get; }
 
-		public GridPadFixed() : base()
+		public GridPadFixed() 
         {
 			base.SetArgument(new Argument
 			{

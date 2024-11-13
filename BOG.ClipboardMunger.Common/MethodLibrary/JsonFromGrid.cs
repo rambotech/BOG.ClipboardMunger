@@ -12,7 +12,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Wizardry"; }
 		public override string Description { get; }
 
-		public JsonFromGrid() : base()
+		public JsonFromGrid() 
         {
 		}
 

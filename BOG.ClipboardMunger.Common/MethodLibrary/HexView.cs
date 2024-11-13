@@ -11,7 +11,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Investigation"; }
 		public override string Description { get; }
 
-		public HexView() : base()
+		public HexView() 
         {
 
 		}

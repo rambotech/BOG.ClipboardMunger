@@ -10,7 +10,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Investigation"; }
 		public override string Description { get => "Change string to hex values, e.g. \"Hi\" to \"4669\""; }
 
-		public Hexify() : base()
+		public Hexify() 
         {
 
 		}

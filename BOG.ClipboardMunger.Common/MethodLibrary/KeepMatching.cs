@@ -12,7 +12,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Filtering"; }
 		public override string Description { get; }
 
-		public KeepMatching() : base()
+		public KeepMatching() 
         {
 			base.SetArgument(new Argument
 			{

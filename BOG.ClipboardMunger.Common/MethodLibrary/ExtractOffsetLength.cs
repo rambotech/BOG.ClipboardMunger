@@ -12,7 +12,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Investigation"; }
 		public override string Description { get => "Extract the same character block from every line on the clipboard."; }
 
-		public ExtractOffsetLength() : base()
+		public ExtractOffsetLength() 
         {
 			base.SetArgument(new Argument
 			{

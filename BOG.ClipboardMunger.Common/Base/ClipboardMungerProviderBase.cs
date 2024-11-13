@@ -26,11 +26,6 @@ namespace BOG.ClipboardMunger.Common.Base
 
         public string ClipboardSource { get; set; }
 
-        public ClipboardMungerProviderBase() 
-        {
-            ClipboardSource = Clipboard.GetText();
-        }
-
         /// <summary>
         /// Inheriting class must override.  This is the method called to change the clipboard or example text.
         /// No try/catch block needed: the caller in the Windows form handles any exceptions.

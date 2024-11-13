@@ -14,7 +14,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Cross-Platform"; }
 		public override string Description { get; }
 
-		public WindowsSlashes() : base()
+		public WindowsSlashes() 
         {
 
 		}

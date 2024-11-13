@@ -11,7 +11,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Wizardry"; }
 		public override string Description { get; }
 
-		public JsonBeautify() : base()
+		public JsonBeautify() 
         {
 		}
 

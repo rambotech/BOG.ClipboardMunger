@@ -10,7 +10,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Wizardry"; }
 		public override string Description { get; }
 
-		public JsonMinimize() : base()
+		public JsonMinimize() 
         {
 		}
 

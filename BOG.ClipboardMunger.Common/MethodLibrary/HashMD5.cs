@@ -14,7 +14,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
         public override string GroupName { get => "Encoding"; }
         public override string Description { get => "Return the MD5 hash value of the clipboard content"; }
 
-        public HashMD5() : base()
+        public HashMD5() 
         {
             base.SetArgument(new Argument
             {

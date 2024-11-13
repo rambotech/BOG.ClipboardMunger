@@ -12,7 +12,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "String-like"; }
 		public override string Description { get => "Join multiple lines with delimiter"; }
 
-		public Join() : base()
+		public Join() 
         {
 			base.SetArgument(new Argument
 			{
