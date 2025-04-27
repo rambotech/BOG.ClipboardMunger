@@ -48,7 +48,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				ValidatorRegex = ".+"
 			});
 
-			base.Examples.Add("Now Exclude Time", new Example
+            #region Examples
+            base.Examples.Add("Now Exclude Time", new Example
 			{
 				Name = "Now Exclude Time",
 				ArgumentValues = new Dictionary<string, string>
@@ -92,6 +93,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 					{"OutputFormat", "dd.MM.yyyy HH:mm:ss" }
 				}
 			});
+			#endregion
 		}
 
 		public override string Munge(string textToMunge)

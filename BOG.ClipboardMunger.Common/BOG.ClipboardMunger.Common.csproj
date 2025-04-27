@@ -34,7 +34,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,6 +51,7 @@
     <Compile Include="Helper\MethodRetriever.cs" />
     <Compile Include="Helper\StringStream.cs" />
     <Compile Include="MethodLibrary\Base64Decode.cs" />
+    <Compile Include="MethodLibrary\DateSequencePattern.cs" />
     <Compile Include="MethodLibrary\EqualSwap.cs" />
     <Compile Include="MethodLibrary\GoogleMapsLatLong.cs" />
     <Compile Include="MethodLibrary\GridPadFixed.cs" />
@@ -68,6 +71,7 @@
     <Compile Include="MethodLibrary\KeepMatching.cs" />
     <Compile Include="MethodLibrary\ExtractOffsetLength.cs" />
     <Compile Include="MethodLibrary\Hexify.cs" />
+    <Compile Include="MethodLibrary\PayDates.cs" />
     <Compile Include="MethodLibrary\ReformattedLine.cs" />
     <Compile Include="MethodLibrary\RemoveMatching.cs" />
     <Compile Include="MethodLibrary\ReverseLines.cs" />
@@ -78,6 +82,8 @@
     <Compile Include="MethodLibrary\StrToEscapedString.cs" />
     <Compile Include="MethodLibrary\StrToLower.cs" />
     <Compile Include="MethodLibrary\StrToUpper.cs" />
+    <Compile Include="MethodLibrary\TruncatePost.cs" />
+    <Compile Include="MethodLibrary\TruncatePre.cs" />
     <Compile Include="MethodLibrary\UniqueLines.cs" />
     <Compile Include="MethodLibrary\UrlDecode.cs" />
     <Compile Include="MethodLibrary\UrlEncode.cs" />
