@@ -23,6 +23,7 @@ namespace BOG.ClipboardMunger
         private bool Terminating = false;
 
         private string ClipboardContentToMunge;
+        bool InMungeAction = false;
 
         private bool checkClipboardChange = true;
 
@@ -157,41 +158,12 @@ namespace BOG.ClipboardMunger
 
         private void frmScriptExec_Activated(object sender, EventArgs e)
         {
-#if TRUE
-            if (checkClipboardChange)
+            if (!InMungeAction)
             {
-                this.txtClipboardContent.Text = Clipboard.GetText();
+                ClipboardContentToMunge = Clipboard.GetText();
+                this.txtClipboardContent.Text = ClipboardContentToMunge;
                 this.toolStripStatusLabel1.Text = string.Format("{0:#,#} byte(s) currently on the clipboard", this.txtClipboardContent.Text.Length);
             }
-#else
-            if (checkClipboardChange)
-            {
-                var clipb = Clipboard.GetText();
-                var updated = false;
-                if (string.IsNullOrEmpty(ClipboardContentToMunge))
-                {
-                    ClipboardContentToMunge = clipb;
-                    updated = true;
-                }
-                else if (string.Compare(clipb, ClipboardContentToMunge, StringComparison.Ordinal) != 0)
-                {
-                    var answer = MessageBox.Show(
-                        "Do you wish to use this new clipboard content for the munge?\r\n" +
-                        "(This should not be used when copying a value for an argument)",
-                        "The clipboard content has changed",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question);
-                    if (answer == DialogResult.Yes)
-                    {
-                        ClipboardContentToMunge = clipb;
-                        updated = true;
-                    }
-                }
-                if (updated) this.txtClipboardContent.Text = clipb;
-                this.toolStripStatusLabel1.Text = string.Format("{0:#,#} byte(s) currently on the clipboard", this.txtClipboardContent.Text.Length);
-                checkClipboardChange = true;
-            }
-#endif
         }
 
         private void txtFilter_TextChanged(object sender, EventArgs e)
@@ -225,9 +197,11 @@ namespace BOG.ClipboardMunger
 
         private void btnMunge_Click(object sender, EventArgs e)
         {
+            InMungeAction = true;
             this.txtError.Text = String.Empty;
             var o = _MethodRetriever.mungers[selectedNodeKey];
-            o.ClipboardSource = this.txtClipboardContent.Text;
+            o.ClipboardSource = ClipboardContentToMunge;
+            this.txtClipboardContent.Text = o.ClipboardSource;
 
             var args = new Dictionary<string, string>();
             string argName = string.Empty;
@@ -244,7 +218,6 @@ namespace BOG.ClipboardMunger
                 var argSet = o.GetArguments();
                 foreach (var key in argSet.Keys)
                 {
-                    checkClipboardChange = false;
                     var input = new InputBox(argSet[key]);
                     input.ShowDialog();
                     if (input.IsCancelled)
@@ -271,6 +244,7 @@ namespace BOG.ClipboardMunger
                 if (!string.IsNullOrEmpty(this.txtClipboardContent.Text))
                 {
                     Clipboard.SetText(this.txtClipboardContent.Text);
+                    ClipboardContentToMunge = this.txtClipboardContent.Text;
                 }
                 else
                 {
@@ -286,6 +260,7 @@ namespace BOG.ClipboardMunger
             }
             this.tabpageClipboardContent.BackColor = orgBgColor;
             this.tabpageClipboardContent.ForeColor = orgFgColor;
+            InMungeAction = false;
         }
 
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
@@ -296,22 +271,17 @@ namespace BOG.ClipboardMunger
 
         private void frmScriptExec_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Terminating) return;
-
-            bool SubjectToCancellation = true;
-            if (SubjectToCancellation && e.CloseReason != CloseReason.UserClosing)
+            if (e.CloseReason == CloseReason.UserClosing)
             {
-                SubjectToCancellation = false;
+                if (MessageBox.Show("The application is normally minimized to the tray, but this action will shut it down.\r\nContinue anyway?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                {
+                    Terminating = false;
+                    e.Cancel = true;
+                    this.Hide();
+                }
             }
-            if (SubjectToCancellation && MessageBox.Show("The application is normally minimized to the tray, but this action will shut it down.\r\nContinue anyway?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+            else
             {
-                e.Cancel = true;
-            }
-            if (!e.Cancel)
-            {
-                e.Cancel = true;
-                this.notifyIcon1.Visible = false;
-                this.notifyIcon1.Dispose();
                 Terminating = true;
                 this.timerShutdown.Interval = 100;
                 this.timerShutdown.Enabled = true;
@@ -338,7 +308,10 @@ namespace BOG.ClipboardMunger
             }
             else if (e.ClickedItem.Text == "E&xit")
             {
-                this.Close();
+                Terminating = true;
+                this.timerShutdown.Interval = 100;
+                this.timerShutdown.Enabled = true;
+                this.timerShutdown.Start();
             }
         }
 

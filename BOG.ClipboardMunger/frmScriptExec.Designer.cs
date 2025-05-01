@@ -545,6 +545,7 @@
 			this.Name = "frmScriptExec";
 			this.Text = "Clipboard Munger Utility";
 			this.Activated += new System.EventHandler(this.frmScriptExec_Activated);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmScriptExec_FormClosing);
 			this.Resize += new System.EventHandler(this.frmScriptExec_Resize);
 			this.trayContextMenu1.ResumeLayout(false);
 			this.statusStrip1.ResumeLayout(false);
