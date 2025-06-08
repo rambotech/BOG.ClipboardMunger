@@ -1,5 +1,5 @@
 ClipboardMunger
-(c) 2009-2023, John J. Schultz, all rights reserved.
+(c) 2009-2025, John J. Schultz, all rights reserved.
 
 ** LEGAL STUFF **
 
@@ -14,8 +14,9 @@ hold the author harmless for any damage, real or perceived.
 This is a windows form managing a collection of scripts designed to mutate (munge)
 clipboard content.  It has a built-in development tab, test tab, and admin tab (store / update).
 The scripts implement an interface, and are compiled on the fly.  The form also has a tray icon
-allowing quick launching of a script.  Several fully-functional, example scripts are
-contained within the project.
+allowing quick launching of a script.
+
+
 
 ** SYSTEM REQUIREMENTS **
 

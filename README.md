@@ -50,6 +50,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+2024-06-07: 1.1.3.0
+- ICS Filtering toe extract events from a pattern.
+
 2024-04-20: 1.1.2.12
 - persist clipboard content after method selection and launch, so that next clipboard copy can be used for argument(s).
 

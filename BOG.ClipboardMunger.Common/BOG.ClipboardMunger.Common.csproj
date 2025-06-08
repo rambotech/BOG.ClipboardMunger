@@ -98,6 +98,7 @@
     <Compile Include="MethodLibrary\Sorted.cs" />
     <Compile Include="MethodLibrary\SplitByDelimiter.cs" />
     <Compile Include="MethodLibrary\SqlInsertFromGrid.cs" />
+    <Compile Include="MethodLibrary\VEventFilter.cs" />
     <Compile Include="MethodLibrary\WindowsSlashes.cs" />
     <Compile Include="MethodLibrary\XmlReadable.cs" />
     <Compile Include="MethodLibrary\XSLtoXML.cs" />
