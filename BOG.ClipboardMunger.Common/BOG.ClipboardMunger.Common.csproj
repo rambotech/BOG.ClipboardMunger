@@ -73,6 +73,7 @@
     <Compile Include="MethodLibrary\Hexify.cs" />
     <Compile Include="MethodLibrary\PayDates.cs" />
     <Compile Include="MethodLibrary\ReformattedLine.cs" />
+    <Compile Include="MethodLibrary\RegexExtract.cs" />
     <Compile Include="MethodLibrary\RemoveMatching.cs" />
     <Compile Include="MethodLibrary\ReverseLines.cs" />
     <Compile Include="MethodLibrary\SqlUpdateFromGrid.cs" />

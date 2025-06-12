@@ -50,6 +50,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+2024-06-12: 1.1.3.1
+- Extract text using Regular expression.
+
 2024-06-07: 1.1.3.0
 - ICS Filtering toe extract events from a pattern.
 
