@@ -54,6 +54,7 @@
     <Compile Include="MethodLibrary\DateSequencePattern.cs" />
     <Compile Include="MethodLibrary\EqualSwap.cs" />
     <Compile Include="MethodLibrary\GoogleMapsLatLong.cs" />
+    <Compile Include="MethodLibrary\GridColumnsToFormattedLine.cs" />
     <Compile Include="MethodLibrary\GridPadFixed.cs" />
     <Compile Include="MethodLibrary\HashMD5.cs" />
     <Compile Include="MethodLibrary\HashSHA1.cs" />

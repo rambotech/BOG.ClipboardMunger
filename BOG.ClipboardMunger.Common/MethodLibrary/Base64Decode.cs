@@ -19,7 +19,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 					Name = "Simple",
 					Input = "aHR0cDovL3d3dy5teXNlcnZlci5jb20/QXJndW1lbnQ9NDQmTGlzdD0yDQoNCk5ldyBMaW5lK0Fub3RoZXIgTmV3IExpbmU="
 				}
-			); ;
+			);
 		}
 
 		public override string Munge(string textToMunge)

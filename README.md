@@ -50,6 +50,13 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+
+2024-06-12: 1.1.3.2
+- Add method GridColumnsToFormattedLine
+- Ensure app details appears on initial script form display.
+- Fix columns on all display grids to auto size to cell content.
+- Catch exceptions for examples and log error text to the output tab for that example.
+
 2024-06-12: 1.1.3.1
 - Extract text using Regular expression.
 

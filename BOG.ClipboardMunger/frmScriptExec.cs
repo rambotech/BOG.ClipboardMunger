@@ -35,6 +35,8 @@ namespace BOG.ClipboardMunger
 
                 RootFormTitle = this.Text + $" ({info.Version}, {info.BuildDate})";
 
+                this.Text = RootFormTitle;
+
                 this.notifyIcon1.BalloonTipTitle = "Clipboard Munger";
                 this.notifyIcon1.BalloonTipText = "Right-click for options";
                 BOG.Framework.AssemblyVersion a = new BOG.Framework.AssemblyVersion(System.Reflection.Assembly.GetEntryAssembly());
@@ -340,10 +342,17 @@ namespace BOG.ClipboardMunger
                         });
                     }
                 }
-                this.txtTestOutput.Text = _MethodRetriever.mungers[selectedNodeKey].MungeClipboard(
-                    thisExample.ArgumentValues,
-                    thisExample.Input
-                );
+                try
+                {
+                    this.txtTestOutput.Text = _MethodRetriever.mungers[selectedNodeKey].MungeClipboard(
+                        thisExample.ArgumentValues,
+                        thisExample.Input
+                    );
+                }
+                catch (Exception err)
+                {
+                    this.txtTestOutput.Text = DetailedException.WithUserContent(ref err);
+                }
             }
             catch (Exception err)
             {
