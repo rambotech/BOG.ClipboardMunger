@@ -9,7 +9,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
     public class GridColumnsToFormattedLine : ClipboardMungerProviderBase, IClipboardMungerProvider
     {
-        public override string MethodName { get => "Formatted Rows for Column Data"; }
+        public override string MethodName { get => "Grid Rows Formatted"; }
         public override string GroupName { get => "Wizardry"; }
         public override string Description { get => @"A\tB\tC\tD to This has :ColD={3},ColC={2},ColB={1},ColA={0};"; }
 
