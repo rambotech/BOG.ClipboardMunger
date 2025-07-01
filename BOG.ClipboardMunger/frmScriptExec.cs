@@ -18,14 +18,15 @@ namespace BOG.ClipboardMunger
         private MethodRetriever _MethodRetriever = null;
         private StringDictionary _AppSettings = new StringDictionary();
 
+        private Color orgFgColor = Color.White;
+        private Color orgBgColor = Color.White;
+
         private string searchFilter = string.Empty;
         private string selectedNodeKey = string.Empty;
         private bool Terminating = false;
 
         private string ClipboardContentToMunge;
         bool InMungeAction = false;
-
-        private bool checkClipboardChange = true;
 
         public frmScriptExec()
         {
@@ -197,6 +198,26 @@ namespace BOG.ClipboardMunger
             }
         }
 
+        private void SetClipboardContentLockState(bool isLocked)
+        {
+            if (orgFgColor == orgBgColor)
+            {
+                orgFgColor = this.tabpageClipboardContent.ForeColor;
+                orgBgColor = this.tabpageClipboardContent.BackColor;
+            }
+            if (isLocked)
+            {
+                this.tabpageClipboardContent.BackColor = Color.Red;
+                this.tabpageClipboardContent.ForeColor = Color.White;
+            }
+            else
+            {
+                this.tabpageClipboardContent.BackColor = orgBgColor;
+                this.tabpageClipboardContent.ForeColor = orgFgColor;
+            }
+            this.tabpageClipboardContent.Refresh();
+        }
+
         private void btnMunge_Click(object sender, EventArgs e)
         {
             InMungeAction = true;
@@ -210,13 +231,9 @@ namespace BOG.ClipboardMunger
             string argValue = string.Empty;
             string argValidator = string.Empty;
             var IsScriptExecuted = true;
-            var orgFgColor = this.tabpageClipboardContent.ForeColor;
-            var orgBgColor = this.tabpageClipboardContent.BackColor;
+            SetClipboardContentLockState(true);
             try
             {
-                this.tabpageClipboardContent.BackColor = Color.Red;
-                this.tabpageClipboardContent.ForeColor = Color.White;
-                this.tabpageClipboardContent.Refresh();
                 var argSet = o.GetArguments();
                 foreach (var key in argSet.Keys)
                 {
@@ -233,11 +250,15 @@ namespace BOG.ClipboardMunger
             catch (Exception err)
             {
                 MessageBox.Show(DetailedException.WithUserContent(ref err), "Error with argument(s)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SetClipboardContentLockState(false);
+                InMungeAction = false;
                 return;
             }
             if (!IsScriptExecuted)
             {
                 MessageBox.Show("Cancelled", "Munger not run against clipboard", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                SetClipboardContentLockState(false);
+                InMungeAction = false;
                 return;
             }
             try
@@ -260,8 +281,7 @@ namespace BOG.ClipboardMunger
                 this.tabpageError.Focus();
                 this.txtError.Focus();
             }
-            this.tabpageClipboardContent.BackColor = orgBgColor;
-            this.tabpageClipboardContent.ForeColor = orgFgColor;
+            SetClipboardContentLockState(false);
             InMungeAction = false;
         }
 

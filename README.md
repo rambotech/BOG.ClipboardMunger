@@ -51,6 +51,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 
 Version History:
 
+2024-07-01: 1.1.3.3
+- Bug fix: adjust coloring (locked/unlocked) on clipboard content display for proper state.
+
 2024-06-12: 1.1.3.2
 - Add method GridColumnsToFormattedLine
 - Ensure app details appears on initial script form display.
