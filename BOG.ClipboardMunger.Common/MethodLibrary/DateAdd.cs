@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class DateAdd : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class DateAdd : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Date/Time Offset"; }
 		public override string GroupName { get => "Time"; }

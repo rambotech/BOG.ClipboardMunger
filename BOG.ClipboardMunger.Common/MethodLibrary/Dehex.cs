@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class Dehex : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class Dehex : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Dehex (returns answers as base64 encoded, to work with binary"; }
 		public override string GroupName { get => "Investigation"; }

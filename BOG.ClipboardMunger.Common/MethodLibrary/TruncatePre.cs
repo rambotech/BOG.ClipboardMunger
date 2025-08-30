@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class TruncatePre : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class TruncatePre : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "TruncatePre"; }
         public override string GroupName { get => "String-like"; }

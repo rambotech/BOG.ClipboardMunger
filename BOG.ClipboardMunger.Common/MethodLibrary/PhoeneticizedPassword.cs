@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class PhoeneticizedPassword : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class PhoeneticizedPassword : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Password as Phonetics"; }
 		public override string GroupName { get => "String-Magic"; }

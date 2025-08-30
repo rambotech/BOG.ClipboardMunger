@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class Hexify : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class Hexify : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Hexify"; }
 		public override string GroupName { get => "Investigation"; }

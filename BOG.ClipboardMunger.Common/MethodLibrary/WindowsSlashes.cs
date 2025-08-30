@@ -8,7 +8,7 @@ using BOG.ClipboardMunger.Common.Interface;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class WindowsSlashes : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class WindowsSlashes : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Use Windows back slash"; }
 		public override string GroupName { get => "Cross-Platform"; }

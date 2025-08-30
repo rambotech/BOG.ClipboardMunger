@@ -3,7 +3,7 @@ using BOG.ClipboardMunger.Common.Interface;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class HtmlEncode : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class HtmlEncode : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Html Encode"; }
 		public override string GroupName { get => "Encoding"; }

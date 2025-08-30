@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class HashSHA256 : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class HashSHA256 : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "Hash value (SHA256)"; }
         public override string GroupName { get => "Encoding"; }

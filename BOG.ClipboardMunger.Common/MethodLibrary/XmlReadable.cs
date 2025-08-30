@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class XmlReadable : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class XmlReadable : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "XML readable"; }
 		public override string GroupName { get => "Wizardry"; }

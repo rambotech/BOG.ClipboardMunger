@@ -10,7 +10,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class JsonFromLines : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class JsonFromLines : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "JSON from Lines"; }
         public override string GroupName { get => "Wizardry"; }

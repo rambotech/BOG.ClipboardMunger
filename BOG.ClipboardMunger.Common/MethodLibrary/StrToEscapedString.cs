@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class StrToEscapedString : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class StrToEscapedString : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => @"To Escaped String (e.g. tab -> \t"; }
 		public override string GroupName { get => "String-like"; }

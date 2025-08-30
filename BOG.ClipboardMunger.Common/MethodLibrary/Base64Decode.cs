@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class Base64Decode : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class Base64Decode : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Base64Decode"; }
 		public override string GroupName { get => "Encoding"; }

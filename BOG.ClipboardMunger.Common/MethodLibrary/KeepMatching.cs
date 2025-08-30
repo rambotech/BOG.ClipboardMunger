@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class KeepMatching : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class KeepMatching : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Remove all lines with no matching text"; }
 		public override string GroupName { get => "Filtering"; }

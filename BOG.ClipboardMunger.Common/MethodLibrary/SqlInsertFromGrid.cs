@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class SqlInsertFromGrid : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class SqlInsertFromGrid : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Sql INSERT From Grid"; }
 		public override string GroupName { get => "SQL"; }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class DateSequencePattern : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class DateSequencePattern : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "Date Sequence Pattern"; }
         public override string GroupName { get => "Time"; }

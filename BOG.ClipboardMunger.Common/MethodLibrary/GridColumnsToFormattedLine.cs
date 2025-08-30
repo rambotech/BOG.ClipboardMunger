@@ -7,7 +7,7 @@ using BOG.ClipboardMunger.Common.Interface;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class GridColumnsToFormattedLine : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class GridColumnsToFormattedLine : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "Grid Rows Formatted"; }
         public override string GroupName { get => "Wizardry"; }

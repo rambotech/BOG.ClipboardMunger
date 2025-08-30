@@ -8,7 +8,7 @@ using BOG.ClipboardMunger.Common.Interface;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class UrlDecode : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class UrlDecode : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Url Decode"; }
 		public override string GroupName { get => "Encoding"; }

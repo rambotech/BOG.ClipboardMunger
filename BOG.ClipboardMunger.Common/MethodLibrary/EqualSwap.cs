@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class EqualSwap : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class EqualSwap : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "Equal Swap"; }
         public override string GroupName { get => "String-Magic"; }

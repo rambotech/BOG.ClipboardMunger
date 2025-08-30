@@ -5,7 +5,7 @@ using System;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class StrFormattedDate : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class StrFormattedDate : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "DateFormat"; }
 		public override string GroupName { get => "String-like"; }

@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\ClipboardMungerProviderBase.cs" />
+    <Compile Include="Base\ClipboardMungerProvider.cs" />
     <Compile Include="Entity\Argument.cs" />
     <Compile Include="Entity\Example.cs" />
     <Compile Include="Helper\MethodRetriever.cs" />

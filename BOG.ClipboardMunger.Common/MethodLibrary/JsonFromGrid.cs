@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class JsonFromGrid : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class JsonFromGrid : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "JSON from Grid"; }
 		public override string GroupName { get => "Wizardry"; }

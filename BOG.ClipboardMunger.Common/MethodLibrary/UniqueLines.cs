@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	internal class UniqueLines : ClipboardMungerProviderBase, IClipboardMungerProvider
+	internal class UniqueLines : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Unique Lines"; }
 		public override string GroupName { get => "String-like"; }

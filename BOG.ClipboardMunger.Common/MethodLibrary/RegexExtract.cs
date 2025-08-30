@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class RegexExtract : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class RegexExtract : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "Extract items matching a regular expression"; }
         public override string GroupName { get => "Filtering"; }

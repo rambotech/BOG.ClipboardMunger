@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class MakeGuid : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class MakeGuid : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Make GUID"; }
 		public override string GroupName { get => "Miscellaneous"; }

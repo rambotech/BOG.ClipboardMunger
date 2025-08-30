@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class JsonMinimize : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class JsonMinimize : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "JSON minimize"; }
 		public override string GroupName { get => "Wizardry"; }

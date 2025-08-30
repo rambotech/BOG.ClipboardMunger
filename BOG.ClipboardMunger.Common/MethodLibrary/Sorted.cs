@@ -17,7 +17,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	// B
 	// A
 
-	public class Sorted : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class Sorted : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Sorted"; }
 		public override string GroupName { get => "String-like"; }

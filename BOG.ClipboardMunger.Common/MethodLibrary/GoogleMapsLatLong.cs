@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class GoogleMapsLatLong : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class GoogleMapsLatLong : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "Google Maps Lat Long Extract"; }
         public override string GroupName { get => "Math Extract"; }

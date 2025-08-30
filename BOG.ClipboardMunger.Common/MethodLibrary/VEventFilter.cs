@@ -6,7 +6,7 @@ using BOG.ClipboardMunger.Common.Interface;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class VEventFilter : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class VEventFilter : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "ICS Filter Events"; }
         public override string GroupName { get => "Encoding"; }

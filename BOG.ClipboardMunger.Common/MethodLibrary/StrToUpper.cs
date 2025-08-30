@@ -3,7 +3,7 @@ using BOG.ClipboardMunger.Common.Interface;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class StrToUpper : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class StrToUpper : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "To UPPER Case"; }
 		public override string GroupName { get => "String-like"; }

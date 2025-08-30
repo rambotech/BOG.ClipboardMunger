@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class ExtractOffsetLength : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class ExtractOffsetLength : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "ExtractOffsetLength"; }
 		public override string GroupName { get => "Investigation"; }

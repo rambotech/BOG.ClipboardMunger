@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class StrToCSharpString : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class StrToCSharpString : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "To CSharp (encoded) String"; }
 		public override string GroupName { get => "String-like"; }

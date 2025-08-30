@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class HexView : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class HexView : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Hex View"; }
 		public override string GroupName { get => "Investigation"; }

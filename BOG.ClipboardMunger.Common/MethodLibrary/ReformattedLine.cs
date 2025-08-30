@@ -8,7 +8,7 @@ using System.Web;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class ReformattedLine : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class ReformattedLine : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Reformatted Line"; }
 		public override string GroupName { get => "String-like"; }

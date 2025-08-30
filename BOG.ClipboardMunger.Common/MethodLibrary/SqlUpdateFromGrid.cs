@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class SqlUpdateFromGrid : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class SqlUpdateFromGrid : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Sql UPDATE From Grid"; }
 		public override string GroupName { get => "SQL"; }

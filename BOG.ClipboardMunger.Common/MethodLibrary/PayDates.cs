@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class PayDates : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class PayDates : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "Pay Dates"; }
         public override string GroupName { get => "Time"; }

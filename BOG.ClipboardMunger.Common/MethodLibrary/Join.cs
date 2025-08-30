@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class Join : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class Join : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Join"; }
 		public override string GroupName { get => "String-like"; }

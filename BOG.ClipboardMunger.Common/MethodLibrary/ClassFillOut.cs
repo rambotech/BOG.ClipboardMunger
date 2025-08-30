@@ -20,7 +20,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	//   string[] DisplayItems;
 	//   OtherClass.Special x;
 	// }
-	public class ClassFillOut : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class ClassFillOut : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "CSharp Class Creation"; }
 		public override string GroupName { get => "Wizardry"; }

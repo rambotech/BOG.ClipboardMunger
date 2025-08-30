@@ -3,7 +3,7 @@ using BOG.ClipboardMunger.Common.Interface;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class StrToLower : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class StrToLower : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "To lower Case"; }
 		public override string GroupName { get => "String-like"; }

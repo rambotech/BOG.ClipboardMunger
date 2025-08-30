@@ -13,7 +13,7 @@ using System.Xml.Xsl;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class XSLtoXML : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class XSLtoXML : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "XSL format of XML"; }
         public override string GroupName { get => "Transform"; }

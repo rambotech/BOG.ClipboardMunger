@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace BOG.ClipboardMunger.Common.Base
 {
-    public class ClipboardMungerProviderBase : IClipboardMungerProvider
+    public class ClipboardMungerProvider : IClipboardMungerProvider
     {
         /// <summary>
         /// The name of the method (e.g. Base64Encode) as displayed in the UI and context menu.

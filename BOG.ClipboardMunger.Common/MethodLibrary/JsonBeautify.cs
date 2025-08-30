@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class JsonBeautify : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class JsonBeautify : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "JSON readable"; }
 		public override string GroupName { get => "Wizardry"; }

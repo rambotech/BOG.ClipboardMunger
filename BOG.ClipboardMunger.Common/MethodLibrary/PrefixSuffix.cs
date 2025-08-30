@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class PrefixSuffix : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class PrefixSuffix : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "PrefixSuffix"; }
 		public override string GroupName { get => "String-like"; }

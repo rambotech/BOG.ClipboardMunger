@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class GridPadFixed : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class GridPadFixed : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Grid to Fixed Width Display"; }
 		public override string GroupName { get => "Wizardry"; }

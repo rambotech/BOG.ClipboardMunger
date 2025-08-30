@@ -5,7 +5,7 @@ using System;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	public class SplitByDelimiter : ClipboardMungerProviderBase, IClipboardMungerProvider
+	public class SplitByDelimiter : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "SplitByDelimiter"; }
 		public override string GroupName { get => "String-like"; }

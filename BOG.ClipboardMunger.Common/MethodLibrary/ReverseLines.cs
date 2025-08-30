@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-	internal class ReverseLines : ClipboardMungerProviderBase, IClipboardMungerProvider
+	internal class ReverseLines : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Reverse Lines"; }
 		public override string GroupName { get => "String-like"; }

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class HashMD5 : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class HashMD5 : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "Hash value (MD5)"; }
         public override string GroupName { get => "Encoding"; }

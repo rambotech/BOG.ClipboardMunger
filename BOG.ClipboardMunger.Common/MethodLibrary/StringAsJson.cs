@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class StringAsJson : ClipboardMungerProviderBase, IClipboardMungerProvider
+    public class StringAsJson : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "String as JSON"; }
         public override string GroupName { get => "String-like"; }
