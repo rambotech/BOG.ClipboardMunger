@@ -51,6 +51,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 
 Version History:
 
+2026-01-01: 1.1.3.4
+- Add static DateSequencePattern to generate pay day dates.  **Planned to enhance in near future**
+
 2024-07-01: 1.1.3.3
 - Bug fix: adjust coloring (locked/unlocked) on clipboard content display for proper state.
 

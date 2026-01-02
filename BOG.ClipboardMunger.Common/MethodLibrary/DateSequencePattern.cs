@@ -3,6 +3,7 @@ using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
@@ -17,6 +18,23 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
         public DateSequencePattern()
         {
+            base.SetArgument(new Argument
+            {
+                Name = "Year",
+                Title = "Year list to generate",
+                DefaultValue = DateTime.Now.Year.ToString(),
+                Description = "",
+                ValidatorRegex = @"[\d]{4}"
+            });
+            base.SetArgument(new Argument
+            {
+                Name = "Holidays",
+                Title = "Dates to treat as holidays",
+                DefaultValue = "",
+                Description = "",
+                ValidatorRegex = @".+"
+            });
+#if FALSE
             // Pattern is...
             //  StartDate;Step;Milestones;Rectify;EndDate;date output format
             //      Step is #D = # of day, #M = # of month, #W = # of weeks, #D = # of days
@@ -27,15 +45,15 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             base.SetArgument(new Argument
             {
                 Name = "Pattern",
-                Title = "Pattern of Date repitiion",
-                DefaultValue = "MM/DD/YYYY;M;15,EOM;SAT,SUN;MM/DD/YYYY;yyyy-MM-dd",
-                Description = "The first date to generate",
+                Title = "Pattern for Date repetition",
+                DefaultValue = "1",
+                Description = "Pattern for Date repetition (0 = weekly, 1 = bi-monthly: 15th and EOM, exclude Sa/Su)",
                 ValidatorRegex = @"[\d]{2}/[\d]{2}/[\d]{4}"
             });
 
             base.SetArgument(new Argument
             {
-                Name = "Pattern",
+                Name = "StartDate",
                 Title = "Pattern of Date repitiion",
                 DefaultValue = "MM/DD/YYYY;M;15,EOM;SAT,SUN;MM/DD/YYYY;yyyy-MM-dd",
                 Description = "The first date to generate",
@@ -76,8 +94,10 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
                 }
             });
             #endregion
+#endif
         }
 
+#if FALSE
         public override string Munge(string textToMunge)
         {
             var pattern = base.GetArgumentValue("Pattern");
@@ -97,6 +117,52 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             }
             return Result.ToString();
         }
+
+#else
+        public override string Munge(string textToMunge)
+        {
+            var year = int.Parse(base.GetArgumentValue("Year"));
+            var holidaysList = base.GetArgumentValue("Holidays");
+            var excludeDays = (byte)(Math.Pow(2, (float)DayOfWeek.Sunday) + Math.Pow(2, (float)DayOfWeek.Saturday));
+
+            var excludeSpecificDates = new List<DateTime>();
+            foreach (var line in holidaysList.Split(new string[] { "\r\n", "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries))
+            {
+                var cleanLine = line.Trim();
+                if (cleanLine[0] != '#')
+                {
+                    var thisDate = DateTime.Parse(cleanLine);
+                    if (!excludeSpecificDates.Contains(thisDate)) excludeSpecificDates.Add(thisDate);
+                }
+            }
+            for (var month  = 1; month <= 12; month++)
+            {
+                // Mid Month
+                var thisDate = new DateTime(year, month, 15);
+                while (excludeSpecificDates.Contains(thisDate) || IsExcluded(thisDate, excludeDays))
+                {
+                    thisDate = thisDate.AddDays(-1);
+                }
+                Result.AppendLine(thisDate.ToString("d"));
+                // End of Month
+                thisDate = new DateTime(year, month, 1).AddMonths(1).AddDays(-1);
+                while (excludeSpecificDates.Contains(thisDate) || IsExcluded(thisDate, excludeDays))
+                {
+                    thisDate = thisDate.AddDays(-1);
+                }
+                Result.AppendLine(thisDate.ToString("d"));
+            }
+            return Result.ToString();
+        }
+
+        private bool IsExcluded(DateTime testDate, byte excludedDays)
+        {
+            var thisDayOfWeek = (byte)Math.Pow(2, (float)testDate.DayOfWeek);
+            var debugOnly_1 = excludedDays & thisDayOfWeek;
+            return (excludedDays & thisDayOfWeek) > 0;
+        }
+
+#endif
 
         private void CalcWeekly(int year, string outputFormat)
         {
