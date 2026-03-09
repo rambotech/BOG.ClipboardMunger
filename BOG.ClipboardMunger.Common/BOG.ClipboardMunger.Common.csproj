@@ -51,6 +51,7 @@
     <Compile Include="Helper\MethodRetriever.cs" />
     <Compile Include="Helper\StringStream.cs" />
     <Compile Include="MethodLibrary\Base64Decode.cs" />
+    <Compile Include="MethodLibrary\BlockRepeat.cs" />
     <Compile Include="MethodLibrary\DateSequencePattern.cs" />
     <Compile Include="MethodLibrary\EqualSwap.cs" />
     <Compile Include="MethodLibrary\GoogleMapsLatLong.cs" />

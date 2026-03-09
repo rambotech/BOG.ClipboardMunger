@@ -8,11 +8,11 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
 	public class Dehex : ClipboardMungerProvider, IClipboardMungerProvider
 	{
-		public override string MethodName { get => "Dehex (returns answers as base64 encoded, to work with binary"; }
+		public override string MethodName { get => "Dehex (4464 to Dd)"; }
 		public override string GroupName { get => "Investigation"; }
-		public override string Description { get; }
+        public override string Description { get => "returns answers as base64 encoded, to work with binary"; }
 
-		public Dehex() 
+        public Dehex() 
         {
 
 		}

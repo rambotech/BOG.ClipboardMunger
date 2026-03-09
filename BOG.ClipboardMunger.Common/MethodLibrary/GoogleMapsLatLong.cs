@@ -16,12 +16,12 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
     {
         public override string MethodName { get => "Google Maps Lat Long Extract"; }
         public override string GroupName { get => "Math Extract"; }
-        public override string Description { get => "Returns the lat long as dddDmmss, e.g. 117N5051 12E3407"; }
+        public override string Description { get => "Returns the lat long from a maps.google.com URL, formatted as 117N5051 12E3407)"; }
 
         // https://www.google.com/maps/place/Spokane,+WA/@47.6726729,-117.6187703,36914m/data=!3m2!1e3!4b1!4m6!3m5!1s0x549e185c30bbe7e5:0xddfcc9d60b84d9b1!8m2!3d47.6579711!4d-117.4235318!16zL20vMDEwdjhr?entry=ttu&g_ep=EgoyMDI0MDgyNi4wIKXMDSoASAFQAw%3D%3D
         private const string GoogleMapsUrlValidateRegex = @"https://www\.google\.com/maps/place/.+@[\-]?[\d]{1,3}\.[\d]+,[\-]?[\d]{1,3}\.[\d]+,.+";
 
-        public GoogleMapsLatLong() 
+        public GoogleMapsLatLong()
         {
             base.Examples.Add("Seattle", new Example
             {
@@ -38,9 +38,9 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
                 throw new ArgumentException("The clipboard does not contains a valid URL");
             }
 
-            var workline = textToMunge.Substring(textToMunge.IndexOf("@"));
-            workline = workline.Substring(0, workline.IndexOf("@m"));
-            workline = workline.Substring(0, workline.Length - 2);
+            var workline = r.Match(textToMunge).Value;
+            workline = textToMunge.Substring(textToMunge.IndexOf("@") + 1);
+            workline = workline.Substring(0, textToMunge.IndexOf("m") - 1);
 
             return FormatLatLong(workline);
         }
@@ -48,15 +48,35 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
         private string FormatLatLong(string input)
         {
             var output = new StringBuilder();
-            var tudes = input.Split(new char[',']);
-
-            var num = double.Parse(input);
-            var absnum = Math.Abs(num);
-            var degrees = (int)(absnum - (absnum % 1.0d));
-            output.Append(string.Format("{0:00#}", num));
-            output.Append((num < 0) ? "S" : "N");
-            var minutes = (int)(60.0d * (absnum % 1.0d));
-            output.Append((minutes.ToString()));
+            var tudes = input.Split(new char[] { ',' });
+            { // Latitude
+                double position = double.Parse(tudes[0]);
+                var degrees = Math.Floor(Math.Abs(position));
+                double modulo = Math.Abs(position) % 1.0d;
+                var minutes = 60.0d * modulo;
+                modulo = minutes % 1.0d;
+                var seconds = 60.0d * modulo;
+                output.Append(string.Format("{0:0#}{1}{2:0#}{3:0#} ",
+                    (int)degrees,
+                    position >= 0 ? "N" : "S",
+                    (int)Math.Floor(minutes),
+                    (int)Math.Floor(seconds)
+                ));
+            }
+            { // Longitude
+                double position = double.Parse(tudes[1]);
+                var degrees = Math.Floor(Math.Abs(position));
+                double modulo = Math.Abs(position) % 1.0d;
+                var minutes = 60.0d * modulo;
+                modulo = minutes % 1.0d;
+                var seconds = 60.0d * modulo;
+                output.Append(string.Format("{0:00#}{1}{2:0#}{3:0#}",
+                    (int)degrees,
+                    (position >= 0 ? "E" : "W"),
+                    (int)Math.Floor(minutes),
+                    (int)Math.Floor(seconds)
+                ));
+            }
             return output.ToString();
         }
     }

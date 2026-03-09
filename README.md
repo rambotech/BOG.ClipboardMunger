@@ -51,6 +51,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 
 Version History:
 
+2026-03-07: 1.1.3.5
+- Add static DateSequencePattern BlockRepeat method.
+
 2026-01-01: 1.1.3.4
 - Add static DateSequencePattern to generate pay day dates.  **Planned to enhance in near future**
 

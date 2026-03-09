@@ -23,6 +23,7 @@ namespace BOG.ClipboardMunger
 
         private string searchFilter = string.Empty;
         private string selectedNodeKey = string.Empty;
+        private bool ScriptSelectionChanging = false;
         private bool Terminating = false;
 
         private string ClipboardContentToMunge;
@@ -120,7 +121,7 @@ namespace BOG.ClipboardMunger
                 this.tabstripScript.Visible = false;
                 this.btnMunge.Enabled = false;
                 this.cbxExampleList.Enabled = false;
-                this.tabpageScript.Text = "Arguments";
+                this.tabpageArguments.Text = "Arguments";
                 return;
             }
             selectedNodeKey = e.Node.Parent.Text + "::" + e.Node.Text;
@@ -152,7 +153,7 @@ namespace BOG.ClipboardMunger
             }
             this.cbxExampleList.Enabled = this.cbxExampleList.Items.Count > 0;
 
-            this.tabpageScript.Text = $"Arguments for {e.Node.Text} ({e.Node.Parent.Text})";
+            this.tabpageArguments.Text = $"Arguments for {e.Node.Text} ({e.Node.Parent.Text})";
             this.tabstripScript.Visible = true;
             this.tabstripScript.Show();
             this.tabArguments.Select();
@@ -345,6 +346,10 @@ namespace BOG.ClipboardMunger
 
         private void cbxExampleList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (ScriptSelectionChanging)
+            {
+                return;
+            }
             try
             {
                 var selectedTest = cbxExampleList.SelectedItem.ToString();
@@ -388,7 +393,7 @@ namespace BOG.ClipboardMunger
                 this.tabstripScript.Visible = false;
                 this.btnMunge.Enabled = false;
                 this.cbxExampleList.Enabled = false;
-                this.tabpageScript.Text = "Arguments";
+                this.tabpageArguments.Text = "Arguments";
                 return;
             }
             selectedNodeKey = e.Node.Parent.Text + "::" + e.Node.Text;
@@ -427,10 +432,17 @@ namespace BOG.ClipboardMunger
                 this.cbxExampleList.SelectedIndex = 0;
             }
 
-            this.tabpageScript.Text = $"Arguments for {e.Node.Text} ({e.Node.Parent.Text})";
+            this.txtMethodDescription.Text = _MethodRetriever.mungers[selectedNodeKey].Description;
+            this.tabpageArguments.Text = $"Arguments for {e.Node.Text} ({e.Node.Parent.Text})";
             this.tabstripScript.Visible = true;
             this.tabstripScript.Show();
             this.btnMunge.Enabled = true;
+            ScriptSelectionChanging = false;
+        }
+
+        private void trvScripts_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            ScriptSelectionChanging = true;
         }
     }
 }

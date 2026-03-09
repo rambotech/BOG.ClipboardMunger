@@ -24,9 +24,12 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	{
 		public override string MethodName { get => "CSharp Class Creation"; }
 		public override string GroupName { get => "Wizardry"; }
-		public override string Description { get; }
+        public override string Description {get =>
+        @"
+           Takes a shell definition of a class and expands it to properties and methods";
+        }
 
-		public ClassFillOut() 
+        public ClassFillOut() 
         {
 			base.Examples.Add("Simple", new Example
 			{

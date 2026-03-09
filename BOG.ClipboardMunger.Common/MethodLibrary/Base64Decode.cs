@@ -9,7 +9,10 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	{
 		public override string MethodName { get => "Base64Decode"; }
 		public override string GroupName { get => "Encoding"; }
-		public override string Description { get; }
+		public override string Description { get =>
+		@"
+           Decodes Base64 encoded text";
+        }
 
 		public Base64Decode() 
         {

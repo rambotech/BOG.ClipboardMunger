@@ -75,5 +75,11 @@ namespace BOG.ClipboardMunger
 			// Navigate to a URL.
 			System.Diagnostics.Process.Start((string) this.linkHelp.Tag);
 		}
-	}
+
+        private void cbxWordWrap_CheckedChanged(object sender, EventArgs e)
+        {
+			this.txtValue.WordWrap = this.cbxWordWrap.Checked;
+			this.txtValue.ScrollBars = this.cbxWordWrap.Checked ? ScrollBars.Vertical: ScrollBars.Both;
+        }
+    }
 }

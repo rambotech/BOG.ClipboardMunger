@@ -10,7 +10,10 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	{
 		public override string MethodName { get => "Base64Encode"; }
 		public override string GroupName { get => "Encoding"; }
-		public override string Description { get; }
+		public override string Description { get =>
+		@"
+           Encodes clipboard as Base64";
+        }
 
 		public Base64Encode() 
         {
