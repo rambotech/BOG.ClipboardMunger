@@ -73,6 +73,7 @@
     <Compile Include="MethodLibrary\KeepMatching.cs" />
     <Compile Include="MethodLibrary\ExtractOffsetLength.cs" />
     <Compile Include="MethodLibrary\Hexify.cs" />
+    <Compile Include="MethodLibrary\MakeBanner.cs" />
     <Compile Include="MethodLibrary\PayDates.cs" />
     <Compile Include="MethodLibrary\ReformattedLine.cs" />
     <Compile Include="MethodLibrary\RegexExtract.cs" />
@@ -111,8 +112,14 @@
     <PackageReference Include="BOG.Framework">
       <Version>2.1.4</Version>
     </PackageReference>
+    <PackageReference Include="Figgle">
+      <Version>0.6.6</Version>
+    </PackageReference>
+    <PackageReference Include="Figgle.Fonts">
+      <Version>0.6.6</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.3</Version>
+      <Version>13.0.4</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

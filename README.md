@@ -51,6 +51,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 
 Version History:
 
+2026-03-10: 1.1.3.6
+- Add static DateSequencePattern MakeBanner method to generate text banners with Figgle.
+
 2026-03-07: 1.1.3.5
 - Add static DateSequencePattern BlockRepeat method.
 
