@@ -9,7 +9,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 	public class DateAdd : ClipboardMungerProvider, IClipboardMungerProvider
 	{
 		public override string MethodName { get => "Date/Time Offset"; }
-		public override string GroupName { get => "Time"; }
+		public override string GroupName { get => "Time and Calendar"; }
 		public override string Description { get => "Offset a date/time and specify its Format"; }
 
 		public DateAdd() 
@@ -51,7 +51,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             #region Examples
             base.Examples.Add("Now Exclude Time", new Example
 			{
-				Name = "Now Exclude Time",
 				ArgumentValues = new Dictionary<string, string>
 				{
 					{"DateTimeBase", "{now}" },
@@ -62,7 +61,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 			base.Examples.Add("Now ISO-8166", new Example
 			{
-				Name = "Now ISO-8166",
 				ArgumentValues = new Dictionary<string, string>
 				{
 					{"DateTimeBase", "{now}" },
@@ -73,7 +71,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 			base.Examples.Add("Now + 392 days in ISO-8166", new Example
 			{
-				Name = "Now + 392 days in ISO-8166",
 				ArgumentValues = new Dictionary<string, string>
 				{
 					{"DateTimeBase", "{now}" },
@@ -84,7 +81,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 			});
 			base.Examples.Add("33792 minutes ago from 1/1/2024 in Euro format", new Example
 			{
-				Name = "33792 minutes ago from 1/1/2024 in Euro format",
 				ArgumentValues = new Dictionary<string, string>
 				{
 					{"DateTimeBase", "{now}" },

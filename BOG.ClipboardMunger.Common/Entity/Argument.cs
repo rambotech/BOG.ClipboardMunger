@@ -19,7 +19,9 @@ namespace BOG.ClipboardMunger.Common.Entity
 		public string HelpUrl { get; set; } = string.Empty;
 		[CategoryAttribute("Control"), DisplayNameAttribute("DefaultValue"), DescriptionAttribute("What the argument has if the operator or example provides no value."), ReadOnly(false)]
 		public string DefaultValue { get; set; }
+		[CategoryAttribute("List"), DisplayNameAttribute("ValidatorRegex"), DescriptionAttribute("(Optional): A list of items to select form."), ReadOnly(false)]
+		public Dictionary<string,string> SelectionList { get; set; } = new Dictionary<string, string>();
 		[CategoryAttribute("Control"), DisplayNameAttribute("ValidatorRegex"), DescriptionAttribute("(Optional): The regular expression used to ensure valid data."), ReadOnly(false)]
-		public string ValidatorRegex { get; set; }
+        public string ValidatorRegex { get; set; }
 	}
 }

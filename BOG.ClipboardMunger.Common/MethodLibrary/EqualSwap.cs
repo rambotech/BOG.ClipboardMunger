@@ -15,11 +15,9 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
         public EqualSwap() 
         {
-            base.Examples.Add("Single Line", new Example
+            base.Examples.Add("One Continuous Line", new Example
             {
-                Input = "A = 47 ; 902=B;Database=Repository;;",
-                ArgumentValues = new Dictionary<string, string> { },
-                Name = "One Continuous Line"
+                Input = "A = 47 ; 902=B;Database=Repository;;"
             });
             base.Examples.Add("Multiple Line", new Example
             {
@@ -27,9 +25,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
                     "HJ=45Tr3=;PRTRU=234TH\r\n" +
                     "\r\n" +
                     "Provider=SQLNCLI11;Server=myServerAddress;Database=myDataBase;Uid=myUsername;Pwd=myPassword;\r\n" +
-                    "Provider=SQLNCLI11;Server=myServerAddress;DataBase=myDataBase;\r\n",
-                ArgumentValues = new Dictionary<string, string> { },
-                Name = "Multiple Lines"
+                    "Provider=SQLNCLI11;Server=myServerAddress;DataBase=myDataBase;\r\n"
             });
         }
 

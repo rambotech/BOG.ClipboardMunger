@@ -10,7 +10,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
     public class PayDates : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "Pay Dates"; }
-        public override string GroupName { get => "Time"; }
+        public override string GroupName { get => "Time and Calendar"; }
         public override string Description { get => "Offset a date/time with Format value"; }
 
         private StringBuilder Result = new StringBuilder();
@@ -47,7 +47,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             #region Examples
             base.Examples.Add("Weekly 2025", new Example
             {
-                Name = "Weekly 2025",
                 ArgumentValues = new Dictionary<string, string>
                 {
                     {"Year", "2025" },
@@ -57,7 +56,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             });
             base.Examples.Add("BiWeekly 2025", new Example
             {
-                Name = "BiWeekly 2025",
                 ArgumentValues = new Dictionary<string, string>
                 {
                     {"Year", "2025" },
@@ -67,7 +65,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             });
             base.Examples.Add("SemiMonthly 2025", new Example
             {
-                Name = "SemiMonthly 2025",
                 ArgumentValues = new Dictionary<string, string>
                 {
                     {"Year", "2025" },
@@ -77,7 +74,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             });
             base.Examples.Add("Monthly 2025", new Example
             {
-                Name = "Monthly 2025",
                 ArgumentValues = new Dictionary<string, string>
                 {
                     {"Year", "2025" },

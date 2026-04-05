@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
 using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
@@ -7,44 +10,75 @@ using Figgle.Fonts;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
-    public class MakeBanner : ClipboardMungerProvider, IClipboardMungerProvider
+    public class MakeBannerFontsProofSheet : ClipboardMungerProvider, IClipboardMungerProvider
     {
-        public override string MethodName { get => "Make Banner"; }
+        public override string MethodName { get => "Make Banner Fonts Proof Sheet"; }
         public override string GroupName { get => "String-Magic"; }
-        public override string Description
-        {
-            get =>
-                "Uses Figgle to turn the clipboard text into a Banner";
-        }
+        public override string Description { get => "Shows all available fonts in the Figgle assembly available, with a sample"; }
 
-        public MakeBanner()
+        public MakeBannerFontsProofSheet()
         {
             base.SetArgument(new Argument
             {
-                Name = "FontName",
-                Title = "The Figgle font to use for the banner",
-                DefaultValue = "Banner3",
+                Name = "TextToGenerate",
+                Title = "The text to use for the font generated",
+                DefaultValue = "Hello World !!",
                 Description = "",
-                HelpUrl = "https://github.com/drewnoakes/figgle",
-                SelectionList = LoadSelectionList(),
                 ValidatorRegex = ".+"
             });
         }
 
         public override string Munge(string textToMunge)
         {
-            var fontName = ArgumentValues["FontName"];
-            var fontWriter = FiggleFonts.TryGetByName(fontName);
-            var result = string.Empty;
-            if (fontWriter == null)
+            var textToEngrave = GetArgumentValue("TextToGenerate").Trim();
+
+            if (textToEngrave.Length > 100) throw new ArgumentException("Text to generate must be 100 characters or less, to prevent excessive output");
+
+            if (textToEngrave.Length > 30)
             {
-                result = FiggleFonts.Banner3.Render(textToMunge);
+                var dialogResult = MessageBox.Show (
+                    "Text over 30 characters long may be too large for a proof sheet. Continue anyway?",
+                    "Excessive size for samples",
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Warning
+                );
+
+                if (dialogResult != DialogResult.No)
+                {
+                    return textToMunge; // if they don't want to continue, just return the original text un-munged
+                }
             }
-            else
+
+            var result = new StringBuilder();
+            var fontsLibrary = LoadSelectionList();
+
+            result.AppendLine(new string('=', 78));
+            result.AppendLine($"Figgle Fonts Proof Sheet - {fontsLibrary.Count} fonts, Generated: {DateTime.Now:F}");
+            result.AppendLine(new string('=', 78));
+            result.AppendLine();
+
+            foreach (var key in fontsLibrary.Keys.OrderBy(o => o))
             {
-                result = fontWriter.Render(textToMunge);
+                result.AppendLine($"*** Font: {key} - {fontsLibrary[key]} ***");
+                result.AppendLine();
+                try
+                {
+                    var fontWriter = FiggleFonts.TryGetByName(fontsLibrary[key]);
+                    if (fontWriter == null)
+                    {
+                        result.AppendLine($"  :-(   font not found in Figgle library   :-(");
+                        result.AppendLine();
+                        continue;
+                    }
+                    result.AppendLine(fontWriter.Render(textToEngrave));
+                    result.AppendLine();
+                }
+                catch (Exception err)
+                {
+                    result.AppendLine($"  :-(   error rendering font: {err.Message}   :-(");
+                }
             }
-            return result;
+            return result.ToString();
         }
 
         private Dictionary<string, string> LoadSelectionList()

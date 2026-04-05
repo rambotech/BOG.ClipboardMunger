@@ -1,7 +1,8 @@
-﻿using BOG.ClipboardMunger.Common.Base;
-using BOG.ClipboardMunger.Common.Interface;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
+using BOG.ClipboardMunger.Common.Base;
+using BOG.ClipboardMunger.Common.Entity;
+using BOG.ClipboardMunger.Common.Interface;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -13,9 +14,21 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
 		public PhoeneticizedPassword() 
         {
-		}
+            #region Examples
+            base.Examples.Add("Simple Password", new Example
+            {
+                ArgumentValues = new Dictionary<string, string>(),
+                Input = "P@ssw0rd!"
+            });
+            base.Examples.Add("Complex Password", new Example
+            {
+                ArgumentValues = new Dictionary<string, string>(),
+                Input = "c3SbvYY~r#9iZ2D!/"
+            });
+            #endregion
+        }
 
-		public override string Munge(string textToMunge)
+        public override string Munge(string textToMunge)
 		{
 			Dictionary<char, string> Phoenetic = new Dictionary<char, string>();
 

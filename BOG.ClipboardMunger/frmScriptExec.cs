@@ -238,14 +238,28 @@ namespace BOG.ClipboardMunger
                 var argSet = o.GetArguments();
                 foreach (var key in argSet.Keys)
                 {
-                    var input = new InputBox(argSet[key]);
-                    input.ShowDialog();
-                    if (input.IsCancelled)
+                    if (argSet[key].SelectionList.Keys.Count == 0)
                     {
-                        IsScriptExecuted = false;
-                        break;
+                        var input = new frmInputBox(argSet[key]);
+                        input.ShowDialog();
+                        if (input.IsCancelled)
+                        {
+                            IsScriptExecuted = false;
+                            break;
+                        }
+                        args.Add(argSet[key].Name, input.ValueEntered);
                     }
-                    args.Add(argSet[key].Name, input.ValueEntered);
+                    else
+                    {
+                        var selection = new frmSelectionBox(argSet[key]);
+                        selection.ShowDialog();
+                        if (selection.IsCancelled)
+                        {
+                            IsScriptExecuted = false;
+                            break;
+                        }
+                        args.Add(argSet[key].Name, selection.ValueSelected);
+                    }
                 }
             }
             catch (Exception err)
@@ -369,6 +383,7 @@ namespace BOG.ClipboardMunger
                 }
                 try
                 {
+                    this.txtTestOutput.Text = string.Empty;
                     this.txtTestOutput.Text = _MethodRetriever.mungers[selectedNodeKey].MungeClipboard(
                         thisExample.ArgumentValues,
                         thisExample.Input
@@ -387,6 +402,8 @@ namespace BOG.ClipboardMunger
 
         private void trvScripts_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            ScriptSelectionChanging = false;
+
             if (e.Node.Nodes.Count > 0)
             {
                 this.Text = RootFormTitle;

@@ -36,7 +36,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             #region Examples
             base.Examples.Add("Comma Separated, Empty removed", new Example
             {
-                Name = "Comma Separated, Empty removed",
                 ArgumentValues = new Dictionary<string, string>
                 {
                     {"Delimiter", "," },
@@ -47,7 +46,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             });
             base.Examples.Add("Comma Separated, Empty kept", new Example
             {
-                Name = "Comma Separated, Empty kept",
                 ArgumentValues = new Dictionary<string, string>
                 {
                     {"Delimiter", "," },

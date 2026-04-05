@@ -23,9 +23,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 
         public GoogleMapsLatLong()
         {
-            base.Examples.Add("Seattle", new Example
+            base.Examples.Add("Seattle, WA", new Example
             {
-                Name = "Seattle, WA",
                 Input = "https://www.google.com/maps/place/Seattle,+WA/@28.5568517,-81.8552188,3009m/data=!3m1!1e3!4m6!3m5!1s0x5490102c93e83355:0x102565466944d59a!8m2!3d47.6061389!4d-122.3328481!16zL20vMGQ5anI?entry=ttu&g_ep=EgoyMDI0MDgyNi4wIKXMDSoASAFQAw%3D%3D"
             });
         }

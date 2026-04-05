@@ -51,8 +51,12 @@ and return its value as Base64 (in case the resulting string contains binary).
 
 Version History:
 
+2026-04-04: 1.1.3.7
+- Add static MakeBannerFontsProofSheet method to generate a proof sheet of all text banner with Figgle (all 200+ fonts).
+
 2026-03-10: 1.1.3.6
-- Add static DateSequencePattern MakeBanner method to generate text banners with Figgle.
+- Add static MakeBanner method to generate text banners with Figgle.
+- Add WeeklyEvent to create a weekly to do list shell for a timeframe.
 
 2026-03-07: 1.1.3.5
 - Add static DateSequencePattern BlockRepeat method.

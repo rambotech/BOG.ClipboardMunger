@@ -40,7 +40,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 					{ "FormatString", "this.{0} = that.{0}" },
 					{ "IsMulticolumn","false"}
 				},
-				Name = "Data Mapping Use"
 			});
 			base.Examples.Add("Complex Format", new Example
 			{
@@ -49,7 +48,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 					{ "FormatString", "%22{0}%22: that.{0}"},
                     { "IsMulticolumn","true"}
 				},
-				Name = "Complex Format Use"
 			});
             base.Examples.Add("TSV columns", new Example
             {
@@ -58,7 +56,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 					{ "FormatString", "{0} with {2}, and {1} with {3}" },
                     { "IsMulticolumn","true" }
 				},
-                Name = "Data Mapping Use"
             });
         }
 

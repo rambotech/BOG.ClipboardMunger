@@ -11,7 +11,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
     public class DateSequencePattern : ClipboardMungerProvider, IClipboardMungerProvider
     {
         public override string MethodName { get => "Date Sequence Pattern"; }
-        public override string GroupName { get => "Time"; }
+        public override string GroupName { get => "Time and Calendar"; }
         public override string Description { get => "Make a list of dates per pattern (see examples)"; }
 
         private StringBuilder Result = new StringBuilder();

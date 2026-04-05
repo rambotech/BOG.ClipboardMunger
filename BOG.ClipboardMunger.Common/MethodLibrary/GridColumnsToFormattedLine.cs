@@ -24,18 +24,16 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
                 ValidatorRegex = @".+"
             });
 
-            base.Examples.Add("Good Example", new Example
+            base.Examples.Add("Good Example: all provided column data ", new Example
             {
-                Name = "Format has all provided column data for format",
                 Input = "A\tB\tC,41\tZ4\r\nOther\tTikTok\tKim",
                 ArgumentValues = new Dictionary<string, string> {
                     { "LineFormat", "Object.Add(\"{0}\", \"{2}\", \"{1}\")" }
                 }
             });
 
-            base.Examples.Add("Bad Example", new Example
+            base.Examples.Add("Bad Example: not have all column data present", new Example
             {
-                Name = "Format does not have all column data for format",
                 Input = "A\tB\tC,41\tZ4\r\nOther\tTikTok\tKim",
                 ArgumentValues = new Dictionary<string, string> {
                     { "LineFormat", "Object.Add(\"{0}\", \"{2}\", \"{1}\", \"{3}\")" }

@@ -59,7 +59,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             #region Examples
             base.Examples.Add("Simple Demo", new Example
             {
-                Name = "Simple Demo",
                 Input =
                     "{THIS}.ConsoleDebug|Any CPU.ActiveCfg = Debug|Any CPU " + "\r\n" +
                     "{THIS}.ConsoleDebug|Any CPU.Build.0 = Debug|Any CPU " + "\r\n" +

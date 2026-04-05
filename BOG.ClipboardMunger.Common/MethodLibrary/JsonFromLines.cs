@@ -28,7 +28,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             });
             this.Examples.Add("Varying object counts (beautify)", new Entity.Example
             {
-                Name = "???",
                 ArgumentValues = new Dictionary<string, string>
                 {
                     {"beautify", "true" }
@@ -45,7 +44,6 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             });
             this.Examples.Add("Varying object counts (minify)", new Entity.Example
             {
-                Name = "!!!",
                 ArgumentValues = new Dictionary<string, string>
                 {
                     {"beautify", "false" }

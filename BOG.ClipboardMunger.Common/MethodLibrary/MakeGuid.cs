@@ -30,9 +30,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				ValidatorRegex = "U|L"
 			});
 
-			base.Examples.Add("Example 1", new Example
+			base.Examples.Add("Format as 32 hex digits, upper case", new Example
 			{
-				Name = "Format as 32 hex digits, upper case",
 				Input = string.Empty,
 				ArgumentValues = new Dictionary<string, string>
 				{
@@ -40,9 +39,8 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 					{"Case", "U" }
 				}
 			});
-			base.Examples.Add("Example 2", new Example
+			base.Examples.Add("Format as 32 hex digits, hyphens, lower case", new Example
 			{
-				Name = "Format as 32 hex digits, hyphens, lower case",
 				Input = "",
 				ArgumentValues = new Dictionary<string, string>
 				{

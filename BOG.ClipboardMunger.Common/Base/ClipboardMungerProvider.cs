@@ -108,6 +108,7 @@ namespace BOG.ClipboardMunger.Common.Base
                     ArgumentValues[key] = argumentValues[key];
                 }
             }
+            
             var result = Munge(textToMunge);
             ArgumentValues.Clear();
             return result;

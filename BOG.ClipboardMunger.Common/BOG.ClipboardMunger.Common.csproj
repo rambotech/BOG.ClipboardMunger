@@ -74,6 +74,7 @@
     <Compile Include="MethodLibrary\ExtractOffsetLength.cs" />
     <Compile Include="MethodLibrary\Hexify.cs" />
     <Compile Include="MethodLibrary\MakeBanner.cs" />
+    <Compile Include="MethodLibrary\MakeBannerFontsProofSheet.cs" />
     <Compile Include="MethodLibrary\PayDates.cs" />
     <Compile Include="MethodLibrary\ReformattedLine.cs" />
     <Compile Include="MethodLibrary\RegexExtract.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="MethodLibrary\SplitByDelimiter.cs" />
     <Compile Include="MethodLibrary\SqlInsertFromGrid.cs" />
     <Compile Include="MethodLibrary\VEventFilter.cs" />
+    <Compile Include="MethodLibrary\WeeklyEvents.cs" />
     <Compile Include="MethodLibrary\WindowsSlashes.cs" />
     <Compile Include="MethodLibrary\XmlReadable.cs" />
     <Compile Include="MethodLibrary\XSLtoXML.cs" />
