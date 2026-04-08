@@ -51,6 +51,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 
 Version History:
 
+2026-04-07: 1.1.3.8
+- Add static CheckDigits method for various check digit generation and validation (Luhn, Verhoeff, Damm, etc.)
+
 2026-04-04: 1.1.3.7
 - Add static MakeBannerFontsProofSheet method to generate a proof sheet of all text banner with Figgle (all 200+ fonts).
 
