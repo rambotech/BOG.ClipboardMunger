@@ -1,0 +1,17 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Admin/" />
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/_SolutionItems/">
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="BOG.ClipboardMunger.Common/BOG.ClipboardMunger.Common.csproj" Id="7f39b0a9-6809-4e60-a012-c9aafff4951a" />
+  <Project Path="BOG.ClipboardMunger/BOG.ClipboardMunger.csproj" Id="ad40b279-79a4-4aa8-bd86-a3eec36ac1a0" />
+</Solution>
