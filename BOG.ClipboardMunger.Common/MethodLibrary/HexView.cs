@@ -1,7 +1,6 @@
-﻿using BOG.ClipboardMunger.Common.Base;
+﻿using System.Text;
+using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Interface;
-using System;
-using System.Text;
 
 namespace BOG.ClipboardMunger.Common.MethodLibrary
 {
@@ -11,48 +10,66 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 		public override string GroupName { get => "Investigation"; }
 		public override string Description { get; }
 
-		public HexView() 
-        {
-
+		public HexView()
+		{
 		}
 
 		public override string Munge(string textToMunge)
 		{
-			StringBuilder s = new StringBuilder();
-			if (textToMunge.Length > 0)
+			int Offset = 0;
+			int Index = 0;
+			var Result = new StringBuilder();
+
+			while (true)
 			{
-				for (int iRow = 0; iRow <= ((textToMunge.Length - 1) / 16); iRow++)
+				Result.Append(string.Format("{0:x4}: ", Offset));
+
+				for (Index = Offset; Index < Offset + 16; Index++)
 				{
-					s.Append(String.Format("{0:x4}: ", iRow * 16));
-					for (int iCol = 0; iCol < 16; iCol++)
+					if (Index != Offset && Index % 8 == 0)
 					{
-						if (textToMunge.Length > iRow * 16 + iCol)
-						{
-							byte b = (byte)textToMunge[iRow * 16 + iCol];
-							s.Append(String.Format("{0:x2} ", b));
-						}
-						else
-						{
-							s.Append("   ");  // 3 spaces
-						}
+						Result.Append("| ");
 					}
-					s.Append(" | ");
-					for (int iCol = 0; iCol < 16; iCol++)
+					if (Index < textToMunge.Length)
 					{
-						if (textToMunge.Length > iRow * 16 + iCol)
-						{
-							byte b = (byte)textToMunge[iRow * 16 + iCol];
-							s.Append((b < 32 || b > 128) ? '.' : (char)b);
-						}
-						else
-						{
-							s.Append(' ');  // 1 space
-						}
+						Result.Append(string.Format("{0:x2} ", (byte)textToMunge[Index]));
 					}
-					s.Append("\r\n");
+					else
+					{
+						Result.Append("   ");
+					}
 				}
+
+				Result.Append(" .. ");
+
+				for (Index = Offset; Index < Offset + 16; Index++)
+				{
+					if (Index != Offset && Index % 8 == 0)
+					{
+						Result.Append("|");
+					}
+					if (Index < textToMunge.Length)
+					{
+						var thisChar = textToMunge[Index];
+						if (thisChar < 0x21 || thisChar > 0x7E)
+						{
+							thisChar = '.';
+						}
+						Result.Append(thisChar);
+					}
+					else
+					{
+						Result.Append(" ");
+					}
+				}
+				Result.AppendLine();
+				if (Index >= textToMunge.Length)
+				{
+					break;
+				}
+				Offset += 16;
 			}
-			return s.ToString();
+			return Result.ToString();
 		}
 	}
 }

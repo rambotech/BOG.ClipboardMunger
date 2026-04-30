@@ -35,6 +35,7 @@ Standard scripts included are:
     0010: 03 20 74 65 78 74 20 67 6f 65 73 20 68 65 72 65  | . text goes here
     0020: 0d 0a 4c 69 6b 65 20 74 68 69 73 0d 0a           | ..Like this..   
 ```
+- and HexView Undo to turn the hex view back into its original content.
 
 - A not-so-classic dehexify to take a hex sequence like
 
@@ -50,6 +51,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 ... and a lot more.
 
 Version History:
+
+2026-04-29: 1.1.3.9
+- Add HexView Undo
 
 2026-04-07: 1.1.3.8
 - Add static CheckDigits method for various check digit generation and validation (Luhn, Verhoeff, Damm, etc.)

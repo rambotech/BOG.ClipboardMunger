@@ -62,6 +62,7 @@
     <Compile Include="MethodLibrary\HashSHA1.cs" />
     <Compile Include="MethodLibrary\HashSHA256.cs" />
     <Compile Include="MethodLibrary\HashSHA384.cs" />
+    <Compile Include="MethodLibrary\HexViewUndo.cs" />
     <Compile Include="MethodLibrary\Join.cs" />
     <Compile Include="MethodLibrary\HtmlDecode.cs" />
     <Compile Include="MethodLibrary\HtmlEncode.cs" />
