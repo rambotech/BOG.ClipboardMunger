@@ -62,11 +62,11 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 						Result.Append(" ");
 					}
 				}
-				Result.AppendLine();
 				if (Index >= textToMunge.Length)
 				{
 					break;
 				}
+				Result.AppendLine();
 				Offset += 16;
 			}
 			return Result.ToString();

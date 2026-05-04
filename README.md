@@ -52,6 +52,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 
 Version History:
 
+2026-05-02: 1.1.3.10
+- Consistency change to HexView and HexViewUndo for consistency of output.
+
 2026-04-29: 1.1.3.9
 - Add HexView Undo
 
