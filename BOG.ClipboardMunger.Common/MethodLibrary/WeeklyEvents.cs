@@ -51,7 +51,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
                 ArgumentValues = new Dictionary<string, string>
                 {
                     {"Starting Date", DateTime.Now.Date.ToString("d") },
-                    { "Ending Date", DateTime.Now.Date.ToString("d") }
+                    { "Ending Date", DateTime.Now.AddMonths(1).Date.ToString("d") }
                 },
                 Input = TestTemplateText
             });
@@ -63,7 +63,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
             var result = new StringBuilder();
             var ThisDate = DateTime.Parse(base.GetArgumentValue("Starting Date")).Date;
             var EndDate = DateTime.Parse(base.GetArgumentValue("Ending Date")).Date;
-            if (ThisDate > EndDate) throw new ArgumentException("Starting Date must be before Ending Date");
+            if (ThisDate > EndDate) throw new ArgumentException("Ending Date must not be before Starting Date");
 
             while (ThisDate.DayOfWeek != DayOfWeek.Monday) ThisDate = ThisDate.AddDays(-1);
             while (EndDate.DayOfWeek != DayOfWeek.Sunday) EndDate = EndDate.AddDays(1);
@@ -80,7 +80,7 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
                     // reset template for the next week.
                     if (ThisDate != EndDate)
                     {
-                        Output = textToMunge;
+                            Output = textToMunge;
                     }
                 }
                 ThisDate = ThisDate.AddDays(1);

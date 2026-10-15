@@ -52,6 +52,9 @@ and return its value as Base64 (in case the resulting string contains binary).
 
 Version History:
 
+2026-10-15: 1.1.3.11
+- Add GridColumnsToMarkdownTable method to convert a grid of text into a Markdown table.
+
 2026-05-02: 1.1.3.10
 - Consistency change to HexView and HexViewUndo for consistency of output.
 

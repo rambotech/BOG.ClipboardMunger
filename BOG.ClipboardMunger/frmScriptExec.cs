@@ -1,4 +1,4 @@
-﻿using BOG.ClipboardMunger.Common.Helper;
+using BOG.ClipboardMunger.Common.Helper;
 using BOG.Framework;
 using System;
 using System.Collections.Generic;
