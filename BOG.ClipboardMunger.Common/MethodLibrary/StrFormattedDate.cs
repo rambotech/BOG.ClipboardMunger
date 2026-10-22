@@ -1,4 +1,4 @@
-﻿using BOG.ClipboardMunger.Common.Base;
+using BOG.ClipboardMunger.Common.Base;
 using BOG.ClipboardMunger.Common.Entity;
 using BOG.ClipboardMunger.Common.Interface;
 using System;
@@ -29,6 +29,14 @@ namespace BOG.ClipboardMunger.Common.MethodLibrary
 				Description = "When true DateTime.Now is formatted; otherwise the clipboard content is treated as the DateTime value to format.",
 				ValidatorRegex = @"true|TRUE|false|FALSE"
 			});
+
+			base.Examples.Add("Current with default format",
+				new Example
+				{
+					Input = ""
+				}
+			);
+
 		}
 
 		public override string Munge(string textToMunge)

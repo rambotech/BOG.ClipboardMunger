@@ -51,6 +51,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>swiss_army_knife.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BOG.Framework, Version=2.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\BOG.Framework.2.1.4\lib\net472\BOG.Framework.dll</HintPath>
@@ -234,6 +237,7 @@
     <Content Include="ClipboardMungerScripts\cm_VBScript Beautification.xml" />
     <Content Include="ClipboardMungerScripts\cm_XML Readable.xml" />
     <Content Include="multitool.png" />
+    <Content Include="swiss_army_knife.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BOG.ClipboardMunger.Common\BOG.ClipboardMunger.Common.csproj">
